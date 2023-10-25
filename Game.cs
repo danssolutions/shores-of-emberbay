@@ -12,19 +12,19 @@
 
         private void CreateLocations()
         {
-            Location? village = new("Village", "You're in the village.");
-            Location? villageElderHouse = new("Village Elder's house", "You're in the village elder's house.");
-            Location? docks = new("Docks", "You're in the docks.");
-            Location? researchVessel = new("Research Vessel", "You're in the research vessel.");
-            Location? ocean = new("Ocean", "You're in the ocean.");
-            Location? coast = new("Coast", "You're in the coast.");
-            Location? wastePlant = new("Wastewater Treatment Plant", "You're in the wastewater treatment plant.");
+            Village? village = new();
+            ElderHouse? elderHouse = new();
+            Docks? docks = new();
+            ResearchVessel? researchVessel = new();
+            Ocean? ocean = new();
+            Coast? coast = new();
+            WastePlant? wastePlant = new();
 
-            village.SetExits(null, docks, coast, villageElderHouse); // North, East, South, West
+            village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
 
             docks.SetExits(researchVessel, ocean, null, village);
 
-            villageElderHouse.SetExit("east", village);
+            elderHouse.SetExit("east", village);
 
             researchVessel.SetExit("south", docks);
 
@@ -46,7 +46,7 @@
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                Console.WriteLine(currentLocation?.ShortDescription);
+                Console.WriteLine(currentLocation?.Name);
                 Console.Write("> ");
 
                 string? input = Console.ReadLine();
@@ -68,7 +68,7 @@
                 switch(command.Name)
                 {
                     case "look":
-                        Console.WriteLine(currentLocation?.LongDescription);
+                        Console.WriteLine(currentLocation?.Description);
                         break;
 
                     case "back":
