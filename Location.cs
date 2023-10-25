@@ -22,11 +22,14 @@
                 Exits[direction] = neighbor;
         }
     }
+
+    // TODO: put classes below in separate files
     public class Village : Location
     {
         public uint PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
+
         public Village()
         {
             Name = "Village";
@@ -41,6 +44,7 @@
     {
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
+
         public ElderHouse()
         {
             Name = "Village Elder's house";
@@ -68,6 +72,7 @@
         // Algae stats go here
 
         // Code for fetching fish info goes here
+
         public ResearchVessel()
         {
             Name = "Research Vessel";
@@ -78,6 +83,7 @@
     public class Ocean : Location
     {
         // Ocean fish stats go here
+
         public Ocean()
         {
             Name = "Ocean";
@@ -88,6 +94,7 @@
     public class Coast : Location
     {
         // Coast trash stats goes here
+
         public Coast()
         {
             Name = "Coast";
@@ -98,6 +105,7 @@
     public class WastePlant : Location
     {
         // Microplastic trash stats goes here
+
         public WastePlant()
         {
             Name = "Wastewater Treatment Plant";
