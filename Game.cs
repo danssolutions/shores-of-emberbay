@@ -2,34 +2,39 @@
 {
     public class Game
     {
-        private Room? currentRoom;
-        private Room? previousRoom;
+        private Location? currentLocation;
+        private readonly Stack<Location> previousLocations = new();
 
         public Game()
         {
-            CreateRooms();
+            CreateLocations();
         }
 
-        private void CreateRooms()
+        private void CreateLocations()
         {
-  
-            Room? outside = new("Outside", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
-            Room? theatre = new("Theatre", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
-            Room? pub = new("Pub", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
-            Room? lab = new("Lab", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.");
-            Room? office = new("Office", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
+            Village? village = new();
+            ElderHouse? elderHouse = new();
+            Docks? docks = new();
+            ResearchVessel? researchVessel = new();
+            Ocean? ocean = new();
+            Coast? coast = new();
+            WastePlant? wastePlant = new();
 
-            outside.SetExits(null, theatre, lab, pub); // North, East, South, West
+            village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
 
-            theatre.SetExit("west", outside);
+            docks.SetExits(researchVessel, ocean, null, village);
 
-            pub.SetExit("east", outside);
+            elderHouse.SetExit("east", village);
 
-            lab.SetExits(outside, office, null, null);
+            researchVessel.SetExit("south", docks);
 
-            office.SetExit("west", lab);
+            ocean.SetExit("west", docks);
 
-            currentRoom = outside;
+            coast.SetExits(village, null, wastePlant, null);
+
+            wastePlant.SetExit("north", coast);
+
+            currentLocation = village;
         }
 
         public void Play()
@@ -41,7 +46,7 @@
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                Console.WriteLine(currentRoom?.ShortDescription);
+                Console.WriteLine(currentLocation?.Name);
                 Console.Write("> ");
 
                 string? input = Console.ReadLine();
@@ -63,14 +68,15 @@
                 switch(command.Name)
                 {
                     case "look":
-                        Console.WriteLine(currentRoom?.LongDescription);
+                        Console.WriteLine(currentLocation?.Description);
                         break;
 
                     case "back":
-                        if (previousRoom == null)
+                        if (previousLocations.Count == 0)
                             Console.WriteLine("You can't go back from here!");
                         else
-                            currentRoom = previousRoom;
+                            currentLocation = previousLocations.First();
+                            previousLocations.Pop();
                         break;
 
                     case "north":
@@ -99,10 +105,10 @@
 
         private void Move(string direction)
         {
-            if (currentRoom?.Exits.ContainsKey(direction) == true)
+            if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
-                previousRoom = currentRoom;
-                currentRoom = currentRoom?.Exits[direction];
+                previousLocations.Push(currentLocation);
+                currentLocation = currentLocation?.Exits[direction];
             }
             else
             {
@@ -122,11 +128,11 @@
         private static void PrintHelp()
         {
             Console.WriteLine("You are lost. You are alone. You wander");
-            Console.WriteLine("around the university.");
+            Console.WriteLine("around the island.");
             Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
             Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
+            Console.WriteLine("Type 'back' to go to the previous location.");
             Console.WriteLine("Type 'help' to print this message again.");
             Console.WriteLine("Type 'quit' to exit the game.");
         }
