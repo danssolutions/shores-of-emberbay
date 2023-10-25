@@ -3,7 +3,7 @@
     public class Game
     {
         private Location? currentLocation;
-        private Location? previousLocation;
+        private readonly Stack<Location> previousLocations = new();
 
         public Game()
         {
@@ -72,10 +72,11 @@
                         break;
 
                     case "back":
-                        if (previousLocation == null)
+                        if (previousLocations.Count == 0)
                             Console.WriteLine("You can't go back from here!");
                         else
-                            currentLocation = previousLocation;
+                            currentLocation = previousLocations.First();
+                            previousLocations.Pop();
                         break;
 
                     case "north":
@@ -106,7 +107,7 @@
         {
             if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
-                previousLocation = currentLocation;
+                previousLocations.Push(currentLocation);
                 currentLocation = currentLocation?.Exits[direction];
             }
             else
