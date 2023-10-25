@@ -2,22 +2,21 @@
 {
     public class Game
     {
-        private Room? currentRoom;
-        private Room? previousRoom;
+        private Location? currentLocation;
+        private Location? previousLocation;
 
         public Game()
         {
-            CreateRooms();
+            CreateLocations();
         }
 
-        private void CreateRooms()
+        private void CreateLocations()
         {
-  
-            Room? outside = new("Outside", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
-            Room? theatre = new("Theatre", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
-            Room? pub = new("Pub", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
-            Room? lab = new("Lab", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.");
-            Room? office = new("Office", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
+            Location? outside = new("Outside", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
+            Location? theatre = new("Theatre", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
+            Location? pub = new("Pub", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
+            Location? lab = new("Lab", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the location.");
+            Location? office = new("Office", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
 
             outside.SetExits(null, theatre, lab, pub); // North, East, South, West
 
@@ -29,7 +28,7 @@
 
             office.SetExit("west", lab);
 
-            currentRoom = outside;
+            currentLocation = outside;
         }
 
         public void Play()
@@ -41,7 +40,7 @@
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                Console.WriteLine(currentRoom?.ShortDescription);
+                Console.WriteLine(currentLocation?.ShortDescription);
                 Console.Write("> ");
 
                 string? input = Console.ReadLine();
@@ -63,14 +62,14 @@
                 switch(command.Name)
                 {
                     case "look":
-                        Console.WriteLine(currentRoom?.LongDescription);
+                        Console.WriteLine(currentLocation?.LongDescription);
                         break;
 
                     case "back":
-                        if (previousRoom == null)
+                        if (previousLocation == null)
                             Console.WriteLine("You can't go back from here!");
                         else
-                            currentRoom = previousRoom;
+                            currentLocation = previousLocation;
                         break;
 
                     case "north":
@@ -99,10 +98,10 @@
 
         private void Move(string direction)
         {
-            if (currentRoom?.Exits.ContainsKey(direction) == true)
+            if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
-                previousRoom = currentRoom;
-                currentRoom = currentRoom?.Exits[direction];
+                previousLocation = currentLocation;
+                currentLocation = currentLocation?.Exits[direction];
             }
             else
             {
@@ -126,7 +125,7 @@
             Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
             Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
+            Console.WriteLine("Type 'back' to go to the previous location.");
             Console.WriteLine("Type 'help' to print this message again.");
             Console.WriteLine("Type 'quit' to exit the game.");
         }
