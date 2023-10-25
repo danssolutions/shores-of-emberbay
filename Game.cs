@@ -75,8 +75,10 @@
                         if (previousLocations.Count == 0)
                             Console.WriteLine("You can't go back from here!");
                         else
+                        {
                             currentLocation = previousLocations.First();
                             previousLocations.Pop();
+                        }
                         break;
 
                     case "north":
