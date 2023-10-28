@@ -23,7 +23,6 @@ namespace TownOfZuul
                 
                 ConsoleKey key = Console.ReadKey(true).Key;
 
-                Console.CursorVisible = false;
                 Console.SetCursorPosition(0, Console.CursorTop - options.Length);
                 Console.CursorVisible = false;
                 
@@ -170,6 +169,10 @@ namespace TownOfZuul
             Console.CursorVisible = true;
             Game game = new();
             game.Play();
+
+            Console.Clear();
+            Console.WriteLine(Logo);
+            Console.WriteLine(Instructions);
         }
 
         private static void QuitGame()
