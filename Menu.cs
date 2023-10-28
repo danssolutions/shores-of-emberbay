@@ -150,7 +150,7 @@ namespace TownOfZuul
                     StartGame();
                     break;
                 case 2:
-                    Console.WriteLine("Credits: made by us. :)");
+                    ShowCredits();
                     break;
                 case 3:
                     QuitGame();
@@ -175,12 +175,59 @@ namespace TownOfZuul
             Console.WriteLine(Instructions);
         }
 
+        private static void ShowCredits()
+        {
+            Console.Clear();
+            Console.CursorVisible = true;
+            CreditsMenu credits = new();
+            credits.Display();
+
+            Console.Clear();
+            Console.WriteLine(Logo);
+            Console.WriteLine(Instructions);
+        }
+
         private static void QuitGame()
         {
             Console.Clear();
             Console.CursorVisible = true;
             Console.WriteLine(QuitMessage);
             Environment.Exit(0);
+        }
+    }
+
+    public class CreditsMenu : Menu
+    {
+        private const string Logo = 
+            @" _____                            __   _____           _ " + "\n" +
+            @"|_   _|____      ___ __     ___  / _| |__  /   _ _   _| |" + "\n" +
+            @"  | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |" + "\n" +
+            @"  | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |" + "\n" +
+            @"  |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|" + "\n" +
+            @"                                                         " + "\n" +
+            @"---------------------------------------------------------" + "\n" +
+            @"                                                         " + "\n";
+        
+        private const string Credits = 
+            "Town of Zuul was created as an SDU BSc Software Engineering project by:\n" +
+            "- Bobike\n" +
+            "- Condegall\n" +
+            "- danssolutions\n" +
+            "- Gierka\n" +
+            "- Ivan\n" +
+            "- perdita\n" +
+            "\nPress any key to return to the main menu.\n";
+
+        override public void Display()
+        {
+            Console.Clear();
+            
+            Console.WriteLine(Logo);
+            Console.WriteLine(Credits);
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            return;
         }
     }
 
