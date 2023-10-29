@@ -23,6 +23,12 @@
         }
     }
 
+    public interface IFishable
+    {
+        // Note: add more stuff here later, like returning a list of all fish types in the location
+        public double GetBiodiversityScore();
+    }
+
     // TODO: put classes below in separate files
     public class Village : Location
     {
@@ -54,7 +60,7 @@
         }
     }
 
-    public class Docks : Location
+    public class Docks : Location, IFishable
     {
         public bool OceanUnlocked { get; private set; }
 
@@ -64,6 +70,11 @@
             Name = "Docks";
             Description = "You're in the village docks.";
             OceanUnlocked = false;
+        }
+
+        public double GetBiodiversityScore()
+        {
+            return 2.0; // TODO: replace with something meaningful
         }
     }
 
@@ -80,7 +91,7 @@
         }
     }
 
-    public class Ocean : Location
+    public class Ocean : Location, IFishable
     {
         // Ocean fish stats go here
 
@@ -88,6 +99,11 @@
         {
             Name = "Ocean";
             Description = "You're in the ocean.";
+        }
+
+        public double GetBiodiversityScore()
+        {
+            return 2.0; // TODO: replace with something meaningful
         }
     }
 
