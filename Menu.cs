@@ -226,8 +226,6 @@ namespace TownOfZuul
             Console.WriteLine(Credits);
 
             ConsoleKey key = Console.ReadKey(true).Key;
-
-            return;
         }
     }
 
