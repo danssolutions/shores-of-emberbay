@@ -5,7 +5,6 @@ namespace TownOfZuul
         protected const string ActiveOption = "> ";
         protected const string InactiveOption = "  ";
         protected int selectedOption = 1;
-        protected int previousSelectedOption = 1;
         protected string[] options;
         protected Menu()
         {
@@ -30,17 +29,11 @@ namespace TownOfZuul
                 {
                     case ConsoleKey.UpArrow:
                         if (selectedOption > 1)
-                        {
-                            previousSelectedOption = selectedOption;
                             selectedOption--;
-                        }
                         break;
                     case ConsoleKey.DownArrow:
                         if (selectedOption < options.Length)
-                        {
-                            previousSelectedOption = selectedOption;
                             selectedOption++;
-                        }
                         break;
 
                     case ConsoleKey.Enter:
@@ -87,8 +80,7 @@ namespace TownOfZuul
 
         public virtual void ParseOption(int option)
         {
-            if (option <= options.Length)
-                return;
+             // Intentionally left empty. This method must be overridden in classes inherited from Menu.
         }
 
         public virtual void ParseEscapeOption()
@@ -97,7 +89,7 @@ namespace TownOfZuul
         }
     }
 
-    public class MainMenu : Menu
+    public sealed class MainMenu : Menu
     {
         private const string Logo = 
             @" _____                            __   _____           _ " + "\n" +
@@ -109,7 +101,7 @@ namespace TownOfZuul
             @"---------------------------------------------------------" + "\n" +
             @"                                                         " + "\n";
         
-        private const string Instructions = "Use up/down arrow keys or number keys to select option, Enter to confirm, Esc to quit.\n";
+        private const string Instructions = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
         private const string PlayOption = "Play Game";
         private const string CreditsOption = "Credits";
         private const string QuitOption = "Quit";
@@ -134,16 +126,9 @@ namespace TownOfZuul
 
             base.Display();
         }
-
-        /*enum MainMenuOption : int
-        {
-
-        }*/
-
+        
         override public void ParseOption(int option)
         {
-            base.ParseOption(option);
-
             switch (option)
             {
                 case 1:
@@ -196,7 +181,7 @@ namespace TownOfZuul
         }
     }
 
-    public class CreditsMenu : Menu
+    public sealed class CreditsMenu : Menu
     {
         private const string Logo = 
             @" _____                            __   _____           _ " + "\n" +
