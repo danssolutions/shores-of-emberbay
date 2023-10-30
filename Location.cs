@@ -6,6 +6,8 @@
     {
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
+        public string? Information { get; protected set; }
+        public string? Dialogue { get; protected set; }
         public Dictionary<string, Location> Exits { get; private set; } = new();
 
         public void SetExits(Location? north, Location? east, Location? south, Location? west)
@@ -15,7 +17,7 @@
             SetExit("south", south);
             SetExit("west", west);
         }
-
+        //is it working?
         public void SetExit(string direction, Location? neighbor)
         {
             if (neighbor != null)
@@ -43,6 +45,8 @@
             PopulationCount = 5;
             PopulationHealth = 90.0;
             FoodUnits = 10.0;
+
+            Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
         }
     }
 
@@ -55,6 +59,10 @@
         {
             Name = "Village Elder's house";
             Description = "You're in the village elder's house.";
+            Dialogue = "Welcome! As you take a look around," +
+                " you may notice that this town is not what it used to be." +
+                " Let me tell you a story about its past. " +
+                "Type (_) you wish to continue (idk, how we want this to work etc).";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
         }
@@ -88,6 +96,7 @@
         {
             Name = "Research Vessel";
             Description = "You're in the research vessel.";
+            Information = "Somehow you will be able to see fish stock here in the future.";
         }
     }
 

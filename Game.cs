@@ -96,6 +96,14 @@
                         PrintHelp();
                         break;
 
+                    case "talk":
+                        Console.WriteLine(currentLocation?.Dialogue);
+                        break;
+
+                    case "info":
+                        Console.WriteLine(currentLocation?.Information);
+                        break;
+
                     default:
                         Console.WriteLine("I don't know what command.");
                         break;
@@ -137,6 +145,8 @@
             Console.WriteLine("Type 'back' to go to the previous location.");
             Console.WriteLine("Type 'help' to print this message again.");
             Console.WriteLine("Type 'quit' to exit the game.");
+            Console.WriteLine("Type 'talk' to have an interaction with NPC.");
+            Console.WriteLine("Type 'info' to get more information from your current location.");
         }
     }
 }
