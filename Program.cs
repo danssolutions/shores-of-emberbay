@@ -82,8 +82,10 @@ namespace TownOfZuul
     {
         public static void Main()
         {
-            Game game = new();
-            game.Play();
+            MainMenu menu = new();
+            menu.Display();
+            //Game game = new();
+            //game.Play();
         }
     }
 }

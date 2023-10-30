@@ -110,7 +110,7 @@
                 }
             }
 
-            Console.WriteLine("Thank you for playing Town Of Zuul!");
+            Console.Clear();
         }
 
         private void Move(string direction)
