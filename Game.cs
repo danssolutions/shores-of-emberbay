@@ -103,6 +103,10 @@
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
+                    
+                    case "assign":
+                        currentLocation.AssignVillagers(0);
+                        break;
 
                     default:
                         Console.WriteLine("I don't know what command.");

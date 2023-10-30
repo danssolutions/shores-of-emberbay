@@ -4,6 +4,7 @@
     // Its properties and methods are available to all classes derived from it.
     public abstract class Location
     {
+        private const string NoAssignment = "This location cannot have any villagers assigned to it.";
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
         public string? Information { get; protected set; }
@@ -23,8 +24,12 @@
             if (neighbor != null)
                 Exits[direction] = neighbor;
         }
-    }
 
+        public virtual void AssignVillagers(uint amount)
+        {
+            Console.WriteLine(NoAssignment);
+        }
+    }
     public interface IFishable
     {
         // Note: add more stuff here later, like returning a list of all fish types in the location
@@ -68,7 +73,7 @@
         }
     }
 
-    public class Docks : Location, IFishable
+    public class Docks : Location
     {
         public bool OceanUnlocked { get; private set; }
 
@@ -79,6 +84,26 @@
             Description = "You're in the village docks.";
             OceanUnlocked = false;
         }
+
+        public override void AssignVillagers(uint amount)
+        {
+            /*
+            The flow for this (and other assignable locations) should go like this:
+            - Make sure amount > 0
+            - Make sure there are enough "free villagers" that can be assigned
+            - If location is fishable:
+                - Provide fishing menu to user
+                - User assigns villagers to individual fish
+                - Make sure the total villager amount in menu doesn't exceed user's allocated villager amount
+            - Else:
+                - Assign user's allocated villager amount to location
+            - Update location's villager values
+            - Update "free villager" value, make sure it doesn't exceed total pop count
+            */
+            Console.WriteLine("You've assigned. I guess.");
+        }
+
+        // TODO: there needs to be a method for unassigning villagers. This would be easy for cleaning location, but what about fishable locations?
 
         public double GetBiodiversityScore()
         {
