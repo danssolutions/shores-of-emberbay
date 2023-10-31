@@ -33,6 +33,8 @@
     public interface IFishable
     {
         // Note: add more stuff here later, like returning a list of all fish types in the location
+        public List<Fish> LocalFish { get; }
+
         public double GetBiodiversityScore();
     }
 
@@ -73,16 +75,23 @@
         }
     }
 
-    public class Docks : Location
+    public class Docks : Location, IFishable
     {
-        public bool OceanUnlocked { get; private set; }
+        public List<Fish> LocalFish { get; private set; } = new();
+        public SeaTrout seaTrout = new(500);
+        public SeaBass seaBass = new(500);
+        public Pike pike = new(500);
+        public Salmon salmon = new(500);
+        public Sturgeon sturgeon = new(500);
 
-        // Docks fish stats go here
+        public bool OceanUnlocked { get; private set; }
         public Docks()
         {
             Name = "Docks";
             Description = "You're in the village docks.";
             OceanUnlocked = false;
+            
+            LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
         }
 
         public override void AssignVillagers(uint amount)
@@ -127,12 +136,22 @@
 
     public class Ocean : Location, IFishable
     {
-        // Ocean fish stats go here
+        public List<Fish> LocalFish { get; private set; } = new();
+        public Mackerel mackerel = new(500);
+        public Herring herring = new(500);
+        public Cod cod = new(500);
+        public Tuna tuna = new(500);
+        public Halibut halibut = new(500);
+        public Eel eel = new(500);
+        public Garfish garfish = new(500);
+        public GiantOarfish oarfish = new(500);
 
         public Ocean()
         {
             Name = "Ocean";
             Description = "You're in the ocean.";
+
+            LocalFish.AddRange(new List<Fish>(){mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish});
         }
 
         public double GetBiodiversityScore()

@@ -88,6 +88,7 @@
                         Move(command.Name);
                         break;
 
+                    case "exit":
                     case "quit":
                         continuePlaying = false;
                         break;
@@ -102,6 +103,10 @@
 
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
+                        break;
+                    
+                    case "clear":
+                        Console.Clear();
                         break;
                     
                     case "assign":
