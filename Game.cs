@@ -105,7 +105,20 @@
                         break;
                     
                     case "assign":
-                        currentLocation.AssignVillagers(0);
+                        if (command.SecondWord == null)
+                        {
+                            Console.WriteLine("The 'assign' command requires defining a number of villagers to be assigned, i.e. \"assign 5\".");
+                            break;
+                        }
+
+                        if (uint.TryParse(command.SecondWord, out uint result))
+                            currentLocation?.AssignVillagers(result);
+                        else
+                            Console.WriteLine("\"" + command.SecondWord + "\" is not a valid number. Please try again.");
+                        break;
+                    
+                    case "unassign":
+                        currentLocation?.AssignVillagers(0);
                         break;
 
                     default:

@@ -100,7 +100,7 @@
             - Update location's villager values
             - Update "free villager" value, make sure it doesn't exceed total pop count
             */
-            Console.WriteLine("You've assigned. I guess.");
+            Console.WriteLine("You've assigned " + amount + " villagers here. I guess.");
         }
 
         // TODO: there needs to be a method for unassigning villagers. This would be easy for cleaning location, but what about fishable locations?
