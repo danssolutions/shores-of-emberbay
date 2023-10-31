@@ -125,6 +125,10 @@
                     case "unassign":
                         currentLocation?.AssignVillagers(0);
                         break;
+                    
+                    case "boo":
+                        Console.WriteLine(" .-.\n(o o) boo!\n| O \\\n \\   \\\n  `~~~'\n");
+                        break;
 
                     default:
                         Console.WriteLine("I don't know what command.");
