@@ -220,14 +220,14 @@ namespace TownOfZuul
 
     public class FishingMenu : Menu
     {
-        private const string Instructions = 
-            "What should be fished in this location?\n";
+        private const string Instructions = "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n";
 
         private readonly uint totalVillagers;
         private uint freeVillagers;
         
         private readonly List<Fish> fishList;
         private List<uint> fisherList = new();
+        private bool continueDisplay = true;
         
         public FishingMenu(FishableLocation location, uint assignedVillagers)
         {
@@ -238,6 +238,11 @@ namespace TownOfZuul
 
             if (fishList.Count > 0)
                 options = fishList.Select(fish => fish.Name ?? "").ToArray();
+            
+            for (int i = 0; i < fishList.Count; i++)
+            {
+                fisherList.Add(0);
+            }
         }
         
         override public void Display()
@@ -248,14 +253,99 @@ namespace TownOfZuul
             Console.Write(totalVillagers);
             Console.WriteLine(" villagers\n");
 
-            base.Display();
+            while (continueDisplay)
+            {
+                Console.WriteLine("There are " + freeVillagers + " villagers available.");
+
+                for (int i = 1; i <= options.Length; i++)
+                {
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i-1] + " [" + fisherList[i-1] + "]\n");
+                }
+                
+                ConsoleKey key = Console.ReadKey(true).Key;
+
+                Console.SetCursorPosition(0, Console.CursorTop - options.Length - 1);
+                Console.CursorVisible = false;
+                
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (selectedOption > 1)
+                            selectedOption--;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (selectedOption < options.Length)
+                            selectedOption++;
+                        break;
+                    
+                    case ConsoleKey.LeftArrow:
+                        if (fisherList[selectedOption - 1] > 0)
+                        {
+                            fisherList[selectedOption - 1]--;
+                            freeVillagers++;
+                        }
+                        break;
+                    case ConsoleKey.RightArrow:
+                        ParseOption(selectedOption);
+                        break;
+
+                    case ConsoleKey.Enter:
+                        ParseEscapeOption(); // temporary
+                        break;
+
+                    case ConsoleKey.D1:
+                        ParseOption(1);
+                        break;
+                    case ConsoleKey.D2:
+                        ParseOption(2);
+                        break;
+                    case ConsoleKey.D3:
+                        ParseOption(3);
+                        break;
+                    case ConsoleKey.D4:
+                        ParseOption(4);
+                        break;
+                    case ConsoleKey.D5:
+                        ParseOption(5);
+                        break;
+                    case ConsoleKey.D6:
+                        ParseOption(6);
+                        break;
+                    case ConsoleKey.D7:
+                        ParseOption(7);
+                        break;
+                    case ConsoleKey.D8:
+                        ParseOption(8);
+                        break;
+                    case ConsoleKey.D9:
+                        ParseOption(9);
+                        break;
+                    case ConsoleKey.D0:
+                        ParseOption(10);
+                        break;
+                    
+                    case ConsoleKey.Escape:
+                        ParseEscapeOption();
+                        break;
+                }
+            }
         }
 
-        // this should take in an IFishable location
-        // then fetch all the fish types that location has
+        override public void ParseOption(int option)
+        {
+            if (fisherList.Count < option)
+                return;
+            
+            if (freeVillagers > 0)
+            {
+                fisherList[option - 1]++;
+                freeVillagers--;
+            }
+        }
 
-        // also this should know how many villagers are being assigned to the location
-
-        // in the end, this should set all necessary vars for game state and frick off afterwards
+        override public void ParseEscapeOption()
+        {
+            continueDisplay = false;
+        }
     }
 }
