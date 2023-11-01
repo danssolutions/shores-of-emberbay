@@ -145,7 +145,7 @@ namespace TownOfZuul
     {
         public Sturgeon(uint initialPopulation) : base(initialPopulation)
         {
-            Name = "Salmon";
+            Name = "Sturgeon";
             FoodValue = 2;
             CatchDifficulty = 0.5;
             BaseReproductionRate = 1;

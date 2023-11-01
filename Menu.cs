@@ -164,8 +164,12 @@ namespace TownOfZuul
         {
             Console.Clear();
             Console.CursorVisible = true;
-            CreditsMenu credits = new();
-            credits.Display();
+
+            Docks docks = new();
+            FishingMenu fishMenu = new(docks,5);
+            fishMenu.Display();
+            //CreditsMenu credits = new();
+            //credits.Display();
 
             Console.Clear();
             Console.WriteLine(Logo);
@@ -216,6 +220,37 @@ namespace TownOfZuul
 
     public class FishingMenu : Menu
     {
+        private const string Instructions = 
+            "What should be fished in this location?\n";
+
+        private readonly uint totalVillagers;
+        private uint freeVillagers;
+        
+        private readonly List<Fish> fishList;
+        private List<uint> fisherList = new();
+        
+        public FishingMenu(FishableLocation location, uint assignedVillagers)
+        {
+            totalVillagers = freeVillagers = assignedVillagers;
+            
+            fishList = location.LocalFish;
+            fishList.RemoveAll(fish => fish.BycatchOnly == true); // fish marked as "bycatch only" cannot be assigned to villagers and won't show up here
+
+            if (fishList.Count > 0)
+                options = fishList.Select(fish => fish.Name ?? "").ToArray();
+        }
+        
+        override public void Display()
+        {
+            Console.Clear();
+            
+            Console.WriteLine(Instructions);
+            Console.Write(totalVillagers);
+            Console.WriteLine(" villagers\n");
+
+            base.Display();
+        }
+
         // this should take in an IFishable location
         // then fetch all the fish types that location has
 
