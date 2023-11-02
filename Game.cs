@@ -144,6 +144,9 @@
                         Console.WriteLine($"Your villages population: {initialPopulation}. Food stock:{foodStock}");
                         Console.WriteLine();
                         break;
+                    case "close":
+                        CloseGame();
+                        break;
 
                     default:
                         Console.WriteLine("I don't know what command...");
@@ -217,6 +220,12 @@
                 }
             }
         }
+         static void CloseGame()
+        {
+            Console.WriteLine("Closing the game...");
+
+            Environment.Exit(0);
+        }
 
 
         private static void PrintWelcome()
@@ -240,6 +249,7 @@
             Console.WriteLine("Type 'talk' to have an interaction with NPC.");
             Console.WriteLine("Type 'info' to get more information from your current location.");
             Console.WriteLine("Type 'sleep' to advance to the next month.");
+            Console.WriteLine("Type 'close' to close the game.");
         }
     }
 }
