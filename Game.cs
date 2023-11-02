@@ -96,7 +96,6 @@
                         Move(command.Name);
                         break;
 
-                    case "exit":
                     case "quit":
                         continuePlaying = false;
                         break;
@@ -112,37 +111,14 @@
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
-                    
-                    case "clear":
-                        Console.Clear();
-                        break;
-                    
-                    case "assign":
-                        if (command.SecondWord == null)
-                        {
-                            Console.WriteLine("The 'assign' command requires defining a number of villagers to be assigned, i.e. \"assign 5\".");
-                            break;
-                        }
-
-                        if (uint.TryParse(command.SecondWord, out uint result))
-                            currentLocation?.AssignVillagers(result);
-                        else
-                            Console.WriteLine("\"" + command.SecondWord + "\" is not a valid number. Please try again.");
-                        break;
-                    
-                    case "unassign":
-                        currentLocation?.AssignVillagers(0);
-                        break;
-                    
-                    case "boo":
-                        Console.WriteLine(" .-.\n(o o) boo!\n| O \\\n \\   \\\n  `~~~'\n");
-                        break;
-                    
                     case "sleep":
                         AdvanceMonth();
                         Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
                         Console.WriteLine($"Your villages population: {initialPopulation}. Food stock:{foodStock}");
                         Console.WriteLine();
+                        break;
+                    case "close":
+                        CloseGame();
                         break;
 
                     default:
@@ -216,6 +192,12 @@
                     foodStock -= foodConsumption;
                 }
             }
+        }
+        static void CloseGame()
+        {
+            Console.WriteLine("Closing the game...");
+            
+            Environment.Exit(0);
         }
 
 
