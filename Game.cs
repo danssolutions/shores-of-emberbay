@@ -105,7 +105,7 @@
                         break;
 
                     default:
-                        Console.WriteLine("I don't know what command.");
+                        Console.WriteLine("I don't know what command");
                         break;
                 }
             }
