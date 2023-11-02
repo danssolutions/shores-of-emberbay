@@ -92,17 +92,20 @@ namespace TownOfZuul
     public sealed class MainMenu : Menu
     {
         private const string Logo = 
-            @" _____                            __   _____           _ " + "\n" +
-            @"|_   _|____      ___ __     ___  / _| |__  /   _ _   _| |" + "\n" +
-            @"  | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |" + "\n" +
-            @"  | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |" + "\n" +
-            @"  |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|" + "\n" +
-            @"                                                         " + "\n" +
-            @"---------------------------------------------------------" + "\n" +
-            @"                                                         " + "\n";
+            @"
+             _____                            __   _____           _ 
+            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
+              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
+              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
+              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
+                                                                     
+            ---------------------------------------------------------
+                                                                     
+            ";
         
         private const string Instructions = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
         private const string PlayOption = "Play Game";
+        private const string SettingsOption = "Settings";
         private const string CreditsOption = "Credits";
         private const string QuitOption = "Quit";
 
@@ -112,6 +115,7 @@ namespace TownOfZuul
         {
             options = new string[] {
                 PlayOption,
+                SettingsOption,
                 CreditsOption,
                 QuitOption
             };
@@ -135,9 +139,12 @@ namespace TownOfZuul
                     StartGame();
                     break;
                 case 2:
-                    ShowCredits();
+                    ShowSettings();
                     break;
                 case 3:
+                    ShowCredits();
+                    break;
+                case 4:
                     QuitGame();
                     break;
             }
@@ -160,7 +167,7 @@ namespace TownOfZuul
             Console.WriteLine(Instructions);
         }
 
-        private static void ShowCredits()
+        private static void ShowSettings()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -168,8 +175,19 @@ namespace TownOfZuul
             Docks docks = new();
             FishingMenu fishMenu = new(docks,5);
             fishMenu.Display();
-            //CreditsMenu credits = new();
-            //credits.Display();
+
+            Console.Clear();
+            Console.WriteLine(Logo);
+            Console.WriteLine(Instructions);
+        }
+
+        private static void ShowCredits()
+        {
+            Console.Clear();
+            Console.CursorVisible = true;
+
+            CreditsMenu credits = new();
+            credits.Display();
 
             Console.Clear();
             Console.WriteLine(Logo);
@@ -188,14 +206,16 @@ namespace TownOfZuul
     public sealed class CreditsMenu : Menu
     {
         private const string Logo = 
-            @" _____                            __   _____           _ " + "\n" +
-            @"|_   _|____      ___ __     ___  / _| |__  /   _ _   _| |" + "\n" +
-            @"  | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |" + "\n" +
-            @"  | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |" + "\n" +
-            @"  |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|" + "\n" +
-            @"                                                         " + "\n" +
-            @"---------------------------------------------------------" + "\n" +
-            @"                                                         " + "\n";
+            @"
+             _____                            __   _____           _ 
+            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
+              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
+              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
+              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
+                                                                     
+            ---------------------------------------------------------
+                                                                     
+            ";
         
         private const string Credits = 
             "Town of Zuul was created as an SDU BSc Software Engineering project by:\n" +
