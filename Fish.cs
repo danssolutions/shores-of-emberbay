@@ -98,9 +98,9 @@ namespace TownOfZuul
         public SeaTrout(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Sea Trout";
-            FoodValue = 0.5;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 3.5;
+            FoodValue = 0.9;
+            CatchDifficulty = 0.6;
+            BaseReproductionRate = 1.075;
             PollutionResilience = 0.5;
         }
     }
@@ -110,10 +110,10 @@ namespace TownOfZuul
         public SeaBass(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Sea Bass";
-            FoodValue = 0.75;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 0.5;
-            PollutionResilience = 0.5;
+            FoodValue = 0.8;
+            CatchDifficulty = 0.7;
+            BaseReproductionRate = 1.1;
+            PollutionResilience = 0.6;
         }
     }
 
@@ -122,10 +122,10 @@ namespace TownOfZuul
         public Pike(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Pike";
-            FoodValue = 0.6;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 1.5;
-            PollutionResilience = 0.5;
+            FoodValue = 0.9;
+            CatchDifficulty = 0.7;
+            BaseReproductionRate = 1.15;
+            PollutionResilience = 0.6;
         }
     }
 
@@ -134,10 +134,10 @@ namespace TownOfZuul
         public Salmon(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Salmon";
-            FoodValue = 0.9;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 1.5;
-            PollutionResilience = 0.5;
+            FoodValue = 1.2;
+            CatchDifficulty = 0.6;
+            BaseReproductionRate = 1.2;
+            PollutionResilience = 0.8;
         }
     }
 
@@ -145,11 +145,11 @@ namespace TownOfZuul
     {
         public Sturgeon(uint initialPopulation) : base(initialPopulation)
         {
-            Name = "Salmon";
-            FoodValue = 2;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 1;
-            PollutionResilience = 0.5;
+            Name = "Sturgeon";
+            FoodValue = 1.5;
+            CatchDifficulty = 0.8;
+            BaseReproductionRate = 1.1;
+            PollutionResilience = 0.9;
         }
     }
 
@@ -159,9 +159,9 @@ namespace TownOfZuul
         {
             Name = "Mackerel";
             FoodValue = 0.25;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 4.2;
-            PollutionResilience = 0.5;
+            CatchDifficulty = 0.3;
+            BaseReproductionRate = 1.25;
+            PollutionResilience = 0.65;
         }
     }
 
@@ -170,10 +170,10 @@ namespace TownOfZuul
         public Herring(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Herring";
-            FoodValue = 0.3;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 3.8;
-            PollutionResilience = 0.25;
+            FoodValue = 0.2;
+            CatchDifficulty = 0.2;
+            BaseReproductionRate = 1.3;
+            PollutionResilience = 0.8;
         }
     }
 
@@ -182,10 +182,10 @@ namespace TownOfZuul
         public Cod(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Cod";
-            FoodValue = 0.8;
+            FoodValue = 1;
             CatchDifficulty = 0.5;
-            BaseReproductionRate = 1.8;
-            PollutionResilience = 0.5;
+            BaseReproductionRate = 1.05;
+            PollutionResilience = 0.6;
         }
     }
 
@@ -207,9 +207,9 @@ namespace TownOfZuul
         {
             Name = "Halibut";
             FoodValue = 4;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 2;
-            PollutionResilience = 0.5;
+            CatchDifficulty = 0.6;
+            BaseReproductionRate = 1.05;
+            PollutionResilience = 0.7;
         }
     }
 
@@ -219,9 +219,9 @@ namespace TownOfZuul
         {
             Name = "Eel";
             FoodValue = 2;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 0.25;
-            PollutionResilience = 0.5;
+            CatchDifficulty = 0.4;
+            BaseReproductionRate = 1.15;
+            PollutionResilience = 0.8;
         }
     }
 
