@@ -248,12 +248,15 @@ namespace TownOfZuul
         private const string AssignedVillagersInfo = "Villagers ready to fish: ";
         private const string FreeVillagersInfo = "Villagers waiting for assignment: ";
         private const string AssignedOptionInfo = " assigned here";
+        private const string ConfirmedOutro = "Assignment confirmed.";
+        private const string CancelledOutro = "Assignment cancelled.";
         private readonly uint totalVillagers;
         private uint freeVillagers;
         
         private readonly List<Fish> fishList = new();
-        private readonly List<uint> fisherList = new();
+        public readonly List<uint> fisherList = new();
         private bool continueDisplay = true;
+        private bool confirmed = false;
         
         public FishingMenu(FishableLocation location, uint assignedVillagers)
         {
@@ -271,6 +274,8 @@ namespace TownOfZuul
         
         override public void Display()
         {
+            string padString = "";
+
             Console.Clear();
             
             Console.WriteLine(Intro);
@@ -279,12 +284,16 @@ namespace TownOfZuul
 
             while (continueDisplay)
             {
-                Console.WriteLine(AssignedVillagersInfo + (totalVillagers - freeVillagers));
-                Console.WriteLine(FreeVillagersInfo + freeVillagers + "\n");
+                padString = "" + padString.PadRight((totalVillagers - freeVillagers).ToString().Length);
+                Console.WriteLine(AssignedVillagersInfo + (totalVillagers - freeVillagers) + padString);
+                padString = "" + padString.PadRight(freeVillagers.ToString().Length);
+                Console.WriteLine(FreeVillagersInfo + freeVillagers + padString + "\n");
 
                 for (int i = 1; i <= options.Length; i++)
                 {
-                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i-1] + " (" + fisherList[i-1] + AssignedOptionInfo + ")\n");
+                    padString = "" + padString.PadRight(fisherList[i-1].ToString().Length);
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i-1] + 
+                        " (" + fisherList[i-1] + AssignedOptionInfo + ")" + padString + "\n");
                 }
                 
                 ConsoleKey key = Console.ReadKey(true).Key;
@@ -315,7 +324,7 @@ namespace TownOfZuul
                         break;
 
                     case ConsoleKey.Enter:
-                        ParseEscapeOption(); // temporary
+                        ConfirmAssignment();
                         break;
 
                     case ConsoleKey.D1:
@@ -354,6 +363,10 @@ namespace TownOfZuul
                         break;
                 }
             }
+
+            Console.Clear();
+            Console.CursorVisible = true;
+            Console.WriteLine(confirmed ? ConfirmedOutro : CancelledOutro);
         }
 
         override public void ParseOption(int option)
@@ -370,7 +383,19 @@ namespace TownOfZuul
 
         override public void ParseEscapeOption()
         {
+            confirmed = false;
             continueDisplay = false;
+        }
+
+        public void ConfirmAssignment()
+        {
+            confirmed = true;
+            continueDisplay = false;
+        }
+
+        public List<uint> GetFisherList(List<uint> existingFishers)
+        {
+            return confirmed ? fisherList : existingFishers;
         }
     }
 }
