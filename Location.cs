@@ -4,6 +4,7 @@
     // Its properties and methods are available to all classes derived from it.
     public abstract class Location
     {
+        private const string NoAssignment = "This location cannot have any villagers assigned to it.";
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
         public string? Information { get; protected set; }
@@ -23,12 +24,39 @@
             if (neighbor != null)
                 Exits[direction] = neighbor;
         }
+
+        public virtual void AssignVillagers(uint amount)
+        {
+            Console.WriteLine(NoAssignment);
+        }
     }
 
-    public interface IFishable
+    public abstract class FishableLocation : Location
     {
-        // Note: add more stuff here later, like returning a list of all fish types in the location
-        public double GetBiodiversityScore();
+        public List<Fish> LocalFish { get; private set; } = new();
+
+        public override void AssignVillagers(uint amount)
+        {
+            /*
+            The flow for this (and other assignable locations) should go like this:
+            - Make sure amount > 0
+            - Make sure there are enough "free villagers" that can be assigned
+            - If location is fishable:
+                - Provide fishing menu to user
+                - User assigns villagers to individual fish
+                - Make sure the total villager amount in menu doesn't exceed user's allocated villager amount
+            - Else:
+                - Assign user's allocated villager amount to location
+            - Update location's villager values
+            - Update "free villager" value, make sure it doesn't exceed total pop count
+            */
+            Console.WriteLine("You've assigned " + amount + " villagers here. I guess.");
+        }
+
+        public double GetBiodiversityScore()
+        {
+            return 2.0; // TODO: replace with something meaningful
+        }
     }
 
     // TODO: put classes below in separate files
@@ -68,21 +96,22 @@
         }
     }
 
-    public class Docks : Location, IFishable
+    public class Docks : FishableLocation
     {
-        public bool OceanUnlocked { get; private set; }
+        public SeaTrout seaTrout = new(500);
+        public SeaBass seaBass = new(500);
+        public Pike pike = new(500);
+        public Salmon salmon = new(500);
+        public Sturgeon sturgeon = new(500);
 
-        // Docks fish stats go here
+        public bool OceanUnlocked { get; private set; }
         public Docks()
         {
             Name = "Docks";
             Description = "You're in the village docks.";
             OceanUnlocked = false;
-        }
-
-        public double GetBiodiversityScore()
-        {
-            return 2.0; // TODO: replace with something meaningful
+            
+            LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
         }
     }
 
@@ -100,19 +129,23 @@
         }
     }
 
-    public class Ocean : Location, IFishable
+    public class Ocean : FishableLocation
     {
-        // Ocean fish stats go here
+        public Mackerel mackerel = new(500);
+        public Herring herring = new(500);
+        public Cod cod = new(500);
+        public Tuna tuna = new(500);
+        public Halibut halibut = new(500);
+        public Eel eel = new(500);
+        public Garfish garfish = new(500);
+        public GiantOarfish oarfish = new(500);
 
         public Ocean()
         {
             Name = "Ocean";
             Description = "You're in the ocean.";
-        }
 
-        public double GetBiodiversityScore()
-        {
-            return 2.0; // TODO: replace with something meaningful
+            LocalFish.AddRange(new List<Fish>(){mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish});
         }
     }
 
