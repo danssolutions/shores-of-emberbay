@@ -225,8 +225,8 @@ namespace TownOfZuul
         private readonly uint totalVillagers;
         private uint freeVillagers;
         
-        private readonly List<Fish> fishList;
-        private List<uint> fisherList = new();
+        private readonly List<Fish> fishList = new();
+        private readonly List<uint> fisherList = new();
         private bool continueDisplay = true;
         
         public FishingMenu(FishableLocation location, uint assignedVillagers)
@@ -240,9 +240,7 @@ namespace TownOfZuul
                 options = fishList.Select(fish => fish.Name ?? "").ToArray();
             
             for (int i = 0; i < fishList.Count; i++)
-            {
                 fisherList.Add(0);
-            }
         }
         
         override public void Display()
