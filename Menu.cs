@@ -240,8 +240,14 @@ namespace TownOfZuul
 
     public class FishingMenu : Menu
     {
-        private const string Instructions = "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n";
-
+        private const string Intro = "~~~ Fishing time! ~~~";
+        private const string Instructions = " villagers in total have been assigned to fish in this location. " + 
+            "Choose which type of fish each villager should try to catch.\n" +
+            "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n";
+        
+        private const string AssignedVillagersInfo = "Villagers ready to fish: ";
+        private const string FreeVillagersInfo = "Villagers waiting for assignment: ";
+        private const string AssignedOptionInfo = " assigned here";
         private readonly uint totalVillagers;
         private uint freeVillagers;
         
@@ -267,22 +273,23 @@ namespace TownOfZuul
         {
             Console.Clear();
             
-            Console.WriteLine(Instructions);
+            Console.WriteLine(Intro);
             Console.Write(totalVillagers);
-            Console.WriteLine(" villagers\n");
+            Console.WriteLine(Instructions);
 
             while (continueDisplay)
             {
-                Console.WriteLine("There are " + freeVillagers + " villagers available.");
+                Console.WriteLine(AssignedVillagersInfo + (totalVillagers - freeVillagers));
+                Console.WriteLine(FreeVillagersInfo + freeVillagers + "\n");
 
                 for (int i = 1; i <= options.Length; i++)
                 {
-                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i-1] + " [" + fisherList[i-1] + "]\n");
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i-1] + " (" + fisherList[i-1] + AssignedOptionInfo + ")\n");
                 }
                 
                 ConsoleKey key = Console.ReadKey(true).Key;
 
-                Console.SetCursorPosition(0, Console.CursorTop - options.Length - 1);
+                Console.SetCursorPosition(0, Console.CursorTop - options.Length - 3);
                 Console.CursorVisible = false;
                 
                 switch (key)
