@@ -4,10 +4,18 @@
     {
         private Location? currentLocation;
         private readonly Stack<Location> previousLocations = new();
-
+        int monthCounter = 1;
+        int initialPopulation;
+        double populationHealth;
+        int foodStock;
         public Game()
         {
             CreateLocations();
+            AdvanceMonth();
+            monthCounter = 0;
+            initialPopulation = 300;
+            populationHealth = 30.0;
+            foodStock = 10000;
         }
 
         private void CreateLocations()
@@ -103,6 +111,12 @@
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
+                    case "sleep":
+                        AdvanceMonth();
+                        Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
+                        Console.WriteLine($"Your villages population: {initialPopulation}. Food stock:{foodStock}");
+                        Console.WriteLine();
+                        break;
 
                     default:
                         Console.WriteLine("I don't know what command.");
@@ -123,6 +137,57 @@
             else
             {
                 Console.WriteLine($"You can't go {direction}!");
+            }
+        }
+
+        public void AdvanceMonth()
+        {
+            monthCounter++;
+
+            //for now I made everything random just trying to make stuff I will improve the system as we go on.
+            //if you feel like this way is not to good let me know how to improve it :)
+
+            Random random = new Random();
+
+            for (int monthCounter = 1; monthCounter <= 12; monthCounter++)
+            {
+                int populationChange = random.Next(-10, 11); // for now its ranndom change in population
+
+                initialPopulation += populationChange;
+                if (initialPopulation < 0)
+                {
+                    initialPopulation = 0;
+                }
+
+                double healthChange = random.Next(-5, 6); //for now its random change in population health
+
+                populationHealth += healthChange;
+                if (populationHealth < 0)
+                {
+                    populationHealth = 0;
+                }
+                else if (populationHealth > 100)
+                {
+                    populationHealth = 100;
+                }
+
+                int foodConsumption = initialPopulation * 30;
+
+                int minValue = 5000;
+                int maxValue = 10000;
+
+                int foodStockChange = random.Next(minValue, maxValue);
+
+                foodStock += foodStockChange;
+
+                if (foodStock >= foodConsumption)
+                {
+                    foodStock -= foodConsumption;
+                }
+                else
+                {
+                    foodStock -= foodConsumption;
+                }
             }
         }
 
@@ -147,6 +212,7 @@
             Console.WriteLine("Type 'quit' to exit the game.");
             Console.WriteLine("Type 'talk' to have an interaction with NPC.");
             Console.WriteLine("Type 'info' to get more information from your current location.");
+            Console.WriteLine("Type 'sleep' to advance to the next month.");
         }
     }
 }
