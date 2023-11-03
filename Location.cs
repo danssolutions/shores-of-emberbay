@@ -18,7 +18,7 @@
             SetExit("south", south);
             SetExit("west", west);
         }
-        //is it working?
+        
         public void SetExit(string direction, Location? neighbor)
         {
             if (neighbor != null)
