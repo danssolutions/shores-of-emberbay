@@ -152,9 +152,9 @@ namespace TownOfZuul
             Console.Clear();
             Console.CursorVisible = true;
 
-            Docks docks = new();
-            FishingMenu fishMenu = new(docks,5);
-            fishMenu.Display();
+            //Docks docks = new();
+            //FishingMenu fishMenu = new(docks,5);
+            //fishMenu.Display();
 
             Console.Clear();
             Console.WriteLine(Logo);
