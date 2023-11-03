@@ -89,8 +89,7 @@ namespace TownOfZuul
         private const string SettingsOption = "Settings";
         private const string CreditsOption = "Credits";
         private const string QuitOption = "Quit";
-
-        private const string QuitMessage = "Thank you for playing Town Of Zuul!";
+        public const string QuitMessage = "Thank you for playing Town Of Zuul!";
         
         public MainMenu()
         {

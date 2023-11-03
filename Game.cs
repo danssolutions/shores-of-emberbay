@@ -127,7 +127,7 @@
                         if (uint.TryParse(command.SecondWord, out uint result))
                             currentLocation?.AssignVillagers(result);
                         else
-                            Console.WriteLine("\"" + command.SecondWord + "\" is not a valid number. Please try again.");
+                            Console.WriteLine("\"" + command.SecondWord + "\" is not a valid or accepted number. Please try again.");
                         break;
                     
                     case "unassign":
@@ -222,7 +222,8 @@
         }
          static void CloseGame()
         {
-            Console.WriteLine("Closing the game...");
+            Console.Clear();
+            Console.WriteLine(MainMenu.QuitMessage);
             Environment.Exit(0);
         }
 
