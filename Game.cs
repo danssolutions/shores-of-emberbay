@@ -127,7 +127,7 @@
                         if (uint.TryParse(command.SecondWord, out uint result))
                             currentLocation?.AssignVillagers(result);
                         else
-                            Console.WriteLine("\"" + command.SecondWord + "\" is not a valid number. Please try again.");
+                            Console.WriteLine("\"" + command.SecondWord + "\" is not a valid or accepted number. Please try again.");
                         break;
                     
                     case "unassign":
@@ -222,8 +222,8 @@
         }
          static void CloseGame()
         {
-            Console.WriteLine("Closing the game...");
-
+            Console.Clear();
+            Console.WriteLine(MainMenu.QuitMessage);
             Environment.Exit(0);
         }
 
@@ -245,11 +245,11 @@
             Console.WriteLine("Type 'look' for more details.");
             Console.WriteLine("Type 'back' to go to the previous location.");
             Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'quit' to exit the game.");
+            Console.WriteLine("Type 'quit' or 'exit' to exit the game.");
             Console.WriteLine("Type 'talk' to have an interaction with NPC.");
             Console.WriteLine("Type 'info' to get more information from your current location.");
             Console.WriteLine("Type 'sleep' to advance to the next month.");
-            Console.WriteLine("Type 'close' to close the game.");
+            Console.WriteLine("Type 'close' to immediately close this application.");
         }
     }
 }

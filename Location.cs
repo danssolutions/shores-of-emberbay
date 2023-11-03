@@ -18,7 +18,7 @@
             SetExit("south", south);
             SetExit("west", west);
         }
-        //is it working?
+        
         public void SetExit(string direction, Location? neighbor)
         {
             if (neighbor != null)
@@ -33,24 +33,27 @@
 
     public abstract class FishableLocation : Location
     {
+        private const string ZeroAssignment = "Clearing this location of all assignments...";
         public List<Fish> LocalFish { get; private set; } = new();
+        public List<uint> LocalFishers { get; private set; } = new();
 
         public override void AssignVillagers(uint amount)
         {
-            /*
-            The flow for this (and other assignable locations) should go like this:
-            - Make sure amount > 0
-            - Make sure there are enough "free villagers" that can be assigned
-            - If location is fishable:
-                - Provide fishing menu to user
-                - User assigns villagers to individual fish
-                - Make sure the total villager amount in menu doesn't exceed user's allocated villager amount
-            - Else:
-                - Assign user's allocated villager amount to location
-            - Update location's villager values
-            - Update "free villager" value, make sure it doesn't exceed total pop count
-            */
-            Console.WriteLine("You've assigned " + amount + " villagers here. I guess.");
+            if (amount == 0)
+            {
+                Console.WriteLine(ZeroAssignment);
+                LocalFishers.Clear();
+                return;
+            }
+
+            //TODO: Make sure there are enough "free villagers" that can be assigned
+
+            FishingMenu fishMenu = new(this,amount);
+            fishMenu.Display();
+
+            LocalFishers = fishMenu.GetFisherList(LocalFishers);
+
+            //TODO: Update global "free villager" value after this is done, if any exist.
         }
 
         public double GetBiodiversityScore()

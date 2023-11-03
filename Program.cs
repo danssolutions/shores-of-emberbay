@@ -82,10 +82,14 @@ namespace TownOfZuul
     {
         public static void Main()
         {
+            Console.CancelKeyPress += delegate
+            {
+                Console.Clear();
+                Console.WriteLine(MainMenu.QuitMessage);
+                Console.CursorVisible = true;
+            };
             MainMenu menu = new();
             menu.Display();
-            //Game game = new();
-            //game.Play();
         }
     }
 }
