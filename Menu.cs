@@ -225,7 +225,6 @@ namespace TownOfZuul
         private const string Instructions = " villagers in total have been assigned to fish in this location. " + 
             "Choose which type of fish each villager should try to catch.\n" +
             "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n";
-        
         private const string AssignedVillagersInfo = "Villagers ready to fish: ";
         private const string FreeVillagersInfo = "Villagers waiting for assignment: ";
         private const string AssignedOptionInfo = " will be fishing for ";
@@ -239,7 +238,6 @@ namespace TownOfZuul
         
         private readonly List<Fish> fishList = new();
         public readonly List<uint> fisherList = new();
-        
         
         public FishingMenu(FishableLocation location, uint amount)
         {

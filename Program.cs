@@ -84,8 +84,6 @@ namespace TownOfZuul
         {
             MainMenu menu = new();
             menu.Display();
-            //Game game = new();
-            //game.Play();
         }
     }
 }
