@@ -23,10 +23,10 @@
             Village? village = new();
             ElderHouse? elderHouse = new();
             Docks? docks = new();
-            ResearchVessel? researchVessel = new();
             Ocean? ocean = new();
-            Coast? coast = new();
-            WastePlant? wastePlant = new();
+            ResearchVessel? researchVessel = new(500.0);
+            Coast? coast = new(500.0);
+            WastePlant? wastePlant = new(500.0);
 
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
 

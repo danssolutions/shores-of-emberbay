@@ -33,7 +33,7 @@
 
     public abstract class FishableLocation : Location
     {
-        private const string ZeroAssignment = "Clearing this location of all assignments...";
+        private const string ZeroAssignment = "Clearing this location of all fishers...";
         public List<Fish> LocalFish { get; private set; } = new();
         public List<uint> LocalFishers { get; private set; } = new();
 
@@ -59,6 +59,53 @@
         public double GetBiodiversityScore()
         {
             return 2.0; // TODO: replace with something meaningful
+        }
+    }
+
+    public abstract class CleanableLocation : Location
+    {
+        private const string ZeroAssignment = "Clearing this location of all cleaners...";
+        private const string ConfirmedAssignment = "Assignment confirmed. \nVillagers ready to clean in this location: ";
+        private const string DeniedAssignment = "Cannot assign anyone here, as the village does not have the tools necessary for cleanup.";
+
+        // The amount of pollution currently in the location.
+        // For different locations, this represents different types of pollution, measured in its own type of unit.
+        public double PollutionCount { get; protected set; }
+
+        // Whether this location can be cleaned by villagers assigned to it.
+        // Some locations require additional technology to be unlocked in order for it to be cleanable.
+        public bool CleanupUnlocked { get; protected set; } = true;
+
+        public uint LocalCleaners { get; private set; } = new();
+
+        public CleanableLocation(double pollutionUnits)
+        {
+            PollutionCount = pollutionUnits;
+            LocalCleaners = 0;
+        }
+
+        public override void AssignVillagers(uint amount)
+        {
+            if (!CleanupUnlocked)
+            {
+                Console.WriteLine(DeniedAssignment);
+                return;
+            }
+
+            if (amount == 0)
+            {
+                Console.WriteLine(ZeroAssignment);
+                LocalCleaners = 0;
+                return;
+            }
+
+            //TODO: Make sure there are enough "free villagers" that can be assigned
+
+            LocalCleaners = amount;
+
+            //TODO: Update global "free villager" value after this is done, if any exist.
+
+            Console.WriteLine(ConfirmedAssignment + amount + ".");
         }
     }
 
@@ -118,17 +165,19 @@
         }
     }
 
-    public class ResearchVessel : Location
+    public class ResearchVessel : CleanableLocation
     {
         // Algae stats go here
 
         // Code for fetching fish info goes here
 
-        public ResearchVessel()
+        public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
             Name = "Research Vessel";
             Description = "You're in the research vessel.";
             Information = "Somehow you will be able to see fish stock here in the future.";
+
+            CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
         }
     }
 
@@ -152,25 +201,27 @@
         }
     }
 
-    public class Coast : Location
+    public class Coast : CleanableLocation
     {
         // Coast trash stats goes here
 
-        public Coast()
+        public Coast(double pollutionUnits) : base(pollutionUnits)
         {
             Name = "Coast";
             Description = "You're in the coast.";
         }
     }
 
-    public class WastePlant : Location
+    public class WastePlant : CleanableLocation
     {
         // Microplastic trash stats goes here
 
-        public WastePlant()
+        public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
             Name = "Wastewater Treatment Plant";
             Description = "You're in the wastewater treatment plant.";
+
+            CleanupUnlocked = false; // cannot clean until membrane filter unlocked
         }
     }
 }
