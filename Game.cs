@@ -177,6 +177,8 @@
             }
             else
             {
+                Console.Clear();
+                Console.WriteLine(currentLocation?.Art);
                 Console.WriteLine($"There's nothing of interest towards the {direction}.");
             }
         }
