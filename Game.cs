@@ -93,6 +93,7 @@
                     case "south":
                     case "east":
                     case "west":
+                        Console.Clear();
                         Move(command.Name);
                         break;
 
@@ -166,7 +167,7 @@
             }
             else
             {
-                Console.WriteLine($"You can't go {direction}!");
+                Console.WriteLine($"There's nothing of interest towards the {direction}.");
             }
         }
 
