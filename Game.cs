@@ -49,6 +49,7 @@
         {
             Parser parser = new();
 
+            Console.WriteLine(currentLocation?.Art);
             PrintWelcome();
 
             bool continuePlaying = true;
@@ -86,6 +87,8 @@
                         {
                             currentLocation = previousLocations.First();
                             previousLocations.Pop();
+                            Console.Clear();
+                            Console.WriteLine(currentLocation?.Art);
                         }
                         break;
 
@@ -168,6 +171,9 @@
             {
                 previousLocations.Push(currentLocation);
                 currentLocation = currentLocation?.Exits[direction];
+
+                Console.Clear();
+                Console.WriteLine(currentLocation?.Art);
             }
             else
             {
@@ -235,25 +241,26 @@
 
         private static void PrintWelcome()
         {
-            Console.WriteLine("Welcome to the Town Of Zuul!");
-            Console.WriteLine("Town Of Zuul is a new, incredibly boring adventure game.");
-            PrintHelp();
+            Console.WriteLine("Welcome to Town Of Zuul!");
+            Console.WriteLine("Type 'help' for a list of commands.");
+            //PrintHelp();
             Console.WriteLine();
         }
 
         private static void PrintHelp()
         {
-            Console.WriteLine("You are lost. You are alone. You wander");
-            Console.WriteLine("around the island.");
+            Console.WriteLine("You are a mayor of the town of Zuul.");
+            Console.WriteLine("Your job is to manage the town's population and assign villagers from your town to do certain tasks, such as fishing.");
             Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
-            Console.WriteLine("Type 'look' for more details.");
+            Console.WriteLine("Type 'look' for more details about your current location.");
             Console.WriteLine("Type 'back' to go to the previous location.");
             Console.WriteLine("Type 'help' to print this message again.");
             Console.WriteLine("Type 'quit' or 'exit' to exit the game.");
-            Console.WriteLine("Type 'talk' to have an interaction with NPC.");
+            Console.WriteLine("Type 'talk' to have an interaction with any locals.");
             Console.WriteLine("Type 'info' to get more information from your current location.");
-            Console.WriteLine("Type 'sleep' to advance to the next month.");
+            Console.WriteLine("Type 'assign [number]' to assign a specified amount of villagers to your current location (if possible).");
+            //Console.WriteLine("Type 'sleep' to advance to the next month.");
             Console.WriteLine("Type 'close' to immediately close this application.");
         }
     }

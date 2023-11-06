@@ -5,6 +5,7 @@
     public abstract class Location
     {
         private const string NoAssignment = "This location cannot have any villagers assigned to it.";
+        public string? Art { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
         public string? Information { get; protected set; }
@@ -118,9 +119,7 @@
 
         public Village()
         {
-            //Name = "Village";
-
-            Name = @"
+            Art = @"
 
                                 V           ~~
 ~         ~~          V                                 V
@@ -137,6 +136,7 @@ ____________     ;       ''. ' // /// // ///==\
 /// ////// /\   /           \ |//////-\////====|      \|/
 ------------------------------------------------------------
             ";
+            Name = "Village";
             Description = "You're in the village.";
             PopulationCount = 5;
             PopulationHealth = 90.0;
@@ -153,9 +153,7 @@ ____________     ;       ''. ' // /// // ///==\
 
         public ElderHouse()
         {
-            //Name = "Village Elder's house";
-
-            Name = @"
+            Art = @"
 
   -==-              .-.    V      ~--~  _   ~~
         ~--~       /   \              _/ \       V    -==-
@@ -172,7 +170,7 @@ ____________     ;       ''. ' // /// // ///==\
     .              ````.~~~-.~~-.~~~..~```    `         .
 ------------------------------------------------------------
             ";
-
+            Name = "Village Elder's house";
             Description = "You're in the village elder's house.";
             Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
@@ -194,9 +192,7 @@ ____________     ;       ''. ' // /// // ///==\
         public bool OceanUnlocked { get; private set; }
         public Docks()
         {
-            //Name = "Docks";
-
-            Name = @"
+            Art = @"
 
 __ ___ _            .   :  ;   .    V          ___
 ,=,_    ``------.__  \        /        .----``   ```--.
@@ -213,6 +209,7 @@ __ ___ _            .   :  ;   .    V          ___
     -`          ,----/   / /
 ------------------------------------------------------------
             ";
+            Name = "Docks";
             Description = "You're in the village docks.";
             OceanUnlocked = false;
             
@@ -228,9 +225,7 @@ __ ___ _            .   :  ;   .    V          ___
 
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
-            //Name = "Research Vessel";
-
-            Name = @"
+            Art = @"
 
     .----``   ```--.               ___
     ``-------`````  V           ,=,_    ``------.__
@@ -247,6 +242,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
  - -=~~~-~~=~~~~~~~=~~--,/     -  [X]         -  |X|/  \|/
 ------------------------------------------------------------
             ";
+            Name = "Research Vessel";
             Description = "You're in the research vessel.";
             Information = "Somehow you will be able to see fish stock here in the future.";
 
@@ -267,9 +263,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 
         public Ocean()
         {
-            //Name = "Ocean";
-
-            Name = @"
+            Art = @"
 
         ...
     .-``   `--.                          ___
@@ -286,6 +280,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 `~^~^~-~^~~^~^~^~-~^~~-~^~^~-~^~~^-~^~^~^-~^~^~^~^~~~^~^~-^`
 ------------------------------------------------------------
             ";
+            Name = "Ocean";
             Description = "You're in the ocean.";
 
             LocalFish.AddRange(new List<Fish>(){mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish});
@@ -298,9 +293,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 
         public Coast(double pollutionUnits) : base(pollutionUnits)
         {
-            //Name = "Coast";
-
-            Name = @"
+            Art = @"
 
 
                                               \ ' /
@@ -317,6 +310,7 @@ _                             V              - ( ) -
   `                                             ~        `-.
 ------------------------------------------------------------
             ";
+            Name = "Coast";
             Description = "You're in the coast.";
         }
     }
@@ -327,9 +321,7 @@ _                             V              - ( ) -
 
         public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
-            //Name = "Wastewater Treatment Plant";
-
-            Name = @"
+            Art = @"
 
                                            ~~~~~~~~~~~~ 
                              _________          ~~~~
@@ -346,6 +338,7 @@ _                             V              - ( ) -
 _-= _-= _ _-_= - _//
 ------------------------------------------------------------
             ";
+            Name = "Wastewater Treatment Plant";
             Description = "You're in the wastewater treatment plant.";
 
             CleanupUnlocked = false; // cannot clean until membrane filter unlocked
