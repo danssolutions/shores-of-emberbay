@@ -29,17 +29,11 @@
             WastePlant? wastePlant = new(500.0);
 
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
-
             docks.SetExits(researchVessel, ocean, null, village);
-
             elderHouse.SetExit("east", village);
-
             researchVessel.SetExit("south", docks);
-
             ocean.SetExit("west", docks);
-
             coast.SetExits(village, null, wastePlant, null);
-
             wastePlant.SetExit("north", coast);
 
             currentLocation = village;
@@ -155,6 +149,10 @@
                     case "close":
                         CloseGame();
                         break;
+                    
+                    case "report":
+                        GetReport();
+                        break;
 
                     default:
                         Console.WriteLine("I don't know what command...");
@@ -181,6 +179,37 @@
                 Console.WriteLine(currentLocation?.Art);
                 Console.WriteLine($"There's nothing of interest towards the {direction}.");
             }
+        }
+
+        private void GetReport()
+        {
+            Console.WriteLine("\n- Report -");
+            /*
+            Console.WriteLine("Population count: " + village?.PopulationCount);
+            Console.WriteLine("Population health: " + village?.PopulationHealth);
+            Console.WriteLine();
+
+            Console.WriteLine($"Ocean unlocked: " + (docks != null && docks.OceanUnlocked ? "Yes" : "No"));
+            Console.WriteLine($"Algae cleaner obtained: " + (researchVessel != null && researchVessel.CleanupUnlocked ? "Yes" : "No"));
+            Console.WriteLine($"Membrane filter obtained: " + (wastePlant != null && wastePlant.CleanupUnlocked ? "Yes" : "No"));
+            Console.WriteLine();
+
+            Console.WriteLine("Macroplastic pollution: " + coast?.PollutionCount);
+            Console.WriteLine("Nutrient pollution: " + coast?.PollutionCount);
+            Console.WriteLine("Microplastic pollution: " + coast?.PollutionCount);
+            Console.WriteLine();
+
+            Console.WriteLine("Villagers fishing in docks: " + (docks?.LocalFishers.Sum(x => Convert.ToUInt32(x))));
+            for (int i = 0; i < docks?.LocalFishers.Count; i++)
+                Console.WriteLine("- " + docks?.LocalFish[i].Name + " fishers: " + docks?.LocalFishers[i]);
+            Console.WriteLine("Villagers fishing in the ocean: " + (ocean?.LocalFishers.Sum(x => Convert.ToUInt32(x))));
+            for (int i = 0; i < ocean?.LocalFishers.Count; i++)
+                Console.WriteLine("- " + ocean?.LocalFish[i].Name + " fishers: " + ocean?.LocalFishers[i]);
+            Console.WriteLine("Villagers cleaning the coast: " + coast?.LocalCleaners);
+            Console.WriteLine("Villagers helping with algae cleanup in the research vessel: " + researchVessel?.LocalCleaners);
+            Console.WriteLine("Villagers operating the filter in the wastewater plant: " + wastePlant?.LocalCleaners);
+            Console.WriteLine();
+            */
         }
 
         public void AdvanceMonth()
