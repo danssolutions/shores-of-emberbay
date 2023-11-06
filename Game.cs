@@ -137,7 +137,11 @@
                     case "boo":
                         Console.WriteLine(" .-.\n(o o) boo!\n| O \\\n \\   \\\n  `~~~'\n");
                         break;
-                    
+
+                    case "xmas":
+                        Console.WriteLine("             *\r\n            /.\\\r\n           /..'\\\r\n           /'.'\\\r\n          /.''.'\\\r\n          /.'.'.\\\r\n         /'.''.'.\\\n         ^^^[_]^^^\r\n\r\n");
+                        break;
+
                     case "sleep":
                         AdvanceMonth();
                         Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
