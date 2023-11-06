@@ -4,6 +4,16 @@
     {
         private Location? currentLocation;
         private readonly Stack<Location> previousLocations = new();
+
+        // Note: this might be moved back to CreateLocations() at some point
+        Village? village;
+        ElderHouse? elderHouse;
+        Docks? docks;
+        Ocean? ocean;
+        ResearchVessel? researchVessel;
+        Coast? coast;
+        WastePlant? wastePlant;
+
         int monthCounter = 1;
         int initialPopulation;
         double populationHealth;
@@ -20,13 +30,13 @@
 
         private void CreateLocations()
         {
-            Village? village = new();
-            ElderHouse? elderHouse = new();
-            Docks? docks = new();
-            Ocean? ocean = new();
-            ResearchVessel? researchVessel = new(500.0);
-            Coast? coast = new(500.0);
-            WastePlant? wastePlant = new(500.0);
+            village = new();
+            elderHouse = new();
+            docks = new();
+            ocean = new();
+            researchVessel = new(500.0);
+            coast = new(500.0);
+            wastePlant = new(500.0);
 
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
             docks.SetExits(researchVessel, ocean, null, village);
@@ -183,8 +193,9 @@
 
         private void GetReport()
         {
+            // TODO: split all these into separate methods, since they'd be useful outside this function also (and probably help w/ encapsulation)
             Console.WriteLine("\n- Report -");
-            /*
+
             Console.WriteLine("Population count: " + village?.PopulationCount);
             Console.WriteLine("Population health: " + village?.PopulationHealth);
             Console.WriteLine();
@@ -198,18 +209,26 @@
             Console.WriteLine("Nutrient pollution: " + coast?.PollutionCount);
             Console.WriteLine("Microplastic pollution: " + coast?.PollutionCount);
             Console.WriteLine();
+            
+            Console.WriteLine("Total fish in the docks: " + docks?.LocalFish.Sum(item => item.CurrentPopulation));
+            for (int i = 0; i < docks?.LocalFish.Count; i++)
+                Console.WriteLine("- " + docks?.LocalFish[i].Name + ": " + docks?.LocalFish[i].CurrentPopulation + " (previously " + docks?.LocalFish[i].PreviousPopulation + ")");
+            Console.WriteLine("Total fish in the ocean: " + ocean?.LocalFish.Sum(item => item.CurrentPopulation));
+            for (int i = 0; i < ocean?.LocalFish.Count; i++)
+                Console.WriteLine("- " + ocean?.LocalFish[i].Name + ": " + ocean?.LocalFish[i].CurrentPopulation + " (previously " + ocean?.LocalFish[i].PreviousPopulation + ")");
+            Console.WriteLine();
+            // TODO: add reproduction rates to each fish also
 
-            Console.WriteLine("Villagers fishing in docks: " + (docks?.LocalFishers.Sum(x => Convert.ToUInt32(x))));
+            Console.WriteLine("Villagers fishing in docks: " + (docks?.LocalFishers.Sum(item => Convert.ToUInt32(item))));
             for (int i = 0; i < docks?.LocalFishers.Count; i++)
                 Console.WriteLine("- " + docks?.LocalFish[i].Name + " fishers: " + docks?.LocalFishers[i]);
-            Console.WriteLine("Villagers fishing in the ocean: " + (ocean?.LocalFishers.Sum(x => Convert.ToUInt32(x))));
+            Console.WriteLine("Villagers fishing in the ocean: " + (ocean?.LocalFishers.Sum(item => Convert.ToUInt32(item))));
             for (int i = 0; i < ocean?.LocalFishers.Count; i++)
                 Console.WriteLine("- " + ocean?.LocalFish[i].Name + " fishers: " + ocean?.LocalFishers[i]);
             Console.WriteLine("Villagers cleaning the coast: " + coast?.LocalCleaners);
             Console.WriteLine("Villagers helping with algae cleanup in the research vessel: " + researchVessel?.LocalCleaners);
             Console.WriteLine("Villagers operating the filter in the wastewater plant: " + wastePlant?.LocalCleaners);
             Console.WriteLine();
-            */
         }
 
         public void AdvanceMonth()
