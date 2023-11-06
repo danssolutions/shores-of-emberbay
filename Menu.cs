@@ -95,7 +95,7 @@ namespace TownOfZuul
         {
             options = new string[] {
                 PlayOption,
-                SettingsOption,
+                //SettingsOption,
                 CreditsOption,
                 QuitOption
             };
@@ -118,13 +118,13 @@ namespace TownOfZuul
                 case 1:
                     StartGame();
                     break;
-                case 2:
+                /*case 2:
                     ShowSettings();
-                    break;
-                case 3:
+                    break;*/
+                case 2:
                     ShowCredits();
                     break;
-                case 4:
+                case 3:
                     QuitGame();
                     break;
             }
