@@ -18,7 +18,7 @@
             SetExit("south", south);
             SetExit("west", west);
         }
-        
+
         public void SetExit(string direction, Location? neighbor)
         {
             if (neighbor != null)
@@ -48,7 +48,7 @@
 
             //TODO: Make sure there are enough "free villagers" that can be assigned
 
-            FishingMenu fishMenu = new(this,amount);
+            FishingMenu fishMenu = new(this, amount);
             fishMenu.Display();
 
             LocalFishers = fishMenu.GetFisherList(LocalFishers);
@@ -113,8 +113,8 @@
             Name = "Docks";
             Description = "You're in the village docks.";
             OceanUnlocked = false;
-            
-            LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
+
+            LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
         }
     }
 
@@ -148,7 +148,7 @@
             Name = "Ocean";
             Description = "You're in the ocean.";
 
-            LocalFish.AddRange(new List<Fish>(){mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish});
+            LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
         }
     }
 

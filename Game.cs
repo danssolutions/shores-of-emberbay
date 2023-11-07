@@ -73,7 +73,7 @@
                     continue;
                 }
 
-                switch(command.Name)
+                switch (command.Name)
                 {
                     case "look":
                         Console.WriteLine(currentLocation?.Description);
@@ -112,11 +112,11 @@
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
-                    
+
                     case "clear":
                         Console.Clear();
                         break;
-                    
+
                     case "assign":
                         if (command.SecondWord == null)
                         {
@@ -129,15 +129,15 @@
                         else
                             Console.WriteLine("\"" + command.SecondWord + "\" is not a valid or accepted number. Please try again.");
                         break;
-                    
+
                     case "unassign":
                         currentLocation?.AssignVillagers(0);
                         break;
-                    
+
                     case "boo":
                         Console.WriteLine(" .-.\n(o o) boo!\n| O \\\n \\   \\\n  `~~~'\n");
                         break;
-                    
+
                     case "sleep":
                         AdvanceMonth();
                         Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
@@ -173,54 +173,62 @@
         public void AdvanceMonth()
         {
             monthCounter++;
-
+            int populationChange = 0;
             //for now I made everything random just trying to make stuff I will improve the system as we go on.
             //if you feel like this way is not to good let me know how to improve it :)
-
-            Random random = new Random();
-
-            for (int monthCounter = 1; monthCounter <= 12; monthCounter++)
+            if (monthCounter <= 12)
             {
-                int populationChange = random.Next(-10, 11); // for now its ranndom change in population
+                Random random = new Random();
 
-                initialPopulation += populationChange;
-                if (initialPopulation < 0)
+                for (int day = 1; day <= 30; day++)
                 {
-                    initialPopulation = 0;
-                }
+                    if (populationHealth > 90) { populationChange = random.Next(0, 5); }
+                    else if (populationHealth <= 90 && populationHealth > 70) { populationChange = random.Next(-2, 4); }
+                    else if (populationHealth <= 70 && populationHealth > 50) { populationChange = random.Next(-4, 2); } // for now its ranndom change in population
+                    else if (populationHealth <= 50 && populationHealth >= 0) { populationChange = random.Next(-5, 0); }
 
-                double healthChange = random.Next(-5, 6); //for now its random change in population health
+                    initialPopulation += populationChange;
+                    if (initialPopulation < 0)
+                    {
+                        initialPopulation = 0;
+                    }
+                    double healthChange = random.Next(-5, 6); //for now its random change in population health
 
-                populationHealth += healthChange;
-                if (populationHealth < 0)
-                {
-                    populationHealth = 0;
-                }
-                else if (populationHealth > 100)
-                {
-                    populationHealth = 100;
-                }
+                    populationHealth += healthChange;
+                    if (populationHealth < 0)
+                    {
+                        populationHealth = 0;
+                    }
+                    else if (populationHealth > 100)
+                    {
+                        populationHealth = 100;
+                    }
 
-                int foodConsumption = initialPopulation * 30;
+                    int foodConsumption = initialPopulation * 30;
 
-                int minValue = 5000;
-                int maxValue = 10000;
+                    int minValue = 5000;
+                    int maxValue = 10000;
 
-                int foodStockChange = random.Next(minValue, maxValue);
+                    int foodStockChange = random.Next(minValue, maxValue);
 
-                foodStock += foodStockChange;
+                    foodStock += foodStockChange;
 
-                if (foodStock >= foodConsumption)
-                {
-                    foodStock -= foodConsumption;
-                }
-                else
-                {
-                    foodStock -= foodConsumption;
+                    if (foodStock >= foodConsumption)
+                    {
+                        foodStock -= foodConsumption;
+                    }
+                    else
+                    {
+                        foodStock -= foodConsumption;
+                    }
                 }
             }
+            else
+            {
+                //Final ending after 12 months
+            }
         }
-         static void CloseGame()
+        static void CloseGame()
         {
             Console.Clear();
             Console.WriteLine(MainMenu.QuitMessage);
