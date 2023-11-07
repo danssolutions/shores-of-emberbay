@@ -173,7 +173,8 @@ ____________     ;       ''. ' // /// // ///==\
             ";
             Name = "Village Elder's house";
             Description = "You're in the village elder's house. The elder provides you with knowledge on " +
-            "how to take care of the population and expand the village.";
+            "how to take care of the population and expand the village. The village elder will provide what you with "
+            + "\n what you need to help the village.";
             Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
                 " Let me tell you a story about its past. " +
@@ -186,6 +187,7 @@ ____________     ;       ''. ' // /// // ///==\
             + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "
             + "\nbut now we need to think about what fish we catch and eat fish from polluted water. "
             + "\nWe need you, Mayor. Please help the village become sustainable and make it thrive again.";
+            Information = "You can unlock Algae cleaner and water filter and geet it from the Elder, when unlocked.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
         }
