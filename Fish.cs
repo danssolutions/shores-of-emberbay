@@ -9,10 +9,7 @@ namespace TownOfZuul
         // How nutritious this fish is. For example, one fish with a food value of 1.0 can feed 1 villager for 1 day (1/30th of a month).
         public double? FoodValue
         {
-            get
-            {
-                return FoodValue;
-            }
+            get => FoodValue;
             protected set
             {
                 if (value < 0.0)
@@ -30,10 +27,7 @@ namespace TownOfZuul
         // How difficult this fish is to catch. Valid values range from 0.0 to 1.0 (larger value = more difficult to catch)
         public double? CatchDifficulty
         {
-            get
-            {
-                return CatchDifficulty;
-            }
+            get => CatchDifficulty;
             protected set
             {
                 if (value < 0.0 || value > 1.0)
@@ -49,10 +43,7 @@ namespace TownOfZuul
         // assuming no other multipliers are in effect.
         public double? BaseReproductionRate
         {
-            get
-            {
-                return BaseReproductionRate;
-            }
+            get => BaseReproductionRate;
             protected set
             {
                 if (value < 0.0)
@@ -65,10 +56,7 @@ namespace TownOfZuul
         // Repopulation rates of more resilient fish are less impacted by poor water quality, while more sensitive fish are more impacted.
         public double? PollutionResilience
         {
-            get
-            {
-                return PollutionResilience;
-            }
+            get => PollutionResilience;
             protected set
             {
                 if (value < 0.0 || value > 1.0)

@@ -247,7 +247,64 @@
 */
         public void AdvanceMonth()
         {
-            monthCounter++;
+            //int? catchAmount;
+
+            Random random = new();
+
+            // 1 villager can fish 30-200 fish per month
+            // 1 villager eats ~90 fish per month (aka 1 food unit)
+            // 1 villager gets 300 attempts a month
+            for (int fishType = 0; fishType < docks?.LocalFish.Count; fishType++)
+            {
+                //for (uint i = 1; i <= docks?.LocalFishers[fishType]; i++)
+                {
+                    Console.WriteLine(docks?.LocalFish[fishType].FoodValue);
+                    //catchAmount = (int?)(random.Next(30, 200) * docks?.LocalFish[fishType].CatchDifficulty);
+
+                    // TODO: try for bycatch here
+
+                    //docks?.LocalFish[fishType].CurrentPopulation -= catchAmount;
+                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
+                }
+            }
+            for (int fishType = 0; fishType < ocean?.LocalFish.Count; fishType++)
+            {
+                //for (uint i = 1; i <= ocean?.LocalFishers[fishType]; i++)
+                {
+                    Console.WriteLine(ocean?.LocalFish[fishType].FoodValue);
+                    //catchAmount = (int?)(random.Next(30, 200) * ocean?.LocalFish[fishType].CatchDifficulty);
+
+                    // TODO: try for bycatch here
+
+                    //ocean?.LocalFish[fishType].CurrentPopulation -= catchAmount;
+                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + ocean?.LocalFish[fishType].Name + " this month.");
+                }
+            }
+            // village?.PopulationCount;
+            // village?.PopulationHealth;
+            // docks?.LocalFishers[];
+            // ocean?.LocalFishers[];
+            // coast.LocalCleaners;
+            // researchVessel.LocalCleaners;
+            // wastePlant.LocalCleaners;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*monthCounter++;
             int populationChange = 0;
             //for now I made everything random just trying to make stuff I will improve the system as we go on.
             //if you feel like this way is not to good let me know how to improve it :)
@@ -301,7 +358,7 @@
             else
             {
                 //Final ending after 12 months
-            }
+            }*/
         }
         static void CloseGame()
         {
