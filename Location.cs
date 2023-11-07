@@ -171,11 +171,12 @@ ____________     ;       ''. ' // /// // ///==\
 ------------------------------------------------------------
             ";
             Name = "Village Elder's house";
-            Description = "You're in the village elder's house.";
+            Description = "You're in the village elder's house. The elder provides you with knowledge on " +
+            "how to take care of the population and expand the village.";
             Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
                 " Let me tell you a story about its past. " +
-                "Type (_) you wish to continue (idk, how we want this to work etc).";
+                "Type (story) if you wish to continue.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
         }
