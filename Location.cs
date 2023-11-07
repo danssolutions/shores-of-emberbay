@@ -138,7 +138,11 @@ ____________     ;       ''. ' // /// // ///==\
 ------------------------------------------------------------
             ";
             Name = "Village";
-            Description = "You're in the village.";
+            Description = "You're in the village."+ 
+            " Once a large and prosperous place, you can easily tell its glory days are in the past." +
+            " Most of the buildings, which used to provide the shelter and livelihood to numerous people "+
+            "are now desolate and ill-kept."+
+            " Somehow, though, you can feel that this village might get another shot at prosperity.";
             PopulationCount = 5;
             PopulationHealth = 90.0;
             FoodUnits = 10.0;
@@ -174,7 +178,10 @@ ____________     ;       ''. ' // /// // ///==\
             ";
             PopulationHealth = 90.0;
             Name = "Village Elder's house";
-            Description = "You're in the village elder's house. The elder provides you with knowledge on " +
+            Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack."+
+            " Although it is as old as most of the surrounding architecture,"+
+            " the passage of time has not managed to tear down this testament of the village's past greatness."+
+            " You're in front of the village elder's house.\n The elder provides you with knowledge on " +
             "how to take care of the population and expand the village. The village elder will provide what you with "
             + "\n what you need to help the village.";
             Story = "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
@@ -229,7 +236,12 @@ __ ___ _            .   :  ;   .    V          ___
 ------------------------------------------------------------
             ";
             Name = "Docks";
-            Description = "You're in the village docks.";
+            Description = "You're at the village docks. "+
+            "A place where many of the village people's found employment now lies empty, "+
+            "save for the odd boat or seagull. "+
+            "A large chunk of the construction has been taken by the sea and the storms throughout the years, "+
+            "some of it still floating on the water, rocking with the waves. "+
+            "Even still, the view of the waterfront remains as impressive as it has always been.";
             OceanUnlocked = false;
             
             LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
@@ -262,7 +274,13 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 ------------------------------------------------------------
             ";
             Name = "Research Vessel";
-            Description = "You're in the research vessel.";
+            Description = "You're in the research vessel. "+
+            "You are greeted by the sight of somewhat modern technology and machinery, "+
+            "some of which can be concidered a rare find nowadays. "+
+            "How such equipment has remained so well-maintained to this day is a mystery to you "+ 
+            "but you are nevertheless impressed by its condition. "+
+            "If this village and its surroundings are going to be saved, "+
+            "you can already tell this ship will be instrumental in achieving that.";
             Information = "Somehow you will be able to see fish stock here in the future.";
 
             CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
@@ -300,7 +318,12 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 ------------------------------------------------------------
             ";
             Name = "Ocean";
-            Description = "You're in the ocean.";
+            Description = "The ocean lays before you. "+
+            "Your eyes are met with the its insurmountable vastness, the light reflecting on its pellucid waters. "+
+            "Something in the distance, resembling a small island catches your eye "+ 
+            "but you quickly discern this object's true nature. "+
+            "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. "+
+            "There is yet more work to be done.";
 
             LocalFish.AddRange(new List<Fish>(){mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish});
         }
@@ -330,7 +353,11 @@ _                             V              - ( ) -
 ------------------------------------------------------------
             ";
             Name = "Coast";
-            Description = "You're in the coast.";
+            Description = "You're on the coast. "+
+            "It appears that the village's current misfortunes have made their mark "+
+            "on the natural world around the settlement. "+
+            "Plastic pollutes the once beautiful beach and "+
+            "makes the animals' lives an increasingly hard battle for survival each day.";
         }
     }
 
@@ -358,7 +385,9 @@ _-= _-= _ _-_= - _//
 ------------------------------------------------------------
             ";
             Name = "Wastewater Treatment Plant";
-            Description = "You're in the wastewater treatment plant.";
+            Description = "You're in the wastewater treatment plant. "+
+            "Or what is left of it. "+
+            "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
             CleanupUnlocked = false; // cannot clean until membrane filter unlocked
         }
