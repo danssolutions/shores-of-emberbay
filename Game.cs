@@ -231,6 +231,20 @@
             Console.WriteLine();
         }
 
+        /*
+        Typical game cycle:
+        Player goes to various places, allocates villagers to do certain stuff
+        Player goes to next day/month
+        Villagers do their thing (either catch fish, and/or clean stuff)
+        First, water quality is updated
+        Fish reproduction rates are tweaked based on water quality
+        Fish stocks are tweaked dependent on amount fished (or amount of villagers fishing), as well as reproduction rates and water quality.
+        This info is captured by the research team and passed to the player in the next cycle.
+        Food stock is updated dependent on amount fished
+        Population health is updated dependent on food, water quality
+        Population count is updated dependent on population health
+        Day/month incremented by 1
+*/
         public void AdvanceMonth()
         {
             monthCounter++;
