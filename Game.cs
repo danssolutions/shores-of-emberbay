@@ -113,6 +113,10 @@
                         Console.WriteLine(currentLocation?.Dialogue);
                         break;
 
+                    case "story":
+                        Console.WriteLine(currentLocation?.Story);
+                        break;
+
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
