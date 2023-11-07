@@ -40,3 +40,17 @@ C:\Users\asger\Desktop\town-of-zuul\obj\Debug\net7.0\refint\town-of-zuul.dll
 C:\Users\asger\Desktop\town-of-zuul\obj\Debug\net7.0\town-of-zuul.pdb
 C:\Users\asger\Desktop\town-of-zuul\obj\Debug\net7.0\town-of-zuul.genruntimeconfig.cache
 C:\Users\asger\Desktop\town-of-zuul\obj\Debug\net7.0\ref\town-of-zuul.dll
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\bin\Debug\net7.0\town-of-zuul.exe
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\bin\Debug\net7.0\town-of-zuul.deps.json
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\bin\Debug\net7.0\town-of-zuul.runtimeconfig.json
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\bin\Debug\net7.0\town-of-zuul.dll
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\bin\Debug\net7.0\town-of-zuul.pdb
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.AssemblyInfoInputs.cache
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.AssemblyInfo.cs
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.csproj.CoreCompileInputs.cache
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.dll
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\refint\town-of-zuul.dll
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.pdb
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\town-of-zuul.genruntimeconfig.cache
+C:\Users\sandr\OneDrive\Skrivebord\semesterProject2023WOZ\town-of-zuul\obj\Debug\net7.0\ref\town-of-zuul.dll
