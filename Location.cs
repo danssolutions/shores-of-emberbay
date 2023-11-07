@@ -1,10 +1,8 @@
 ﻿namespace TownOfZuul
 {
-    // Base class for all locations in the game.
-    // Its properties and methods are available to all classes derived from it.
     public abstract class Location
     {
-        private const string NoAssignment = "This location cannot have any villagers assigned to it.";
+        public string? Art { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
         public string? Information { get; protected set; }
@@ -27,13 +25,12 @@
 
         public virtual void AssignVillagers(uint amount)
         {
-            Console.WriteLine(NoAssignment);
+            Console.WriteLine("This location cannot have any villagers assigned to it.");
         }
     }
 
     public abstract class FishableLocation : Location
     {
-        private const string ZeroAssignment = "Clearing this location of all assignments...";
         public List<Fish> LocalFish { get; private set; } = new();
         public List<uint> LocalFishers { get; private set; } = new();
 
@@ -41,7 +38,7 @@
         {
             if (amount == 0)
             {
-                Console.WriteLine(ZeroAssignment);
+                Console.WriteLine("Clearing this location of all fishers...");
                 LocalFishers.Clear();
                 return;
             }
@@ -62,8 +59,51 @@
         }
     }
 
+    public abstract class CleanableLocation : Location
+    {
+        // The amount of pollution currently in the location.
+        // For different locations, this represents different types of pollution, measured in its own type of unit.
+        public double PollutionCount { get; protected set; }
+
+        // Whether this location can be cleaned by villagers assigned to it.
+        // Some locations require additional technology to be unlocked in order for it to be cleanable.
+        public bool CleanupUnlocked { get; protected set; } = true;
+
+        public uint LocalCleaners { get; private set; } = new();
+
+        public CleanableLocation(double pollutionUnits)
+        {
+            PollutionCount = pollutionUnits;
+            LocalCleaners = 0;
+        }
+
+        public override void AssignVillagers(uint amount)
+        {
+            if (!CleanupUnlocked)
+            {
+                Console.WriteLine("Cannot assign anyone here, as the village does not have the tools necessary for cleanup.");
+                return;
+            }
+
+            if (amount == 0)
+            {
+                Console.WriteLine("Clearing this location of all cleaners...");
+                LocalCleaners = 0;
+                return;
+            }
+
+            //TODO: Make sure there are enough "free villagers" that can be assigned
+
+            LocalCleaners = amount;
+
+            //TODO: Update global "free villager" value after this is done, if any exist.
+
+            Console.WriteLine("Assignment confirmed. \nVillagers ready to clean in this location: " + amount + ".");
+        }
+    }
+
     // TODO: put classes below in separate files
-    public class Village : Location
+    public sealed class Village : Location
     {
         public uint PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
@@ -71,6 +111,23 @@
 
         public Village()
         {
+            Art = @"
+
+                                V           ~~
+~         ~~          V                                 V
+       _T      .,,.    ~--~ ^^          V        -==-
+ ^^   // \                    _   ________     
+      |[O]    _____,----,-. .' './========\             ~~~
+- -/``-|_|- -|.-.-_II__|__ |-----| u    u |- -___ - -- -- _-
+\_/_  /   \ _|| | / ''   /'\_|T| |   ||   |\_| u |_ _ _ _/_ 
+| | ||--'''' \,--|--..._/,.-{ },  ````````   |u u| U U U U U
+| '/__\,.--';|   |[] .-.| O{ _ }     .;.     |+++|+-+-+-+-+-
+|  |  | []  -|   '`---.;[,-`\,/  ____________|===|>=== _ _ =
+| |[]|,.--'' '',   ''-,.     |  //// ////// /\ T |....| V |.
+____________     ;       ''. ' // /// // ///==\
+/// ////// /\   /           \ |//////-\////====|      \|/
+------------------------------------------------------------
+            ";
             Name = "Village";
             Description = "You're in the village.";
             PopulationCount = 5;
@@ -81,13 +138,30 @@
         }
     }
 
-    public class ElderHouse : Location
+    public sealed class ElderHouse : Location
     {
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
 
         public ElderHouse()
         {
+            Art = @"
+
+  -==-              .-.    V      ~--~  _   ~~
+        ~--~       /   \              _/ \       V    -==-
+      _    ~~  .--'\/\_ \            /    \  V    ___
+  V  / \_    _/ V      \/\'__        /\/\  /\  __/   \ V
+    /    \  /    .'   _/  /  \     /    \/  \/ .`'\_/\   ~~
+   /\/\  /\/ :' __  ^/  ^/    `--./.'  ^  `-.\ _    _:\ _
+  /    \/  \  _/  \-' __/.' ^ _  ____  .'\   _/ \ .  __/ \
+/\  .-   `. \/     ______________|  |_____ \ /    `._/  ^  \
+  `-.__ ^   / .-'./_______________________\`-.  `-. `.  -  `
+'`-,   `.  / /     ||__|__||||||||__|__|||    \    \  \  .-/
+    `-~---~~--~-~--||__|__||||||||__|__|||~---~~--~~--~-~~`
+ ~         `      ~|||||||||||||||||||||||~         ~
+    .              ````.~~~-.~~-.~~~..~```    `         .
+------------------------------------------------------------
+            ";
             Name = "Village Elder's house";
             Description = "You're in the village elder's house.";
             Dialogue = "Welcome! As you take a look around," +
@@ -99,7 +173,7 @@
         }
     }
 
-    public class Docks : FishableLocation
+    public sealed class Docks : FishableLocation
     {
         public SeaTrout seaTrout = new(500);
         public SeaBass seaBass = new(500);
@@ -110,6 +184,23 @@
         public bool OceanUnlocked { get; private set; }
         public Docks()
         {
+            Art = @"
+
+__ ___ _            .   :  ;   .    V          ___
+,=,_    ``------.__  \        /        .----``   ```--.
+    `--,____.------'-   ,--.  -        ``-------`````  V
+ .    , \_______-_-~___/____\__~-_-_______/';\._____________
+  ~     `\.  V   --       --           .--    \'-.
+        . `\._          ~~ --   V      ```\``/``      --
+  V      `    `'--..    _--                '      V
+             --',.---'   - '  H--,  ___   _^__________^_
+    _~__----```` ~.      '__  H  | /  /   |LLLLLLLLLLLL|Y
+'```      '  V   /|     /   / H  `/   |   |____,,....__||
+        '       /_|_   /   /,_H..------````            `''--
+      '  --    \----/ /   ~`|
+    -`          ,----/   / /
+------------------------------------------------------------
+            ";
             Name = "Docks";
             Description = "You're in the village docks.";
             OceanUnlocked = false;
@@ -118,21 +209,40 @@
         }
     }
 
-    public class ResearchVessel : Location
+    public sealed class ResearchVessel : CleanableLocation
     {
         // Algae stats go here
 
         // Code for fetching fish info goes here
 
-        public ResearchVessel()
+        public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
+            Art = @"
+
+    .----``   ```--.               ___
+    ``-------`````  V           ,=,_    ``------.__
+                                    `--,____.------'- 
+                                            ,---L--E   _____
+                        V   __/___          |   H      |
+       V              _____/______|    V    G   H  ____|
+             ________/_____\_______\_____.      H``
+             \  O O O       __< < <      |\     H     V
+___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
+ =_-_ -=,-T----------T`---/_/-------T----------'__T_________
+       /     /              /                   /   ____,---
+  -=  /T___________T______         _  /           _|\__/|\__
+ - -=~~~-~~=~~~~~~~=~~--,/     -  [X]         -  |X|/  \|/
+------------------------------------------------------------
+            ";
             Name = "Research Vessel";
             Description = "You're in the research vessel.";
             Information = "Somehow you will be able to see fish stock here in the future.";
+
+            CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
         }
     }
 
-    public class Ocean : FishableLocation
+    public sealed class Ocean : FishableLocation
     {
         public Mackerel mackerel = new(500);
         public Herring herring = new(500);
@@ -145,6 +255,23 @@
 
         public Ocean()
         {
+            Art = @"
+
+        ...
+    .-``   `--.                          ___
+    ``---`````                    .----``   ```--.                  
+                                   ``-------`````  
+
+                             |                 V
+          V              \       /
+ V                         .---.        V
+                      --  /     \  --               V
+`~~^~^~^~^~^~^~^~^~^~^~^-=======-~^~^~^~^~^~^~^~^~^~^~^~^~~`
+`~^_~^~^~^~^~-~^_~^~^_~-=========- -~^~^~-~^~^~^~^_~^~^~^~^`
+`~^~-~^~^~~^~^~-^~^_~^~~ -=====- ~^~^~-~^~_~^~^~^~^~^~-~^~~`
+`~^~^~-~^~~^~^~^~-~^~~-~^~^~-~^~~^-~^~^~^-~^~^~^~^~~~^~^~-^`
+------------------------------------------------------------
+            ";
             Name = "Ocean";
             Description = "You're in the ocean.";
 
@@ -152,25 +279,61 @@
         }
     }
 
-    public class Coast : Location
+    public sealed class Coast : CleanableLocation
     {
         // Coast trash stats goes here
 
-        public Coast()
+        public Coast(double pollutionUnits) : base(pollutionUnits)
         {
+            Art = @"
+
+
+                                              \ ' /
+_                             V              - ( ) -
+--~~,     V       ~~~~                        / , \
+     \                           ~~~~~~
+-------________ __________ __ _ ___ ___ __ _ _ _____ _ _ ___
+                     ---...___ =-= = -_= -=_= _-=_-_ -=- =-_
+                              ```--.._= -_= -_= _-=- -_= _=-
+                                      ``--._=-_ =-=_-= _-= _
+            ~                               ``-._=_-=_- =_-=
+                                                 `-._-=_-_=-
+                                                     `-._=-_
+  `                                             ~        `-.
+------------------------------------------------------------
+            ";
             Name = "Coast";
             Description = "You're in the coast.";
         }
     }
 
-    public class WastePlant : Location
+    public sealed class WastePlant : CleanableLocation
     {
         // Microplastic trash stats goes here
 
-        public WastePlant()
+        public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
+            Art = @"
+
+                                           ~~~~~~~~~~~~ 
+                             _________          ~~~~
+      ~~~                   (---------)
+    ~~~~~~~~~~~~             |      _|_       V
+          ~~~~               |    /'   `\
+                             |   |   H   |              V
+                      V      |   |   |--------------|
+                           .'    |   ||~~~~~~~~|    |    ,-~
+    V                  __/'______|___||__###___|____|_,./
+                V     |/  ~         .                `
+ _ ___ ___ __ _ _ ___/     
+= _-=_-_ -=- =-_  =_//
+_-= _-= _ _-_= - _//
+------------------------------------------------------------
+            ";
             Name = "Wastewater Treatment Plant";
             Description = "You're in the wastewater treatment plant.";
+
+            CleanupUnlocked = false; // cannot clean until membrane filter unlocked
         }
     }
 }
