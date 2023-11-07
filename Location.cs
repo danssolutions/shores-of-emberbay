@@ -1,10 +1,7 @@
 ﻿namespace TownOfZuul
 {
-    // Base class for all locations in the game.
-    // Its properties and methods are available to all classes derived from it.
     public abstract class Location
     {
-        private const string NoAssignment = "This location cannot have any villagers assigned to it.";
         public string? Art { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
@@ -28,13 +25,12 @@
 
         public virtual void AssignVillagers(uint amount)
         {
-            Console.WriteLine(NoAssignment);
+            Console.WriteLine("This location cannot have any villagers assigned to it.");
         }
     }
 
     public abstract class FishableLocation : Location
     {
-        private const string ZeroAssignment = "Clearing this location of all fishers...";
         public List<Fish> LocalFish { get; private set; } = new();
         public List<uint> LocalFishers { get; private set; } = new();
 
@@ -42,7 +38,7 @@
         {
             if (amount == 0)
             {
-                Console.WriteLine(ZeroAssignment);
+                Console.WriteLine("Clearing this location of all fishers...");
                 LocalFishers.Clear();
                 return;
             }
@@ -65,10 +61,6 @@
 
     public abstract class CleanableLocation : Location
     {
-        private const string ZeroAssignment = "Clearing this location of all cleaners...";
-        private const string ConfirmedAssignment = "Assignment confirmed. \nVillagers ready to clean in this location: ";
-        private const string DeniedAssignment = "Cannot assign anyone here, as the village does not have the tools necessary for cleanup.";
-
         // The amount of pollution currently in the location.
         // For different locations, this represents different types of pollution, measured in its own type of unit.
         public double PollutionCount { get; protected set; }
@@ -89,13 +81,13 @@
         {
             if (!CleanupUnlocked)
             {
-                Console.WriteLine(DeniedAssignment);
+                Console.WriteLine("Cannot assign anyone here, as the village does not have the tools necessary for cleanup.");
                 return;
             }
 
             if (amount == 0)
             {
-                Console.WriteLine(ZeroAssignment);
+                Console.WriteLine("Clearing this location of all cleaners...");
                 LocalCleaners = 0;
                 return;
             }
@@ -106,12 +98,12 @@
 
             //TODO: Update global "free villager" value after this is done, if any exist.
 
-            Console.WriteLine(ConfirmedAssignment + amount + ".");
+            Console.WriteLine("Assignment confirmed. \nVillagers ready to clean in this location: " + amount + ".");
         }
     }
 
     // TODO: put classes below in separate files
-    public class Village : Location
+    public sealed class Village : Location
     {
         public uint PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
@@ -146,7 +138,7 @@ ____________     ;       ''. ' // /// // ///==\
         }
     }
 
-    public class ElderHouse : Location
+    public sealed class ElderHouse : Location
     {
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
@@ -181,7 +173,7 @@ ____________     ;       ''. ' // /// // ///==\
         }
     }
 
-    public class Docks : FishableLocation
+    public sealed class Docks : FishableLocation
     {
         public SeaTrout seaTrout = new(500);
         public SeaBass seaBass = new(500);
@@ -217,7 +209,7 @@ __ ___ _            .   :  ;   .    V          ___
         }
     }
 
-    public class ResearchVessel : CleanableLocation
+    public sealed class ResearchVessel : CleanableLocation
     {
         // Algae stats go here
 
@@ -250,7 +242,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         }
     }
 
-    public class Ocean : FishableLocation
+    public sealed class Ocean : FishableLocation
     {
         public Mackerel mackerel = new(500);
         public Herring herring = new(500);
@@ -287,7 +279,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         }
     }
 
-    public class Coast : CleanableLocation
+    public sealed class Coast : CleanableLocation
     {
         // Coast trash stats goes here
 
@@ -315,7 +307,7 @@ _                             V              - ( ) -
         }
     }
 
-    public class WastePlant : CleanableLocation
+    public sealed class WastePlant : CleanableLocation
     {
         // Microplastic trash stats goes here
 

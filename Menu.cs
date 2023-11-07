@@ -85,19 +85,15 @@ namespace TownOfZuul
             ";
         
         private const string Instructions = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
-        private const string PlayOption = "Play Game";
-        private const string SettingsOption = "Settings";
-        private const string CreditsOption = "Credits";
-        private const string QuitOption = "Quit";
-        public const string QuitMessage = "Thank you for playing Town Of Zuul!";
+        
         
         public MainMenu()
         {
             options = new string[] {
-                PlayOption,
-                //SettingsOption,
-                CreditsOption,
-                QuitOption
+                "Play Game",
+                //"Settings",
+                "Credits",
+                "Quit"
             };
         }
 
@@ -178,7 +174,7 @@ namespace TownOfZuul
         {
             Console.Clear();
             Console.CursorVisible = true;
-            Console.WriteLine(QuitMessage);
+            Console.WriteLine(Program.QuitMessage);
             Environment.Exit(0);
         }
     }
@@ -218,18 +214,11 @@ namespace TownOfZuul
         }
     }
 
-    public class FishingMenu : Menu
+    public sealed class FishingMenu : Menu
     {
-        private const string Intro = "~~~ Fishing time! ~~~";
-        private const string Instructions = " villagers in total have been assigned to fish in this location. " + 
-            "Choose which type of fish each villager should try to catch.\n" +
-            "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n";
         private const string AssignedVillagersInfo = "Villagers ready to fish: ";
         private const string FreeVillagersInfo = "Villagers waiting for assignment: ";
         private const string AssignedOptionInfo = " will be fishing for ";
-        private const string ConfirmedOutro = "Assignment confirmed.";
-        private const string CancelledOutro = "Assignment cancelled.";
-
         private readonly uint totalVillagers;
         private uint freeVillagers;
         private bool continueDisplay = true;
@@ -256,9 +245,11 @@ namespace TownOfZuul
         {
             Console.Clear();
             
-            Console.WriteLine(Intro);
+            Console.WriteLine("~~~ Fishing time! ~~~");
             Console.Write(totalVillagers);
-            Console.WriteLine(Instructions);
+            Console.WriteLine(" villagers in total have been assigned to fish in this location. " + 
+            "Choose which type of fish each villager should try to catch.\n" +
+            "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n");
 
             while (continueDisplay)
             {
@@ -342,7 +333,7 @@ namespace TownOfZuul
             continueDisplay = false;
 
             Console.Clear();
-            Console.WriteLine(CancelledOutro);
+            Console.WriteLine("Assignment cancelled.");
         }
 
         public void ConfirmAssignment()
@@ -352,7 +343,7 @@ namespace TownOfZuul
 
             Console.Clear();
 
-            Console.WriteLine(ConfirmedOutro + "\n");
+            Console.WriteLine("Assignment confirmed.\n");
             Console.WriteLine(AssignedVillagersInfo + (totalVillagers - freeVillagers));
             for (int i = 1; i <= options.Length; i++)
                 Console.Write(fisherList[i-1] + AssignedOptionInfo + options[i-1] + ".\n");

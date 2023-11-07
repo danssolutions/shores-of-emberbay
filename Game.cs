@@ -284,7 +284,7 @@
          static void CloseGame()
         {
             Console.Clear();
-            Console.WriteLine(MainMenu.QuitMessage);
+            Console.WriteLine(Program.QuitMessage);
             Environment.Exit(0);
         }
 
