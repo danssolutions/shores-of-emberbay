@@ -201,13 +201,28 @@ ____________     ;       ''. ' // /// // ///==\
 
     public sealed class Docks : FishableLocation
     {
-        public SeaTrout seaTrout = new(500);
-        public SeaBass seaBass = new(500);
-        public Pike pike = new(500);
-        public Salmon salmon = new(500);
-        public Sturgeon sturgeon = new(500);
+        public SeaTrout? seaTrout;
+        public SeaBass? seaBass;
+        public Pike? pike;
+        public Salmon? salmon;
+        public Sturgeon? sturgeon;
 
         public bool OceanUnlocked { get; private set; }
+
+        private void Populate()
+        {
+            Random random = new();
+
+            seaTrout = new((uint)random.Next(200, 1000));
+            seaBass = new((uint)random.Next(200, 1000));
+            pike = new((uint)random.Next(200, 1000));
+            salmon = new((uint)random.Next(200, 1000));
+            sturgeon = new((uint)random.Next(200, 1000));
+
+            LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
+        }
         public Docks()
         {
             Art = @"
@@ -236,9 +251,7 @@ __ ___ _            .   :  ;   .    V          ___
             "Even still, the view of the waterfront remains as impressive as it has always been.";
             OceanUnlocked = false;
 
-            LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
-            for (int i = 0; i < LocalFish.Count; i++)
-                LocalFishers.Add(0);
+            Populate();
         }
     }
 
@@ -283,14 +296,33 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 
     public sealed class Ocean : FishableLocation
     {
-        public Mackerel mackerel = new(500);
-        public Herring herring = new(500);
-        public Cod cod = new(500);
-        public Tuna tuna = new(500);
-        public Halibut halibut = new(500);
-        public Eel eel = new(500);
-        public Garfish garfish = new(500);
-        public GiantOarfish oarfish = new(500);
+        public Mackerel? mackerel;
+        public Herring? herring;
+        public Cod? cod;
+        public Tuna? tuna;
+        public Halibut? halibut;
+        public Eel? eel;
+        public Garfish? garfish;
+        public GiantOarfish? oarfish;
+
+        private void Populate()
+        {
+            Random random = new();
+
+            mackerel = new((uint)random.Next(200, 1000));
+            herring = new((uint)random.Next(200, 1000));
+            cod = new((uint)random.Next(200, 1000));
+            tuna = new((uint)random.Next(200, 1000));
+            halibut = new((uint)random.Next(200, 1000));
+            eel = new((uint)random.Next(200, 1000));
+            garfish = new(8);
+            oarfish = new(3);
+
+            // note: make sure fish with bycatchOnly are at the end of the list, otherwise LocalFishers might get messed up. might fix later
+            LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
+        }
 
         public Ocean()
         {
@@ -319,9 +351,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. "+
             "There is yet more work to be done.";
 
-            LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
-            for (int i = 0; i < LocalFish.Count; i++)
-                LocalFishers.Add(0);
+            Populate();
         }
     }
 
