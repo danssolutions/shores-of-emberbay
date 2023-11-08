@@ -16,7 +16,7 @@ namespace TownOfZuul
         Coast? coast;
         WastePlant? wastePlant;
 
-        //int monthCounter = 1;
+        uint monthCounter;
         //int initialPopulation;
         //double populationHealth;
         //int foodStock;
@@ -26,7 +26,7 @@ namespace TownOfZuul
         {
             CreateLocations();
             //AdvanceMonth();
-            //monthCounter = 0;
+            monthCounter = 1;
             //initialPopulation = 300;
             //populationHealth = 30.0;
             //foodStock = 10000;
@@ -280,6 +280,7 @@ namespace TownOfZuul
                     docks?.LocalFish[fishType].SetPopulation(catchAmount);
                     
                     // TODO: try for bycatch here
+                    // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
 
                     totalCatchAmount += catchAmount;
                     Console.WriteLine("Villager #" + (i + 1) + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
@@ -304,6 +305,33 @@ namespace TownOfZuul
                 }
                 ocean?.LocalFish[fishType].SetPopulation(totalCatchAmount);
             }*/
+
+            // Village cleaner stuff here
+
+            // Update water quality here (whichever vars happen to represent it)
+
+            // Update actual fish reproduction rates based on water quality and population (and base repop rate)
+
+            // Fish stocks are tweaked dependent on amount fished (or amount of villagers fishing), as well as reproduction rates.
+
+            // Food stock is updated dependent on amount fished
+
+            // Population health is updated dependent on food, water quality
+
+            // Population count is updated dependent on population health
+
+            // Day/month incremented by 1
+
+            monthCounter++;
+
+            // Check ending here
+
+            AdvancementMenu advancementMenu = new(monthCounter);
+            advancementMenu.Display();
+
+            Console.Clear();
+            Console.WriteLine(currentLocation?.Art);
+
             // village?.PopulationCount;
             // village?.PopulationHealth;
             // docks?.LocalFishers[];
@@ -311,26 +339,6 @@ namespace TownOfZuul
             // coast.LocalCleaners;
             // researchVessel.LocalCleaners;
             // wastePlant.LocalCleaners;
-
-            //Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
-            //Console.WriteLine($"Your villages population: {initialPopulation}. Food stock:{foodStock}");
-            //Console.WriteLine();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             /*monthCounter++;
             int populationChange = 0;

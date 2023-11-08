@@ -33,7 +33,7 @@ namespace TownOfZuul
         public Fish(uint initialPopulation)
         {
             Population = initialPopulation;
-            PreviousPopulation = 0;
+            PreviousPopulation = Population;
             BycatchOnly = false;
         }
 
@@ -56,6 +56,8 @@ namespace TownOfZuul
             PreviousPopulation = Population;
         }
     }
+
+    // TODO: update food values (so it's in comparison to 1FU/mo per villager), update difficulty so player is more reliant on bycatch
 
     public sealed class SeaTrout : Fish
     {

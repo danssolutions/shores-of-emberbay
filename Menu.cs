@@ -214,6 +214,39 @@ namespace TownOfZuul
         }
     }
 
+    public sealed class AdvancementMenu : Menu
+    {
+        private const string Logo = 
+            @"
+
+
+            Nap time, sleeby eeby
+        I am placeholder art, replace me!
+            
+                                                                     
+---------------------------------------------------------
+                                                                     
+            ";
+        private readonly uint monthCounter;
+        
+        public AdvancementMenu(uint monthCounter)
+        {
+            this.monthCounter = monthCounter;
+        }
+        
+        override public void Display()
+        {
+            Console.Clear();
+            Console.WriteLine(Logo);
+            Console.WriteLine("You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
+            "Time passes, and eventually, month #" + monthCounter + " arrives.\n" + 
+            "As you prepare for planning once again, you wonder how the village has kept itself up " +
+            "since you last examined it and are eager to find out.\n" +
+            "\nPress any key to continue.\n");
+            ConsoleKey key = Console.ReadKey(true).Key;
+        }
+    }
+
     public sealed class FishingMenu : Menu
     {
         private const string AssignedVillagersInfo = "Villagers ready to fish: ";
