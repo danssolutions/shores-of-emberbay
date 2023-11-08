@@ -218,7 +218,7 @@ namespace TownOfZuul
         }
     }
 
-    public class FishingMenu : Menu
+    public sealed class FishingMenu : Menu
     {
         private const string Intro = "~~~ Fishing time! ~~~";
         private const string Instructions = " villagers in total have been assigned to fish in this location. " + 

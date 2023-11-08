@@ -93,7 +93,7 @@ namespace TownOfZuul
         }
     }
 
-    public class SeaTrout : Fish
+    public sealed class SeaTrout : Fish
     {
         public SeaTrout(uint initialPopulation) : base(initialPopulation)
         {
@@ -105,7 +105,7 @@ namespace TownOfZuul
         }
     }
 
-    public class SeaBass : Fish
+    public sealed class SeaBass : Fish
     {
         public SeaBass(uint initialPopulation) : base(initialPopulation)
         {
@@ -117,7 +117,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Pike : Fish
+    public sealed class Pike : Fish
     {
         public Pike(uint initialPopulation) : base(initialPopulation)
         {
@@ -129,7 +129,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Salmon : Fish
+    public sealed class Salmon : Fish
     {
         public Salmon(uint initialPopulation) : base(initialPopulation)
         {
@@ -141,7 +141,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Sturgeon : Fish
+    public sealed class Sturgeon : Fish
     {
         public Sturgeon(uint initialPopulation) : base(initialPopulation)
         {
@@ -153,7 +153,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Mackerel : Fish
+    public sealed class Mackerel : Fish
     {
         public Mackerel(uint initialPopulation) : base(initialPopulation)
         {
@@ -165,7 +165,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Herring : Fish
+    public sealed class Herring : Fish
     {
         public Herring(uint initialPopulation) : base(initialPopulation)
         {
@@ -177,7 +177,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Cod : Fish
+    public sealed class Cod : Fish
     {
         public Cod(uint initialPopulation) : base(initialPopulation)
         {
@@ -189,7 +189,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Tuna : Fish
+    public sealed class Tuna : Fish
     {
         public Tuna(uint initialPopulation) : base(initialPopulation)
         {
@@ -201,7 +201,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Halibut : Fish
+    public sealed class Halibut : Fish
     {
         public Halibut(uint initialPopulation) : base(initialPopulation)
         {
@@ -213,7 +213,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Eel : Fish
+    public sealed class Eel : Fish
     {
         public Eel(uint initialPopulation) : base(initialPopulation)
         {
@@ -225,7 +225,7 @@ namespace TownOfZuul
         }
     }
 
-    public class Garfish : Fish
+    public sealed class Garfish : Fish
     {
         public Garfish(uint initialPopulation) : base(initialPopulation)
         {
@@ -238,7 +238,7 @@ namespace TownOfZuul
         }
     }
 
-    public class GiantOarfish : Fish
+    public sealed class GiantOarfish : Fish
     {
         public GiantOarfish(uint initialPopulation) : base(initialPopulation)
         {
