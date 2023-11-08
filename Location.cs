@@ -33,7 +33,7 @@
     public abstract class FishableLocation : Location
     {
         public List<Fish> LocalFish { get; private set; } = new();
-        public List<uint> LocalFishers { get; private set; } = new();
+        public List<uint> LocalFishers { get; protected set; } = new();
 
         public override void AssignVillagers(uint amount)
         {
@@ -237,6 +237,8 @@ __ ___ _            .   :  ;   .    V          ___
             OceanUnlocked = false;
 
             LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
         }
     }
 
@@ -318,6 +320,8 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             "There is yet more work to be done.";
 
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
         }
     }
 

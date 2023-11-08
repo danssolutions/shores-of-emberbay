@@ -7,77 +7,53 @@ namespace TownOfZuul
 
         public string? Name { get; protected set; }
         // How nutritious this fish is. For example, one fish with a food value of 1.0 can feed 1 villager for 1 day (1/30th of a month).
-        public double? FoodValue
-        {
-            get => FoodValue;
-            protected set
-            {
-                if (value < 0.0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(FoodValue));
-                }
-            }
-        }
+        public double? FoodValue { get; protected set; }
 
         // How many fish of this species are swimming about at this moment.
-        public uint CurrentPopulation { get; protected set; }
+        public uint Population { get; protected set; }
         // Population of this species of fish in the previous month. Used to check if this species is overfished/endangered.
         public uint PreviousPopulation { get; protected set; }
 
         // How difficult this fish is to catch. Valid values range from 0.0 to 1.0 (larger value = more difficult to catch)
-        public double? CatchDifficulty
-        {
-            get => CatchDifficulty;
-            protected set
-            {
-                if (value < 0.0 || value > 1.0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(CatchDifficulty));
-                }
-            }
-        }
+        public double? CatchDifficulty { get; protected set; }
+        
         // Fish marked as "bycatch only" cannot be targeted by villagers, and are only caught as a random bonus. Default is false.
         public bool BycatchOnly { get; protected set; }
 
         // How fast this fish reproduces. A value of 1.1 means the population of this fish increases by 10% every month,
         // assuming no other multipliers are in effect.
-        public double? BaseReproductionRate
-        {
-            get => BaseReproductionRate;
-            protected set
-            {
-                if (value < 0.0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(BaseReproductionRate));
-                }
-            }
-        }
+        public double? BaseReproductionRate { get; protected set; }
+        
         // How resilient this fish is to water pollution/quality. Valid values range from 0.0 to 1.0 (larger value = more resilient)
         // Repopulation rates of more resilient fish are less impacted by poor water quality, while more sensitive fish are more impacted.
-        public double? PollutionResilience
-        {
-            get => PollutionResilience;
-            protected set
-            {
-                if (value < 0.0 || value > 1.0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(PollutionResilience));
-                }
-            }
-        }
+        public double? PollutionResilience { get; protected set; }
 
         // TODO: reproRate = BaseReproductionRate * PollutionResilience * biodiversityScore
 
         public Fish(uint initialPopulation)
         {
-            CurrentPopulation = initialPopulation;
+            Population = initialPopulation;
             PreviousPopulation = 0;
             BycatchOnly = false;
         }
 
         public bool IsEndangered()
         {
-            return CurrentPopulation < EndangermentThreshold || CurrentPopulation <= (0.5 * PreviousPopulation) || BaseReproductionRate <= 1.0;
+            return Population < EndangermentThreshold || Population <= (0.5 * PreviousPopulation) || BaseReproductionRate <= 1.0;
+        }
+
+        public uint SetPopulation(uint catchAmount)
+        {
+            if (catchAmount > Population)
+                Population = 0;
+            else
+                Population -= catchAmount;
+            return Population;
+        }
+
+        public void SetPreviousPopulation()
+        {
+            PreviousPopulation = Population;
         }
     }
 

@@ -1,4 +1,6 @@
-﻿namespace TownOfZuul
+﻿using System.Reflection;
+
+namespace TownOfZuul
 {
     public class Game
     {
@@ -14,20 +16,20 @@
         Coast? coast;
         WastePlant? wastePlant;
 
-        int monthCounter = 1;
-        int initialPopulation;
-        double populationHealth;
-        int foodStock;
+        //int monthCounter = 1;
+        //int initialPopulation;
+        //double populationHealth;
+        //int foodStock;
         public bool AlgaeCleanerUnlocked = false;
 
         public Game()
         {
             CreateLocations();
-            AdvanceMonth();
-            monthCounter = 0;
-            initialPopulation = 300;
-            populationHealth = 30.0;
-            foodStock = 10000;
+            //AdvanceMonth();
+            //monthCounter = 0;
+            //initialPopulation = 300;
+            //populationHealth = 30.0;
+            //foodStock = 10000;
         }
 
         private void CreateLocations()
@@ -163,10 +165,8 @@
 
                     case "sleep":
                         AdvanceMonth();
-                        Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
-                        Console.WriteLine($"Your villages population: {initialPopulation}. Food stock:{foodStock}");
-                        Console.WriteLine();
                         break;
+                    
                     case "close":
                         CloseGame();
                         break;
@@ -220,13 +220,13 @@
             Console.WriteLine("Nutrient pollution: " + coast?.PollutionCount);
             Console.WriteLine("Microplastic pollution: " + coast?.PollutionCount);
             Console.WriteLine();
-            
-            Console.WriteLine("Total fish in the docks: " + docks?.LocalFish.Sum(item => item.CurrentPopulation));
+
+            Console.WriteLine("Total fish in the docks: " + docks?.LocalFish.Sum(item => item.Population));
             for (int i = 0; i < docks?.LocalFish.Count; i++)
-                Console.WriteLine("- " + docks?.LocalFish[i].Name + ": " + docks?.LocalFish[i].CurrentPopulation + " (previously " + docks?.LocalFish[i].PreviousPopulation + ")");
-            Console.WriteLine("Total fish in the ocean: " + ocean?.LocalFish.Sum(item => item.CurrentPopulation));
+                Console.WriteLine("- " + docks?.LocalFish[i].Name + ": " + docks?.LocalFish[i].Population + " (previously " + docks?.LocalFish[i].PreviousPopulation + ")");
+            Console.WriteLine("Total fish in the ocean: " + ocean?.LocalFish.Sum(item => item.Population));
             for (int i = 0; i < ocean?.LocalFish.Count; i++)
-                Console.WriteLine("- " + ocean?.LocalFish[i].Name + ": " + ocean?.LocalFish[i].CurrentPopulation + " (previously " + ocean?.LocalFish[i].PreviousPopulation + ")");
+                Console.WriteLine("- " + ocean?.LocalFish[i].Name + ": " + ocean?.LocalFish[i].Population + " (previously " + ocean?.LocalFish[i].PreviousPopulation + ")");
             Console.WriteLine();
             // TODO: add reproduction rates to each fish also
 
@@ -258,39 +258,52 @@
 */
         public void AdvanceMonth()
         {
-            //int? catchAmount;
+            uint catchAmount;
 
             Random random = new();
 
             // 1 villager can fish 30-200 fish per month
             // 1 villager eats ~90 fish per month (aka 1 food unit)
             // 1 villager gets 300 attempts a month
-            for (int fishType = 0; fishType < docks?.LocalFish.Count; fishType++)
-            {
-                //for (uint i = 1; i <= docks?.LocalFishers[fishType]; i++)
-                {
-                    Console.WriteLine(docks?.LocalFish[fishType].FoodValue);
-                    //catchAmount = (int?)(random.Next(30, 200) * docks?.LocalFish[fishType].CatchDifficulty);
 
+            for (int fishType = 0; fishType < docks?.LocalFish.Count; fishType++) // for each type of fish in docks
+            {
+                docks?.LocalFish[fishType].SetPreviousPopulation();
+                uint totalCatchAmount = 0;
+                for (uint i = 0; i < docks?.LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
+                {
+                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - (double)docks.LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+
+                    if (catchAmount > docks.LocalFish[fishType].Population)
+                        catchAmount = docks.LocalFish[fishType].Population;
+
+                    docks?.LocalFish[fishType].SetPopulation(catchAmount);
+                    
                     // TODO: try for bycatch here
 
-                    //docks?.LocalFish[fishType].CurrentPopulation -= catchAmount;
-                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
+                    totalCatchAmount += catchAmount;
+                    Console.WriteLine("Villager #" + (i + 1) + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
                 }
+                //docks?.LocalFish[fishType].SetPopulation(totalCatchAmount);
             }
-            for (int fishType = 0; fishType < ocean?.LocalFish.Count; fishType++)
+            /*for (int fishType = 0; fishType < ocean?.LocalFish.Count; fishType++)
             {
-                //for (uint i = 1; i <= ocean?.LocalFishers[fishType]; i++)
+                uint totalCatchAmount = 0;
+                for (uint i = 1; i <= ocean?.LocalFishers[fishType]; i++)
                 {
-                    Console.WriteLine(ocean?.LocalFish[fishType].FoodValue);
-                    //catchAmount = (int?)(random.Next(30, 200) * ocean?.LocalFish[fishType].CatchDifficulty);
+                    catchAmount = (uint)(random.Next(30, 200) * (double)ocean.LocalFish[fishType].CatchDifficulty.GetValueOrDefault());
 
+                    if (catchAmount > ocean.LocalFish[fishType].Population)
+                        catchAmount = ocean.LocalFish[fishType].Population;
+
+                    
                     // TODO: try for bycatch here
 
-                    //ocean?.LocalFish[fishType].CurrentPopulation -= catchAmount;
-                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + ocean?.LocalFish[fishType].Name + " this month.");
+                    totalCatchAmount += catchAmount;
+                    Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + ocean?.LocalFish[fishType].Name + " this month.");
                 }
-            }
+                ocean?.LocalFish[fishType].SetPopulation(totalCatchAmount);
+            }*/
             // village?.PopulationCount;
             // village?.PopulationHealth;
             // docks?.LocalFishers[];
@@ -298,6 +311,10 @@
             // coast.LocalCleaners;
             // researchVessel.LocalCleaners;
             // wastePlant.LocalCleaners;
+
+            //Console.WriteLine($"Your village advances to the {monthCounter} month. Your population health: {populationHealth}%.");
+            //Console.WriteLine($"Your villages population: {initialPopulation}. Food stock:{foodStock}");
+            //Console.WriteLine();
 
 
 
