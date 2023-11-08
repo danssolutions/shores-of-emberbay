@@ -18,6 +18,8 @@
         int initialPopulation;
         double populationHealth;
         int foodStock;
+        public bool AlgaeCleanerUnlocked = false;
+
         public Game()
         {
             CreateLocations();
@@ -117,6 +119,10 @@
                         Console.WriteLine(currentLocation?.Dialogue);
                         break;
 
+                    case "story":
+                        Console.WriteLine(currentLocation?.Story);
+                        break;
+
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
@@ -148,6 +154,11 @@
 
                     case "xmas":
                         Console.WriteLine("             *\r\n            /.\\\r\n           /..'\\\r\n           /'.'\\\r\n          /.''.'\\\r\n          /.'.'.\\\r\n         /'.''.'.\\\n         ^^^[_]^^^\r\n\r\n");
+                        break;
+
+                    case "algae":
+                        AlgaeCleanerUnlocked = true;
+                        Console.WriteLine("Great, you now have the algae cleaner and can start cleaning the algae.");
                         break;
 
                     case "sleep":
