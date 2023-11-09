@@ -4,6 +4,7 @@ namespace TownOfZuul
 {
     public class Game
     {
+        private bool continuePlaying = true;
         private Location? currentLocation;
         private readonly Stack<Location> previousLocations = new();
 
@@ -60,7 +61,6 @@ namespace TownOfZuul
             Console.WriteLine(currentLocation?.Art);
             PrintWelcome();
 
-            bool continuePlaying = true;
             while (continuePlaying)
             {
                 Console.WriteLine(currentLocation?.Name);
@@ -325,9 +325,41 @@ namespace TownOfZuul
             monthCounter++;
 
             // Check ending here
+            if (monthCounter == 13)
+            {
+                Ending ending = new();
+                ending.ShowGoodEnding();
+                EndingMenu endingMenu = new();
+                endingMenu.Display();
+                if (endingMenu.StopGame)
+                {
+                    continuePlaying = false;
+                    return;
+                }
+            }
+            else
+            {
+                string advanceArt = 
+            @"
 
-            AdvancementMenu advancementMenu = new(monthCounter);
-            advancementMenu.Display();
+
+            Nap time, sleeby eeby
+        I am placeholder art, replace me!
+            
+                                                                     
+---------------------------------------------------------
+                                                                     
+                ";
+
+                string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
+                "Time passes, and eventually, month #" + monthCounter + " arrives.\n" + 
+                "As you prepare for planning once again, you wonder how the village has kept itself up " +
+                "since you last examined it and are eager to find out.\n";
+
+                GenericMenu advancementMenu = new(advanceArt, advanceText);
+                advancementMenu.Display();
+            }
+            
 
             Console.Clear();
             Console.WriteLine(currentLocation?.Art);
