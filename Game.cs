@@ -244,8 +244,7 @@ namespace TownOfZuul
 
         /*
         Typical game cycle:
-        Player goes to various places, allocates villagers to do certain stuff
-        Player goes to next day/month
+        
         Villagers do their thing (either catch fish, and/or clean stuff)
         First, water quality is updated
         Fish reproduction rates are tweaked based on water quality
@@ -255,89 +254,17 @@ namespace TownOfZuul
         Population health is updated dependent on food, water quality
         Population count is updated dependent on population health
         Day/month incremented by 1
-*/
+        */
         public void AdvanceMonth()
         {
             uint catchAmount;
+            uint bycatchAmount;
 
             Random random = new();
 
-            // 1 villager can fish 30-200 fish per month
-            // 1 villager eats ~90 fish per month (aka 1 food unit)
-            // 1 villager gets 300 attempts a month
+            int endingMonth = 13;
 
-            for (int fishType = 0; fishType < docks?.LocalFish.Count; fishType++) // for each type of fish in docks
-            {
-                docks?.LocalFish[fishType].SetPreviousPopulation();
-                uint totalCatchAmount = 0;
-                for (uint i = 0; i < docks?.LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
-                {
-                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - (double)docks.LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
-
-                    if (catchAmount > docks.LocalFish[fishType].Population)
-                        catchAmount = docks.LocalFish[fishType].Population;
-
-                    docks?.LocalFish[fishType].SetPopulation(catchAmount);
-                    
-                    // TODO: try for bycatch here
-                    // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
-
-                    totalCatchAmount += catchAmount;
-                    Console.WriteLine("Villager #" + (i + 1) + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
-                }
-                //docks?.LocalFish[fishType].SetPopulation(totalCatchAmount);
-            }
-            /*for (int fishType = 0; fishType < ocean?.LocalFish.Count; fishType++)
-            {
-                uint totalCatchAmount = 0;
-                for (uint i = 1; i <= ocean?.LocalFishers[fishType]; i++)
-                {
-                    catchAmount = (uint)(random.Next(30, 200) * (double)ocean.LocalFish[fishType].CatchDifficulty.GetValueOrDefault());
-
-                    if (catchAmount > ocean.LocalFish[fishType].Population)
-                        catchAmount = ocean.LocalFish[fishType].Population;
-
-                    
-                    // TODO: try for bycatch here
-
-                    totalCatchAmount += catchAmount;
-                    Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + ocean?.LocalFish[fishType].Name + " this month.");
-                }
-                ocean?.LocalFish[fishType].SetPopulation(totalCatchAmount);
-            }*/
-
-            // Village cleaner stuff here
-
-            // Update water quality here (whichever vars happen to represent it)
-
-            // Update actual fish reproduction rates based on water quality and population (and base repop rate)
-
-            // Fish stocks are tweaked dependent on amount fished (or amount of villagers fishing), as well as reproduction rates.
-
-            // Food stock is updated dependent on amount fished
-
-            // Population health is updated dependent on food, water quality
-
-            // Population count is updated dependent on population health
-
-            // Day/month incremented by 1
-
-            monthCounter++;
-
-            // Check ending here
-            if (monthCounter == 13)
-            {
-                Ending ending = new();
-                ending.ShowGoodEnding();
-                EndingMenu endingMenu = new();
-                endingMenu.Display();
-                if (endingMenu.StopGame)
-                {
-                    continuePlaying = false;
-                    return;
-                }
-            }
-            else
+            if (monthCounter != endingMonth)
             {
                 string advanceArt = 
             @"
@@ -359,6 +286,100 @@ namespace TownOfZuul
                 GenericMenu advancementMenu = new(advanceArt, advanceText);
                 advancementMenu.Display();
             }
+
+            // TODO: make fishing code more generic and possibly split into methods in relevant classes, since this is kinda ugly
+            for (int fishType = 0; fishType < docks?.LocalFish.Count; fishType++) // for each type of fish in docks
+            {
+                docks.LocalFish[fishType].SetPreviousPopulation();
+                for (uint i = 0; i < docks?.LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
+                {
+                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - docks.LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+
+                    if (catchAmount > docks.LocalFish[fishType].Population)
+                        catchAmount = docks.LocalFish[fishType].Population;
+
+                    docks?.LocalFish[fishType].SetPopulation(catchAmount);
+
+                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
+
+                    // add to food stock
+                }
+            }
+            for (int fishType = 0; fishType < ocean?.LocalFish.Count; fishType++) // for each type of fish in ocean
+            {
+                ocean.LocalFish[fishType].SetPreviousPopulation();
+                for (uint i = 0; i < ocean?.LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
+                {
+                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - ocean.LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+
+                    if (catchAmount > ocean.LocalFish[fishType].Population)
+                        catchAmount = ocean.LocalFish[fishType].Population;
+
+                    ocean?.LocalFish[fishType].SetPopulation(catchAmount);
+
+                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + ocean?.LocalFish[fishType].Name + " this month.");
+                    
+                    // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
+                    if (ocean != null)
+                    {
+                        foreach (Fish bycatch in ocean.LocalFish) // for each type of fish in docks
+                        {
+                            bycatchAmount = (uint)(random.Next(1, 12) * random.NextDouble() * (1.0 - bycatch.CatchDifficulty.GetValueOrDefault()));
+                            
+                            if (bycatchAmount > bycatch.Population)
+                                bycatchAmount = bycatch.Population;
+
+                            bycatch.SetPopulation(bycatchAmount);
+
+                            //Console.WriteLine("Villager #" + i + " caught " + bycatchAmount + " " + bycatch.Name + " bycatch this month.");
+                            
+                            // pause for dramatic effect, for we caught an ultra rare fish
+                            if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
+                            {
+                                Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
+                                Thread.Sleep(2000);
+                            }
+
+                            // add to food stock
+                        }
+                    }
+
+                    // add to food stock
+                }
+            }
+
+            // Village cleaner stuff here
+
+            // Update water quality here (whichever vars happen to represent it)
+
+            // Update actual fish reproduction rates based on water quality and population (and base repop rate)
+
+            // Fish stocks are tweaked dependent on amount fished (or amount of villagers fishing), as well as reproduction rates.
+
+            // Food stock is updated dependent on amount fished
+
+            // Population health is updated dependent on food, water quality
+
+            // Population count is updated dependent on population health
+
+            // Day/month incremented by 1
+
+            monthCounter++;
+
+            // Check ending here
+            if (monthCounter == endingMonth)
+            {
+                Ending ending = new();
+                ending.ShowGoodEnding();
+                EndingMenu endingMenu = new();
+                endingMenu.Display();
+                if (endingMenu.StopGame)
+                {
+                    continuePlaying = false;
+                    return;
+                }
+            }
+            
             
 
             Console.Clear();
@@ -457,7 +478,7 @@ namespace TownOfZuul
             Console.WriteLine("Type 'talk' to have an interaction with any locals.");
             Console.WriteLine("Type 'info' to get more information from your current location.");
             Console.WriteLine("Type 'assign [number]' to assign a specified amount of villagers to your current location (if possible).");
-            //Console.WriteLine("Type 'sleep' to advance to the next month.");
+            Console.WriteLine("Type 'sleep' to advance to the next month.");
             Console.WriteLine("Type 'close' to immediately close this application.");
         }
     }

@@ -315,7 +315,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             tuna = new((uint)random.Next(200, 1000));
             halibut = new((uint)random.Next(200, 1000));
             eel = new((uint)random.Next(200, 1000));
-            garfish = new(8);
+            garfish = new(25);
             oarfish = new(3);
 
             // note: make sure fish with bycatchOnly are at the end of the list, otherwise LocalFishers might get messed up. might fix later

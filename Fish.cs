@@ -197,8 +197,8 @@ namespace TownOfZuul
         {
             Name = "Garfish";
             FoodValue = 1.2;
-            CatchDifficulty = 0.8;
-            BaseReproductionRate = 0;
+            CatchDifficulty = 0.875;
+            BaseReproductionRate = 1.05;
             PollutionResilience = 1;
             BycatchOnly = true;
         }
@@ -210,7 +210,7 @@ namespace TownOfZuul
         {
             Name = "Giant Oarfish";
             FoodValue = 10;
-            CatchDifficulty = 0.99;
+            CatchDifficulty = 0.909;
             BaseReproductionRate = 0;
             PollutionResilience = 1;
             BycatchOnly = true;

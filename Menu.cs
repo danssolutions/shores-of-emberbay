@@ -227,13 +227,13 @@ namespace TownOfZuul
             totalVillagers = freeVillagers = amount;
             
             fishList = location.LocalFish;
-            fishList.RemoveAll(fish => fish.BycatchOnly == true); // fish marked as "bycatch only" cannot be assigned to villagers and won't show up here
 
-            if (fishList.Count > 0)
-                options = fishList.Select(fish => fish.Name ?? "").ToArray();
-            
             for (int i = 0; i < fishList.Count; i++)
                 fisherList.Add(0);
+            
+            // fish marked as "bycatch only" cannot be assigned to villagers and won't show up here
+            if (fishList.Count > 0)
+                options = fishList.Where(fish => fish.BycatchOnly == false).Select(fish => fish.Name ?? "").ToArray();
         }
         
         override public void Display()
@@ -312,7 +312,7 @@ namespace TownOfZuul
 
         override public void ParseOption(int option)
         {
-            if (fisherList.Count < option)
+            if (options.Length < option)
                 return;
             
             if (freeVillagers > 0)
