@@ -191,7 +191,7 @@ namespace TownOfZuul
         }
     }
 
-    public class GenericMenu : Menu
+    public class GenericMenu : Menu // a menu with no options except 'press any key to continue' prompt, with customizable art and text
     {
         private readonly string Art, Text;
         public GenericMenu(string art, string text)

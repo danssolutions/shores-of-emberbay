@@ -141,6 +141,11 @@ ____________     ;       ''. ' // /// // ///==\
 
             Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
         }
+
+        public void AddToFoodStock(double? additionalFood)
+        {
+            FoodUnits += additionalFood.GetValueOrDefault();
+        }
     }
 
     public sealed class ElderHouse : Location
@@ -231,7 +236,7 @@ ____________     ;       ''. ' // /// // ///==\
                     LocalFish.Add(fish);
                 }
             }
-            
+
             for (int i = 0; i < LocalFish.Count; i++)
                 LocalFishers.Add(0);
         }

@@ -209,6 +209,7 @@ namespace TownOfZuul
 
             Console.WriteLine("Population count: " + village?.PopulationCount);
             Console.WriteLine("Population health: " + village?.PopulationHealth);
+            Console.WriteLine("Village food stock: " + village?.FoodUnits);
             Console.WriteLine();
 
             Console.WriteLine($"Ocean unlocked: " + (docks != null && docks.OceanUnlocked ? "Yes" : "No"));
@@ -299,10 +300,8 @@ namespace TownOfZuul
                         catchAmount = docks.LocalFish[fishType].Population;
 
                     docks?.LocalFish[fishType].SetPopulation(catchAmount);
-
-                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + docks?.LocalFish[fishType].Name + " this month.");
-
-                    // add to food stock
+                    
+                    village?.AddToFoodStock(docks?.LocalFish[fishType].FoodValue);
                 }
             }
             for (int fishType = 0; fishType < ocean?.LocalFish.Count; fishType++) // for each type of fish in ocean
@@ -317,8 +316,6 @@ namespace TownOfZuul
 
                     ocean?.LocalFish[fishType].SetPopulation(catchAmount);
 
-                    //Console.WriteLine("Villager #" + i + " caught " + catchAmount + " " + ocean?.LocalFish[fishType].Name + " this month.");
-                    
                     // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
                     if (ocean != null)
                     {
@@ -331,20 +328,19 @@ namespace TownOfZuul
 
                             bycatch.SetPopulation(bycatchAmount);
 
-                            //Console.WriteLine("Villager #" + i + " caught " + bycatchAmount + " " + bycatch.Name + " bycatch this month.");
-                            
-                            // pause for dramatic effect, for we caught an ultra rare fish
+                            // pause for dramatic effect, for we caught an ultra rare fish (temporary)
                             if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
                             {
                                 Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
                                 Thread.Sleep(2000);
                             }
 
-                            // add to food stock
+                            
+                            village?.AddToFoodStock(bycatch.FoodValue);
                         }
                     }
 
-                    // add to food stock
+                    village?.AddToFoodStock(ocean?.LocalFish[fishType].FoodValue);
                 }
             }
 
