@@ -220,6 +220,18 @@ ____________     ;       ''. ' // /// // ///==\
             sturgeon = new((uint)random.Next(200, 1000));
 
             LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
+
+            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
+            for (int i = 0; i < LocalFish.Count - 1; i++)
+            {
+                Fish fish = LocalFish[i];
+                if (fish.BycatchOnly == true)
+                {
+                    LocalFish.RemoveAt(i);
+                    LocalFish.Add(fish);
+                }
+            }
+            
             for (int i = 0; i < LocalFish.Count; i++)
                 LocalFishers.Add(0);
         }
@@ -318,8 +330,19 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             garfish = new(25);
             oarfish = new(3);
 
-            // note: make sure fish with bycatchOnly are at the end of the list, otherwise LocalFishers might get messed up. might fix later
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
+ 
+            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
+            for (int i = 0; i < LocalFish.Count - 1; i++)
+            {
+                Fish fish = LocalFish[i];
+                if (fish.BycatchOnly == true)
+                {
+                    LocalFish.RemoveAt(i);
+                    LocalFish.Add(fish);
+                }
+            }
+
             for (int i = 0; i < LocalFish.Count; i++)
                 LocalFishers.Add(0);
         }
