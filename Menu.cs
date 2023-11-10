@@ -5,7 +5,7 @@ namespace TownOfZuul
         protected const string ActiveOption = "> ";
         protected const string InactiveOption = "  ";
         protected int selectedOption = 1;
-        protected string[] options;
+        public string[] options;
         protected Menu()
         {
             options = Array.Empty<string>();
@@ -364,5 +364,110 @@ namespace TownOfZuul
         {
             return confirmed ? fisherList : existingFishers;
         }
+    }
+
+    public sealed class DialogueMenu : Menu
+    {
+        private const string DialogueInstructions = "Chose one of the options interact with the character in the location";
+        private const string more = "Keep talking with the character";
+        private const string stop = "Stop if you have heard enough, and wish to move on";
+        private const string who = "Learn more about how the character can help";
+        private const string items = "Ask what items you can unlock and how";
+        private const string unlock = "Unlock item";
+
+        private bool unlocked = false;
+        private bool continueDisplay = true;
+
+        public DialogueMenu()
+        {
+            options = new string[] {
+                more,
+                stop,
+                who,
+                items,
+                unlock
+            };
+        }
+
+        override public void Display()
+        {
+            Console.Clear();
+
+            Console.WriteLine(DialogueInstructions);
+
+            base.Display();
+        }
+
+        override public void ParseOption(int option)
+        {
+            switch (option)
+            {
+                case 1:
+                    moreOption();
+                    break;
+                case 2:
+                    stopOption();
+                    break;
+                case 3:
+                    whoOption();
+                    break;
+                case 4:
+                    itemsOption();
+                    break;
+                case 5:
+                    unlockOption();
+                    break;
+            }
+        }
+
+            private static void moreOption()
+            {
+                Console.Clear();
+                Console.CursorVisible = true;
+
+                Console.Clear();
+
+                Console.WriteLine("You chose more");
+            }
+
+            private static void stopOption()
+            {
+                Console.Clear();
+                Console.CursorVisible = true;
+
+                Console.Clear();
+
+                Console.WriteLine("You chose stop");
+            }
+
+            private static void whoOption()
+            {
+                Console.Clear();
+                Console.CursorVisible = true;
+
+                Console.Clear();
+
+                Console.WriteLine("You chose who");
+            }
+
+            private static void itemsOption()
+            {
+                Console.Clear();
+                Console.CursorVisible = true;
+
+                Console.Clear();                
+                Console.WriteLine("You chose items");
+            }
+
+            private static void unlockOption()
+            {
+                Console.Clear();
+                Console.CursorVisible = true;
+
+                Console.Clear();                
+                Console.WriteLine("You chose unlock.");
+
+                //Create object/instance of a class
+            }
     }
 }

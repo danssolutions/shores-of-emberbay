@@ -112,7 +112,7 @@
     }
 
     // TODO: put classes below in separate files
-    public sealed class Village : Location
+    public class Village : Location
     {
         public uint PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
@@ -151,11 +151,10 @@ ____________     ;       ''. ' // /// // ///==\
         }
     }
 
-    public sealed class ElderHouse : Location
+    public class ElderHouse : Location
     {
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
-        public double PopulationHealth { get; private set; }
 
         public ElderHouse()
         {
@@ -176,7 +175,7 @@ ____________     ;       ''. ' // /// // ///==\
     .              ````.~~~-.~~-.~~~..~```    `         .
 ------------------------------------------------------------
             ";
-            PopulationHealth = 90.0;
+
             Name = "Village Elder's house";
             Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack."+
             " Although it is as old as most of the surrounding architecture,"+
@@ -196,18 +195,21 @@ ____________     ;       ''. ' // /// // ///==\
             + "\nYou need to increase population health to more than 90 to unlock algae cleaner, then talk to the elder to get it.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
+            //Console.WriteLine(elder);
 
-            if (PopulationHealth > 90)
+
+        /*    if (PopulationHealth > 90)
                 Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
                 else
                 Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
                 " Let me tell you a story about its past. " +
-                "\nType (story) if you wish to continue.";
+                 "\nType (story) if you wish to continue.";
+        */
         }
     }
 
-    public sealed class Docks : FishableLocation
+    public class Docks : FishableLocation
     {
         public SeaTrout seaTrout = new(500);
         public SeaBass seaBass = new(500);
@@ -248,7 +250,7 @@ __ ___ _            .   :  ;   .    V          ___
         }
     }
 
-    public sealed class ResearchVessel : CleanableLocation
+    public class ResearchVessel : CleanableLocation
     {
         // Algae stats go here
 
@@ -287,7 +289,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         }
     }
 
-    public sealed class Ocean : FishableLocation
+    public class Ocean : FishableLocation
     {
         public Mackerel mackerel = new(500);
         public Herring herring = new(500);
@@ -329,7 +331,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         }
     }
 
-    public sealed class Coast : CleanableLocation
+    public class Coast : CleanableLocation
     {
         // Coast trash stats goes here
 
@@ -361,7 +363,7 @@ _                             V              - ( ) -
         }
     }
 
-    public sealed class WastePlant : CleanableLocation
+    public class WastePlant : CleanableLocation
     {
         // Microplastic trash stats goes here
 

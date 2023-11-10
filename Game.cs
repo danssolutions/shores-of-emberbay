@@ -3,6 +3,8 @@
     public class Game
     {
         private Location? currentLocation;
+        private Menu? menus;
+        //private Location? characterLocation;
         private readonly Stack<Location> previousLocations = new();
         int monthCounter = 1;
         int initialPopulation;
@@ -115,6 +117,10 @@
                         Console.WriteLine(currentLocation?.Dialogue);
                         break;
 
+                    //case "talk":
+                    //    Console.WriteLine(Character?.Dialogue);
+                    //    break;
+
                     case "story":
                         Console.WriteLine(currentLocation?.Story);
                         break;
@@ -155,6 +161,14 @@
                     case "algae":
                         AlgaeCleanerUnlocked = true;
                         Console.WriteLine("Great, you now have the algae cleaner and can start cleaning the algae.");
+                        break;
+
+                    case "speak":
+                        DialogueMenu dialogueMenu = new();
+                        dialogueMenu.Display();
+                        //Console.WriteLine(DialogueMenu.options);
+                        // for (int i = 0; )
+                        //PrintSpeak();
                         break;
 
                     case "sleep":
@@ -273,6 +287,20 @@
             Console.WriteLine("Type 'assign [number]' to assign a specified amount of villagers to your current location (if possible).");
             //Console.WriteLine("Type 'sleep' to advance to the next month.");
             Console.WriteLine("Type 'close' to immediately close this application.");
+            Console.WriteLine("Type 'speak' to open the speak menu.");
+        }
+
+        private static void PrintSpeak()
+        {
+            /*Console.WriteLine("");
+            Console.WriteLine("Speak menu is used to communicate withe the characters");
+            Console.WriteLine("");
+            Console.WriteLine("Type (more) to Keep talking with the character");
+            Console.WriteLine("Type (stop) if you have heard enough, and wish to move on");
+            Console.WriteLine("Type (who) to learn more about how the character can help");
+            Console.WriteLine("Type (items) to ask what items you can unlock and how");
+            Console.WriteLine("Type (unlock) to unlock item");
+            */
         }
     }
 }
