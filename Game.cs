@@ -217,9 +217,13 @@ namespace TownOfZuul
             Console.WriteLine($"Membrane filter obtained: " + (wastePlant != null && wastePlant.CleanupUnlocked ? "Yes" : "No"));
             Console.WriteLine();
 
+            Console.WriteLine("Macroplastic initial pollution: " + coast?.InitialPollution);
+            Console.WriteLine("Nutrient initial pollution: " + researchVessel?.InitialPollution);
+            Console.WriteLine("Microplastic initial pollution: " + wastePlant?.InitialPollution);
             Console.WriteLine("Macroplastic pollution: " + coast?.PollutionCount);
-            Console.WriteLine("Nutrient pollution: " + coast?.PollutionCount);
-            Console.WriteLine("Microplastic pollution: " + coast?.PollutionCount);
+            Console.WriteLine("Nutrient pollution: " + researchVessel?.PollutionCount);
+            Console.WriteLine("Microplastic pollution: " + wastePlant?.PollutionCount);
+            Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "%");
             Console.WriteLine();
 
             Console.WriteLine("Total fish in the docks: " + docks?.LocalFish.Sum(item => item.Population));
@@ -334,7 +338,6 @@ namespace TownOfZuul
                                 Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
                                 Thread.Sleep(2000);
                             }
-
                             
                             village?.AddToFoodStock(bycatch.FoodValue);
                         }
@@ -344,21 +347,22 @@ namespace TownOfZuul
                 }
             }
 
-            // Village cleaner stuff here
-
+            // TODO: make cleaning code more generic
+            coast?.CleanPollution(coast.LocalCleaners * 0.5);
+            researchVessel?.CleanPollution(researchVessel.LocalCleaners * 0.5);
+            wastePlant?.CleanPollution(wastePlant.LocalCleaners * 0.5);
+            
             // Update water quality here (whichever vars happen to represent it)
 
-            // Update actual fish reproduction rates based on water quality and population (and base repop rate)
+            // Update actual fish reproduction rates based on water quality and population (and base repop rate, and biodiversity score)
 
-            // Fish stocks are tweaked dependent on amount fished (or amount of villagers fishing), as well as reproduction rates.
+            // Fish stocks are tweaked dependent on reproduction rates.
 
             // Food stock is updated dependent on amount fished
 
             // Population health is updated dependent on food, water quality
 
             // Population count is updated dependent on population health
-
-            // Day/month incremented by 1
 
             monthCounter++;
 
@@ -445,6 +449,22 @@ namespace TownOfZuul
                 //Final ending after 12 months
             }*/
         }
+
+        private double GetWaterQualityPercentage()
+        {
+            /*return (0.25 + 
+            0.25 * (coast?.InitialPollution - coast?.PollutionCount) + // if initial pollution is 1:1 with current pollution, this should be 0
+            0.25 * (researchVessel?.InitialPollution - researchVessel?.PollutionCount) + 
+            0.25 * (wastePlant?.InitialPollution - wastePlant?.PollutionCount))
+            .GetValueOrDefault();*/
+
+            double waterQuality = 1.0 - (0.25 * (coast?.PollutionCount / coast?.InitialPollution) + 
+            0.25 * (researchVessel?.PollutionCount / researchVessel?.InitialPollution) + 
+            0.25 * (wastePlant?.PollutionCount / wastePlant?.InitialPollution))
+            .GetValueOrDefault();
+            return waterQuality;
+        }
+
         static void CloseGame()
         {
             Console.Clear();

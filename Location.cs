@@ -64,6 +64,7 @@
     {
         // The amount of pollution currently in the location.
         // For different locations, this represents different types of pollution, measured in its own type of unit.
+        public readonly double InitialPollution;
         public double PollutionCount { get; protected set; }
 
         // Whether this location can be cleaned by villagers assigned to it.
@@ -74,7 +75,7 @@
 
         public CleanableLocation(double pollutionUnits)
         {
-            PollutionCount = pollutionUnits;
+            InitialPollution = PollutionCount = pollutionUnits;
             LocalCleaners = 0;
         }
 
@@ -100,6 +101,13 @@
             //TODO: Update global "free villager" value after this is done, if any exist.
 
             Console.WriteLine("Assignment confirmed. \nVillagers ready to clean in this location: " + amount + ".");
+        }
+
+        public void CleanPollution(double cleanedPollution)
+        {
+            PollutionCount -= cleanedPollution;
+            if (PollutionCount < 0)
+                PollutionCount = 0;
         }
     }
 
