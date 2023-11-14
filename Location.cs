@@ -154,16 +154,28 @@ ____________     ;       ''. ' // /// // ///==\
         {
             FoodUnits += additionalFood.GetValueOrDefault();
         }
+        public double ConsumeFoodStock(double? foodAmount)
+        {
+            FoodUnits -= foodAmount.GetValueOrDefault();
+            double leftovers = FoodUnits;
+            if (FoodUnits < 0)
+                FoodUnits = 0;
+            return leftovers;
+        }
 
         public void AddPopulation(uint additionalVillagers)
         {
             PopulationCount += additionalVillagers;
         }
 
-        /*public void SetPopulationHealth(double waterQuality)
+        public void SetPopulationHealth(double multiplier)
         {
-            PopulationHealth = ;
-        }*/
+            PopulationHealth *= multiplier;
+            if (PopulationHealth < 0.0)
+                PopulationHealth = 0.0;
+            else if (PopulationHealth > 1.0)
+                PopulationHealth = 1.0;
+        }
     }
 
     public sealed class ElderHouse : Location

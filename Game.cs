@@ -208,7 +208,8 @@ namespace TownOfZuul
             Console.WriteLine("\n- Report -");
 
             Console.WriteLine("Population count: " + village?.PopulationCount);
-            Console.WriteLine("Population health: " + village?.PopulationHealth);
+            if (village != null)
+                Console.WriteLine("Population health: " + Math.Round(village.PopulationHealth * 100, 2) + "%");
             Console.WriteLine("Village food stock: " + village?.FoodUnits);
             Console.WriteLine();
 
@@ -372,19 +373,27 @@ namespace TownOfZuul
                 }
             }
 
-            // No new villagers arrive if pop health < 50%
-            // Villager numbers start decreasing if pop health < 50%
-            //{
-            //    uint newVillagers = village.PopulationCount;
-            //}
-
-            // If player is doing good, more people come in and eat all the fish
-            // Doing good: people are healthy and there's enough for everyone and then some
-
-            // Population count is updated based on food stock, and existing health
-
-            // Population health is updated dependent on food, water quality
-
+            if (village != null)
+            {
+                // Population count is updated based on food stock, and existing health
+                uint newVillagers = (uint)((village.FoodUnits - village.PopulationCount) * village.PopulationHealth * 0.8);
+                if (newVillagers > 150)
+                    newVillagers = 150;
+                village.AddPopulation(newVillagers);
+                double leftovers = village.ConsumeFoodStock(village.PopulationCount);
+                // Population health is updated dependent on food, water quality
+                if (leftovers < 0)
+                {
+                    village.SetPopulationHealth(1.0 - (leftovers / village.PopulationCount));
+                }
+                else
+                {
+                    village.SetPopulationHealth(1.5); //improves by 50% if all food needs are met
+                }
+                // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
+                village.SetPopulationHealth(1.0 + 0.1 * (GetWaterQualityPercentage() - 0.3));
+            }
+            
             monthCounter++;
 
             // Check ending here
@@ -401,74 +410,8 @@ namespace TownOfZuul
                 }
             }
             
-            
-
             Console.Clear();
             Console.WriteLine(currentLocation?.Art);
-
-            // village?.PopulationCount;
-            // village?.PopulationHealth;
-            // docks?.LocalFishers[];
-            // ocean?.LocalFishers[];
-            // coast.LocalCleaners;
-            // researchVessel.LocalCleaners;
-            // wastePlant.LocalCleaners;
-
-            /*monthCounter++;
-            int populationChange = 0;
-            //for now I made everything random just trying to make stuff I will improve the system as we go on.
-            //if you feel like this way is not to good let me know how to improve it :)
-            if (monthCounter <= 12)
-            {
-                Random random = new Random();
-
-                for (int day = 1; day <= 30; day++)
-                {
-                    if (populationHealth > 90) { populationChange = random.Next(0, 5); }
-                    else if (populationHealth <= 90 && populationHealth > 70) { populationChange = random.Next(-2, 4); }
-                    else if (populationHealth <= 70 && populationHealth > 50) { populationChange = random.Next(-4, 2); } // for now its ranndom change in population
-                    else if (populationHealth <= 50 && populationHealth >= 0) { populationChange = random.Next(-5, 0); }
-
-                    initialPopulation += populationChange;
-                    if (initialPopulation < 0)
-                    {
-                        initialPopulation = 0;
-                    }
-                    double healthChange = random.Next(-5, 6); //for now its random change in population health
-
-                    populationHealth += healthChange;
-                    if (populationHealth < 0)
-                    {
-                        populationHealth = 0;
-                    }
-                    else if (populationHealth > 100)
-                    {
-                        populationHealth = 100;
-                    }
-
-                    int foodConsumption = initialPopulation * 30;
-
-                    int minValue = 5000;
-                    int maxValue = 10000;
-
-                    int foodStockChange = random.Next(minValue, maxValue);
-
-                    foodStock += foodStockChange;
-
-                    if (foodStock >= foodConsumption)
-                    {
-                        foodStock -= foodConsumption;
-                    }
-                    else
-                    {
-                        foodStock -= foodConsumption;
-                    }
-                }
-            }
-            else
-            {
-                //Final ending after 12 months
-            }*/
         }
 
         private double GetWaterQualityPercentage()
