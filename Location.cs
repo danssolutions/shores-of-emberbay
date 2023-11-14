@@ -144,7 +144,7 @@ ____________     ;       ''. ' // /// // ///==\
             "are now desolate and ill-kept."+
             " Somehow, though, you can feel that this village might get another shot at prosperity.";
             PopulationCount = 5;
-            PopulationHealth = 90.0;
+            PopulationHealth = 0.9;
             FoodUnits = 10.0;
 
             Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
@@ -154,6 +154,16 @@ ____________     ;       ''. ' // /// // ///==\
         {
             FoodUnits += additionalFood.GetValueOrDefault();
         }
+
+        public void AddPopulation(uint additionalVillagers)
+        {
+            PopulationCount += additionalVillagers;
+        }
+
+        /*public void SetPopulationHealth(double waterQuality)
+        {
+            PopulationHealth = ;
+        }*/
     }
 
     public sealed class ElderHouse : Location

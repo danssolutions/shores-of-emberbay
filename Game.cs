@@ -223,7 +223,7 @@ namespace TownOfZuul
             Console.WriteLine("Macroplastic pollution: " + coast?.PollutionCount);
             Console.WriteLine("Nutrient pollution: " + researchVessel?.PollutionCount);
             Console.WriteLine("Microplastic pollution: " + wastePlant?.PollutionCount);
-            Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "%");
+            Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "% pure");
             Console.WriteLine();
 
             Console.WriteLine("Total fish in the docks: " + docks?.LocalFish.Sum(item => item.Population));
@@ -303,7 +303,7 @@ namespace TownOfZuul
                     if (catchAmount > docks.LocalFish[fishType].Population)
                         catchAmount = docks.LocalFish[fishType].Population;
 
-                    docks?.LocalFish[fishType].SetPopulation(catchAmount);
+                    docks?.LocalFish[fishType].RemovePopulation(catchAmount);
                     
                     village?.AddToFoodStock(docks?.LocalFish[fishType].FoodValue);
                 }
@@ -318,7 +318,7 @@ namespace TownOfZuul
                     if (catchAmount > ocean.LocalFish[fishType].Population)
                         catchAmount = ocean.LocalFish[fishType].Population;
 
-                    ocean?.LocalFish[fishType].SetPopulation(catchAmount);
+                    ocean?.LocalFish[fishType].RemovePopulation(catchAmount);
 
                     // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
                     if (ocean != null)
@@ -330,7 +330,7 @@ namespace TownOfZuul
                             if (bycatchAmount > bycatch.Population)
                                 bycatchAmount = bycatch.Population;
 
-                            bycatch.SetPopulation(bycatchAmount);
+                            bycatch.RemovePopulation(bycatchAmount);
 
                             // pause for dramatic effect, for we caught an ultra rare fish (temporary)
                             if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
@@ -348,21 +348,42 @@ namespace TownOfZuul
             }
 
             // TODO: make cleaning code more generic
-            coast?.CleanPollution(coast.LocalCleaners * 0.5);
-            researchVessel?.CleanPollution(researchVessel.LocalCleaners * 0.5);
-            wastePlant?.CleanPollution(wastePlant.LocalCleaners * 0.5);
+            coast?.CleanPollution(coast.LocalCleaners * random.NextDouble());
+            researchVessel?.CleanPollution(researchVessel.LocalCleaners * random.NextDouble());
+            wastePlant?.CleanPollution(wastePlant.LocalCleaners * random.NextDouble());
             
-            // Update water quality here (whichever vars happen to represent it)
-
             // Update actual fish reproduction rates based on water quality and population (and base repop rate, and biodiversity score)
+            if (docks != null)
+            {
+                foreach (Fish fishType in docks.LocalFish)
+                {
+                    fishType.SetReproductionRates(GetWaterQualityPercentage());
+                    // Fish stocks are tweaked dependent on reproduction rates.
+                    fishType.AddPopulation();
+                }
+            }
+            if (ocean != null)
+            {
+                foreach (Fish fishType in ocean.LocalFish)
+                {
+                    fishType.SetReproductionRates(GetWaterQualityPercentage());
+                    // Fish stocks are tweaked dependent on reproduction rates.
+                    fishType.AddPopulation();
+                }
+            }
 
-            // Fish stocks are tweaked dependent on reproduction rates.
+            // No new villagers arrive if pop health < 50%
+            // Villager numbers start decreasing if pop health < 50%
+            //{
+            //    uint newVillagers = village.PopulationCount;
+            //}
 
-            // Food stock is updated dependent on amount fished
+            // If player is doing good, more people come in and eat all the fish
+            // Doing good: people are healthy and there's enough for everyone and then some
+
+            // Population count is updated based on food stock, and existing health
 
             // Population health is updated dependent on food, water quality
-
-            // Population count is updated dependent on population health
 
             monthCounter++;
 
@@ -452,12 +473,6 @@ namespace TownOfZuul
 
         private double GetWaterQualityPercentage()
         {
-            /*return (0.25 + 
-            0.25 * (coast?.InitialPollution - coast?.PollutionCount) + // if initial pollution is 1:1 with current pollution, this should be 0
-            0.25 * (researchVessel?.InitialPollution - researchVessel?.PollutionCount) + 
-            0.25 * (wastePlant?.InitialPollution - wastePlant?.PollutionCount))
-            .GetValueOrDefault();*/
-
             double waterQuality = 1.0 - (0.25 * (coast?.PollutionCount / coast?.InitialPollution) + 
             0.25 * (researchVessel?.PollutionCount / researchVessel?.InitialPollution) + 
             0.25 * (wastePlant?.PollutionCount / wastePlant?.InitialPollution))
