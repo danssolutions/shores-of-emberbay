@@ -58,6 +58,60 @@
         {
             return 2.0; // TODO: replace with something meaningful
         }
+
+        public void CatchFish()
+        {
+            uint catchAmount;
+            uint bycatchAmount;
+
+            Random random = new();
+
+            for (int fishType = 0; fishType < LocalFish.Count; fishType++) // for each type of fish in ocean
+            {
+                LocalFish[fishType].SetPreviousPopulation();
+                for (uint i = 0; i < LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
+                {
+                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+
+                    if (catchAmount > LocalFish[fishType].Population)
+                        catchAmount = LocalFish[fishType].Population;
+
+                    LocalFish[fishType].RemovePopulation(catchAmount);
+
+                    // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
+                    foreach (Fish bycatch in LocalFish) // for each type of fish in docks
+                    {
+                        bycatchAmount = (uint)(random.Next(1, 12) * random.NextDouble() * (1.0 - bycatch.CatchDifficulty.GetValueOrDefault()));
+                        
+                        if (bycatchAmount > bycatch.Population)
+                            bycatchAmount = bycatch.Population;
+
+                        bycatch.RemovePopulation(bycatchAmount);
+
+                        // pause for dramatic effect, for we caught an ultra rare fish (temporary)
+                        if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
+                        {
+                            Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
+                            Thread.Sleep(2000);
+                        }
+                        
+                        // TODO: move AddToFoodStock to more suitable location
+                        //village?.AddToFoodStock(bycatch.FoodValue);
+                    }
+
+                    //village?.AddToFoodStock(fishableLocation?.LocalFish[fishType].FoodValue);
+                }
+            }
+        }
+        public void UpdateFishPopulation(double waterQuality)
+        {
+            foreach (Fish fishType in LocalFish)
+            {
+                fishType.SetReproductionRates(waterQuality);
+                // Fish stocks are tweaked dependent on reproduction rates.
+                fishType.AddPopulation();
+            }
+        }
     }
 
     public abstract class CleanableLocation : Location
@@ -103,9 +157,10 @@
             Console.WriteLine("Assignment confirmed. \nVillagers ready to clean in this location: " + amount + ".");
         }
 
-        public void CleanPollution(double cleanedPollution)
+        public void CleanPollution()
         {
-            PollutionCount -= cleanedPollution;
+            Random random = new();
+            PollutionCount -= LocalCleaners * random.NextDouble();
             if (PollutionCount < 0)
                 PollutionCount = 0;
         }
