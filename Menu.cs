@@ -368,7 +368,9 @@ namespace TownOfZuul
 
     public sealed class DialogueMenu : Menu
     {
-        private const string DialogueInstructions = "Chose one of the options interact with the character in the location";
+        private Location? currentLocation;
+        private readonly Stack<Location> previousLocations = new();
+        private const string DialogueInstructions = "Chose one of the options to interact with the character in the location";
         private const string more = "Keep talking with the character";
         private const string stop = "Stop if you have heard enough, and wish to move on";
         private const string who = "Learn more about how the character can help";
@@ -425,9 +427,13 @@ namespace TownOfZuul
                 Console.Clear();
                 Console.CursorVisible = true;
 
+                characterMenu npcs = new();
+                npcs.Display();
+
                 Console.Clear();
 
-                Console.WriteLine("You chose more");
+                //Console.WriteLine("you chose more");
+ //               Console.WriteLine(currentLocation?.Description);
             }
 
             private static void stopOption()
@@ -470,4 +476,39 @@ namespace TownOfZuul
                 //Create object/instance of a class
             }
     }
+
+public sealed class characterMenu : Menu
+    {
+        private Location? currentLocation;
+        //public character? character;
+
+        private const string characterLogo = 
+            @"
+                                        
+             __      __  ___  __      __ 
+             \ \ /\ / / / _ \ \ \ /\ / / 
+              \ V  V / | (_) | \ V  V /
+               \_/\_/   \___/   \_/\_/  
+                                                                     
+            ---------------------------------------------------------
+                                                                     
+            ";
+        
+        private const string option1 = 
+            "You are talking to a character";
+
+        //private const string option2 = 
+          //  "You are speaking with a character";
+
+        override public void Display()
+        {
+            Console.Clear();
+            
+            Console.WriteLine(characterLogo);
+            Console.WriteLine(option1);
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+        }
+    }
+
 }

@@ -166,9 +166,6 @@
                     case "speak":
                         DialogueMenu dialogueMenu = new();
                         dialogueMenu.Display();
-                        //Console.WriteLine(DialogueMenu.options);
-                        // for (int i = 0; )
-                        //PrintSpeak();
                         break;
 
                     case "sleep":
