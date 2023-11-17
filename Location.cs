@@ -12,6 +12,7 @@
         public string? Dialogue { get; protected set; }
         public string? Story { get; protected set; }
         public Dictionary<string, Location> Exits { get; private set; } = new();
+        public static bool IsOceanUnlocked(int initialPopulation) => (initialPopulation > 400);
 
         public void SetExits(Location? north, Location? east, Location? south, Location? west)
         {
@@ -242,7 +243,7 @@ __ ___ _            .   :  ;   .    V          ___
             "A large chunk of the construction has been taken by the sea and the storms throughout the years, "+
             "some of it still floating on the water, rocking with the waves. "+
             "Even still, the view of the waterfront remains as impressive as it has always been.";
-//            OceanUnlocked = false;
+//            OceanUnlocked = false;            
             
             LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
         }

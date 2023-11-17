@@ -167,13 +167,34 @@
 
         private void Move(string direction)
         {
-            if (currentLocation?.Name == "Docks" && direction=="east" && initialPopulation<400)
+            if (currentLocation?.Name == "Docks" && !Location.IsOceanUnlocked(initialPopulation) && direction=="east")
             {
-                Console.WriteLine("Nononononononono not possible yet, You need to have more people to go this way");
+                Console.WriteLine("Nononononononono not possible yet, You need to have more people to go this way");//The very complicated ocean unlocked system, try to rewrite it with a method
                 Console.WriteLine(@"
-                
-                
-                ")//The very complicated ocean unlocked system
+            ▄▄
+         ▄▄█▀▀▀███▀▀▀▄▄▄
+      ▄▄▀▀▄▄▄▄▄▄▄▄▄██▄▄  ████▀▀
+    ▄▀    ▀█▄    ▀██▀   ▀██▄▄▀▄▄
+  ▄▀        ▀▀▀▀▀▀      ▀▄ ▀████
+ ▄▀     ▄█ ▄▄▄▄▀▀▀▀▀▀▀▄▄▄ ▀▀▀▀▀ █▄
+▄▀        █▄       ▀▀▀▀▄▄▄▀█▄     █
+█                         ▀ ▀█     █
+█                            ▀█    █
+▀▄                                ▄█
+ █▄                               █
+  ▀▄                             █
+   ▀█▄                         ▄▀
+     ▀▄▄                   ▄▄▀
+         ▀▀▄▄▄         ▄▄▄▀▀
+             ▀▀▀▀▀█▀▀▀
+                 █████
+                 █ █   ██
+                █  ██    █
+               █    ██    █
+              █      ██    ██ 
+           ▄██        ██    █▄ 
+          ▄█           ██    █▄ 
+                         ██ ");   //The very complicated ocean unlocked system
             }
             else
             {
@@ -203,7 +224,7 @@
 
             for (int monthCounter = 1; monthCounter <= 12; monthCounter++)
             {
-                int populationChange = random.Next(-10, 11); // for now its ranndom change in population
+                int populationChange = random.Next(0, 11); // for now its ranndom change in population
 
                 initialPopulation += populationChange;
                 if (initialPopulation < 0)
