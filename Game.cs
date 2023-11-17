@@ -270,7 +270,7 @@ namespace TownOfZuul
             uint newVillagers = (uint)((FoodUnits - PopulationCount) * PopulationHealth * 0.8);
             if (newVillagers > 150)
                 newVillagers = 150;
-            AddPopulation(newVillagers);
+            PopulationCount += newVillagers;
             double leftovers = ConsumeFoodStock(PopulationCount);
             // Population health is updated dependent on food, water quality
             if (leftovers < 0)
@@ -283,11 +283,6 @@ namespace TownOfZuul
             }
             // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
             SetPopulationHealth(1.0 + 0.1 * (GetWaterQualityPercentage() - 0.3));
-        }
-
-        public void AddPopulation(uint additionalVillagers)
-        {
-            PopulationCount += additionalVillagers;
         }
 
         public void SetPopulationHealth(double multiplier)
