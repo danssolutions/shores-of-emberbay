@@ -169,10 +169,6 @@
     // TODO: put classes below in separate files
     public sealed class Village : Location
     {
-        public uint PopulationCount { get; private set; }
-        public double PopulationHealth { get; private set; }
-        public double FoodUnits { get; private set; }
-
         public Village()
         {
             Art = @"
@@ -198,38 +194,9 @@ ____________     ;       ''. ' // /// // ///==\
             " Most of the buildings, which used to provide the shelter and livelihood to numerous people "+
             "are now desolate and ill-kept."+
             " Somehow, though, you can feel that this village might get another shot at prosperity.";
-            PopulationCount = 5;
-            PopulationHealth = 0.9;
-            FoodUnits = 10.0;
 
-            Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
-        }
-
-        public void AddToFoodStock(double? additionalFood)
-        {
-            FoodUnits += additionalFood.GetValueOrDefault();
-        }
-        public double ConsumeFoodStock(double? foodAmount)
-        {
-            FoodUnits -= foodAmount.GetValueOrDefault();
-            double leftovers = FoodUnits;
-            if (FoodUnits < 0)
-                FoodUnits = 0;
-            return leftovers;
-        }
-
-        public void AddPopulation(uint additionalVillagers)
-        {
-            PopulationCount += additionalVillagers;
-        }
-
-        public void SetPopulationHealth(double multiplier)
-        {
-            PopulationHealth *= multiplier;
-            if (PopulationHealth < 0.0)
-                PopulationHealth = 0.0;
-            else if (PopulationHealth > 1.0)
-                PopulationHealth = 1.0;
+            //Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
+            Information = $"Current population is whatever.";
         }
     }
 

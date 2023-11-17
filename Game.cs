@@ -10,14 +10,13 @@ namespace TownOfZuul
         private readonly List<FishableLocation> fishableLocations = new();
         private readonly List<CleanableLocation> cleanableLocations = new();
 
-        // Note: this might be moved back to CreateLocations() at some point
+        private uint monthCounter;
+        private const uint endingMonth = 13;
         
+        public uint PopulationCount { get; private set; }
+        public double PopulationHealth { get; private set; }
+        public double FoodUnits { get; private set; }
 
-        uint monthCounter;
-        const uint endingMonth = 13;
-        //int initialPopulation;
-        //double populationHealth;
-        //int foodStock;
         public bool AlgaeCleanerUnlocked = false;
 
         public Game()
@@ -25,29 +24,21 @@ namespace TownOfZuul
             CreateLocations();
             //UpdateGame();
             monthCounter = 1;
-            //initialPopulation = 300;
-            //populationHealth = 30.0;
-            //foodStock = 10000;
+            PopulationCount = 5;
+            PopulationHealth = 0.9;
+            FoodUnits = 10.0;
         }
 
         private void CreateLocations()
         {
-            Village? village;
-            ElderHouse? elderHouse;
-            Docks? docks;
-            Ocean? ocean;
-            ResearchVessel? researchVessel;
-            Coast? coast;
-            WastePlant? wastePlant;
+            Village? village = new();
+            ElderHouse? elderHouse = new();
+            Docks? docks = new();
+            Ocean? ocean = new();
+            ResearchVessel? researchVessel = new(500.0);
+            Coast? coast = new(500.0);
+            WastePlant? wastePlant = new(500.0);
             
-            village = new();
-            elderHouse = new();
-            docks = new();
-            ocean = new();
-            researchVessel = new(500.0);
-            coast = new(500.0);
-            wastePlant = new(500.0);
-
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
             docks.SetExits(researchVessel, ocean, null, village);
             elderHouse.SetExit("east", village);
@@ -215,45 +206,97 @@ namespace TownOfZuul
             // TODO: split all these into separate methods, since they'd be useful outside this function also (and probably help w/ encapsulation)
             Console.WriteLine("\n- Report -");
 
-            /*Console.WriteLine("Population count: " + village?.PopulationCount);
-            if (village != null)
-                Console.WriteLine("Population health: " + Math.Round(village.PopulationHealth * 100, 2) + "%");
-            Console.WriteLine("Village food stock: " + village?.FoodUnits);
+            Console.WriteLine("Population count: " + PopulationCount);
+            Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
+            Console.WriteLine("Village food stock: " + FoodUnits);
             Console.WriteLine();
 
-            Console.WriteLine($"Ocean unlocked: " + (docks != null && docks.OceanUnlocked ? "Yes" : "No"));
-            Console.WriteLine($"Algae cleaner obtained: " + (researchVessel != null && researchVessel.CleanupUnlocked ? "Yes" : "No"));
-            Console.WriteLine($"Membrane filter obtained: " + (wastePlant != null && wastePlant.CleanupUnlocked ? "Yes" : "No"));
+            //Console.WriteLine($"Ocean unlocked: " + (docks != null && docks.OceanUnlocked ? "Yes" : "No"));
+            foreach (CleanableLocation cleanableLocation in cleanableLocations)
+            {
+                Console.WriteLine($"{cleanableLocation.Name} unlocked: " + (cleanableLocation.CleanupUnlocked ? "Yes" : "No"));
+                Console.WriteLine($"{cleanableLocation.Name} initial pollution: " + cleanableLocation.InitialPollution);
+                Console.WriteLine($"{cleanableLocation.Name} current pollution: " + cleanableLocation.PollutionCount);
+            }
             Console.WriteLine();
 
-            Console.WriteLine("Macroplastic initial pollution: " + coast?.InitialPollution);
-            Console.WriteLine("Nutrient initial pollution: " + researchVessel?.InitialPollution);
-            Console.WriteLine("Microplastic initial pollution: " + wastePlant?.InitialPollution);
-            Console.WriteLine("Macroplastic pollution: " + coast?.PollutionCount);
-            Console.WriteLine("Nutrient pollution: " + researchVessel?.PollutionCount);
-            Console.WriteLine("Microplastic pollution: " + wastePlant?.PollutionCount);
             Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "% pure");
             Console.WriteLine();
 
-            Console.WriteLine("Total fish in the docks: " + docks?.LocalFish.Sum(item => item.Population));
-            for (int i = 0; i < docks?.LocalFish.Count; i++)
-                Console.WriteLine("- " + docks?.LocalFish[i].Name + ": " + docks?.LocalFish[i].Population + " (previously " + docks?.LocalFish[i].PreviousPopulation + ")");
-            Console.WriteLine("Total fish in the ocean: " + ocean?.LocalFish.Sum(item => item.Population));
-            for (int i = 0; i < ocean?.LocalFish.Count; i++)
-                Console.WriteLine("- " + ocean?.LocalFish[i].Name + ": " + ocean?.LocalFish[i].Population + " (previously " + ocean?.LocalFish[i].PreviousPopulation + ")");
+            foreach (FishableLocation fishableLocation in fishableLocations)
+            {
+                Console.WriteLine($"Total fish in the {fishableLocation.Name}: " + fishableLocation.LocalFish.Sum(item => item.Population));
+                foreach (Fish fish in fishableLocation.LocalFish)
+                {
+                    Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")");
+                }
+                foreach (Fish fish in fishableLocation.LocalFish)
+                {
+                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate,2) + " (previously " + Math.Round(fish.PreviousReproductionRate,2) + ")");
+                }
+            }
             Console.WriteLine();
-            // TODO: add reproduction rates to each fish also
 
-            Console.WriteLine("Villagers fishing in docks: " + (docks?.LocalFishers.Sum(item => Convert.ToUInt32(item))));
-            for (int i = 0; i < docks?.LocalFishers.Count; i++)
-                Console.WriteLine("- " + docks?.LocalFish[i].Name + " fishers: " + docks?.LocalFishers[i]);
-            Console.WriteLine("Villagers fishing in the ocean: " + (ocean?.LocalFishers.Sum(item => Convert.ToUInt32(item))));
-            for (int i = 0; i < ocean?.LocalFishers.Count; i++)
-                Console.WriteLine("- " + ocean?.LocalFish[i].Name + " fishers: " + ocean?.LocalFishers[i]);
-            Console.WriteLine("Villagers cleaning the coast: " + coast?.LocalCleaners);
-            Console.WriteLine("Villagers helping with algae cleanup in the research vessel: " + researchVessel?.LocalCleaners);
-            Console.WriteLine("Villagers operating the filter in the wastewater plant: " + wastePlant?.LocalCleaners);
-            Console.WriteLine();*/
+            foreach (FishableLocation fishableLocation in fishableLocations)
+            {
+                Console.WriteLine($"Villagers fishing in {fishableLocation.Name}: " + fishableLocation.LocalFishers.Sum(item => Convert.ToUInt32(item)));
+                for (int i = 0; i < fishableLocation.LocalFishers.Count; i++)
+                    Console.WriteLine("- " + fishableLocation.LocalFish[i].Name + " fishers: " + fishableLocation.LocalFishers[i]);
+            }
+            
+            foreach (CleanableLocation cleanableLocation in cleanableLocations)
+            {
+                Console.WriteLine($"Villagers cleaning in {cleanableLocation.Name}: " + cleanableLocation.LocalCleaners);
+            }
+            Console.WriteLine();
+        }
+
+        public void AddToFoodStock(double? additionalFood)
+        {
+            FoodUnits += additionalFood.GetValueOrDefault();
+        }
+        public double ConsumeFoodStock(double? foodAmount)
+        {
+            FoodUnits -= foodAmount.GetValueOrDefault();
+            double leftovers = FoodUnits;
+            if (FoodUnits < 0)
+                FoodUnits = 0;
+            return leftovers;
+        }
+
+        public void UpdatePopulation()
+        {
+            // Population count is updated based on food stock, and existing health
+            uint newVillagers = (uint)((FoodUnits - PopulationCount) * PopulationHealth * 0.8);
+            if (newVillagers > 150)
+                newVillagers = 150;
+            AddPopulation(newVillagers);
+            double leftovers = ConsumeFoodStock(PopulationCount);
+            // Population health is updated dependent on food, water quality
+            if (leftovers < 0)
+            {
+                SetPopulationHealth(1.0 - (leftovers / PopulationCount));
+            }
+            else
+            {
+                SetPopulationHealth(1.5); //improves by 50% if all food needs are met
+            }
+            // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
+            SetPopulationHealth(1.0 + 0.1 * (GetWaterQualityPercentage() - 0.3));
+        }
+
+        public void AddPopulation(uint additionalVillagers)
+        {
+            PopulationCount += additionalVillagers;
+        }
+
+        public void SetPopulationHealth(double multiplier)
+        {
+            PopulationHealth *= multiplier;
+            if (PopulationHealth < 0.0)
+                PopulationHealth = 0.0;
+            else if (PopulationHealth > 1.0)
+                PopulationHealth = 1.0;
         }
 
         public static void AdvanceMonth(uint monthCounter)
@@ -282,7 +325,7 @@ namespace TownOfZuul
                 advancementMenu.Display();
             }
         }
-        
+
         public void UpdateGame()
         {
             AdvanceMonth(monthCounter);
@@ -297,26 +340,7 @@ namespace TownOfZuul
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.UpdateFishPopulation(GetWaterQualityPercentage());
             
-            /*if (village != null)
-            {
-                // Population count is updated based on food stock, and existing health
-                uint newVillagers = (uint)((village.FoodUnits - village.PopulationCount) * village.PopulationHealth * 0.8);
-                if (newVillagers > 150)
-                    newVillagers = 150;
-                village.AddPopulation(newVillagers);
-                double leftovers = village.ConsumeFoodStock(village.PopulationCount);
-                // Population health is updated dependent on food, water quality
-                if (leftovers < 0)
-                {
-                    village.SetPopulationHealth(1.0 - (leftovers / village.PopulationCount));
-                }
-                else
-                {
-                    village.SetPopulationHealth(1.5); //improves by 50% if all food needs are met
-                }
-                // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-                village.SetPopulationHealth(1.0 + 0.1 * (GetWaterQualityPercentage() - 0.3));
-            }*/
+            UpdatePopulation();
             
             monthCounter++;
 
@@ -342,7 +366,7 @@ namespace TownOfZuul
         {
             double waterPollution = 0;
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
-                waterPollution += cleanableLocation.PollutionCount / cleanableLocation.InitialPollution;
+                waterPollution += 0.25 * (cleanableLocation.PollutionCount / cleanableLocation.InitialPollution);
             double waterQuality = 1.0 - waterPollution;
             return waterQuality;
         }
