@@ -8,8 +8,6 @@
         int initialPopulation;
         double populationHealth;
         int foodStock;
-        public bool AlgaeCleanerUnlocked = false;
-
         public Game()
         {
             CreateLocations();
@@ -115,18 +113,14 @@
                         Console.WriteLine(currentLocation?.Dialogue);
                         break;
 
-                    case "story":
-                        Console.WriteLine(currentLocation?.Story);
-                        break;
-
                     case "info":
                         Console.WriteLine(currentLocation?.Information);
                         break;
-                    
+
                     case "clear":
                         Console.Clear();
                         break;
-                    
+
                     case "assign":
                         if (command.SecondWord == null)
                         {
@@ -139,22 +133,17 @@
                         else
                             Console.WriteLine("\"" + command.SecondWord + "\" is not a valid or accepted number. Please try again.");
                         break;
-                    
+
                     case "unassign":
                         currentLocation?.AssignVillagers(0);
                         break;
-                    
+
                     case "boo":
                         Console.WriteLine(" .-.\n(o o) boo!\n| O \\\n \\   \\\n  `~~~'\n");
                         break;
 
                     case "xmas":
                         Console.WriteLine("             *\r\n            /.\\\r\n           /..'\\\r\n           /'.'\\\r\n          /.''.'\\\r\n          /.'.'.\\\r\n         /'.''.'.\\\n         ^^^[_]^^^\r\n\r\n");
-                        break;
-
-                    case "algae":
-                        AlgaeCleanerUnlocked = true;
-                        Console.WriteLine("Great, you now have the algae cleaner and can start cleaning the algae.");
                         break;
 
                     case "sleep":
@@ -178,17 +167,28 @@
 
         private void Move(string direction)
         {
-            if (currentLocation?.Exits.ContainsKey(direction) == true)
+            if (currentLocation?.Name == "Docks" && direction=="east" && initialPopulation<400)
             {
-                previousLocations.Push(currentLocation);
-                currentLocation = currentLocation?.Exits[direction];
-
-                Console.Clear();
-                Console.WriteLine(currentLocation?.Art);
+                Console.WriteLine("Nononononononono not possible yet, You need to have more people to go this way");
+                Console.WriteLine(@"
+                
+                
+                ")//The very complicated ocean unlocked system
             }
             else
             {
-                Console.WriteLine($"There's nothing of interest towards the {direction}.");
+                if (currentLocation?.Exits.ContainsKey(direction) == true)
+                {
+                    previousLocations.Push(currentLocation);
+                    currentLocation = currentLocation?.Exits[direction];
+
+                    Console.Clear();
+                    Console.WriteLine(currentLocation?.Art);
+                }
+                else
+                {
+                    Console.WriteLine($"There's nothing of interest towards the {direction}.");
+                }
             }
         }
 
@@ -242,7 +242,7 @@
                 }
             }
         }
-         static void CloseGame()
+        static void CloseGame()
         {
             Console.Clear();
             Console.WriteLine(MainMenu.QuitMessage);

@@ -215,7 +215,7 @@ ____________     ;       ''. ' // /// // ///==\
         public Salmon salmon = new(500);
         public Sturgeon sturgeon = new(500);
 
-        public bool OceanUnlocked { get; private set; }
+        //public bool OceanUnlocked { get; private set; }
         public Docks()
         {
             Art = @"
@@ -242,7 +242,7 @@ __ ___ _            .   :  ;   .    V          ___
             "A large chunk of the construction has been taken by the sea and the storms throughout the years, "+
             "some of it still floating on the water, rocking with the waves. "+
             "Even still, the view of the waterfront remains as impressive as it has always been.";
-            OceanUnlocked = false;
+//            OceanUnlocked = false;
             
             LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
         }
