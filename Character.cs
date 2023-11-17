@@ -1,6 +1,6 @@
-/*namespace TownOfZuul
+namespace TownOfZuul
 {
-    public abstract class character
+    public abstract class Character
     {
         //picture of each character
         public string? characterPicture { get; protected set; }
@@ -11,24 +11,19 @@
         //Name of charater
         public string? characterName { get; protected set; }
 
-        //Location
-        //private Location? currentLocation;
-
-        //Console.WriteLine(currentLocation?.Description); //For somewhere else
-
         //Unlock
         bool unlock = false;
         private const string more = "Keep talking with the character";
         private const string stop = "Stop if you have heard enough, and wish to move on";
         private const string who = "Learn more about how the character can help";
-        private const string items = "Ask what items you can unlock and how";
-        private const string unlocked = "Unlock item";
+        //private const string items = "Ask what items you can unlock and how"; elder
+        //private const string unlocked = "Unlock item"; elder
     }
 
-    public sealed class elder : character
+    public sealed class Elder : Character
     {
-        string currentLocation = elderHouse;
-        string characterName = "Elder";
+ //       string currentLocation = ElderHouse;
+        /*string characterName = "Elder";
         string characterPicture = "Picture of elder";
         string more = "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
             "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
@@ -41,18 +36,28 @@
         string stop = "No problem";
         string who = "You can unlock algae cleaner and water filter and get it from the Elder, when unlocked. "
             + "\nYou need to increase population health to more than 90 to unlock algae cleaner, then talk to the elder to get it.";
+        */
+        public Elder()
+        {
+            characterName = "elder";
+        }
     }
 
-    public sealed class scientist : character
+    public sealed class Scientist : Character
     {
-        string currentLocation = wastePlant;
-        string characterName = "Scientis";
+//        string currentLocation = wastePlant;
+        /*string characterName = "Scientist";
         string characterPicture = "Picture of Scientist";
+*/
+        public Scientist()
+        {
+            characterName = "Scientist";
+        }
+
     }
 
-    public sealed class npc : character
+    public sealed class Npc : Character
     {
 
     }
 }
-*/

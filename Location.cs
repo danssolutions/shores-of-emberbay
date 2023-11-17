@@ -11,6 +11,7 @@
         public string? Information { get; protected set; }
         public string? Dialogue { get; protected set; }
         public string? Story { get; protected set; }
+        public Character? Character { get; protected set; }
         public Dictionary<string, Location> Exits { get; private set; } = new();
 
         public void SetExits(Location? north, Location? east, Location? south, Location? west)
@@ -153,8 +154,10 @@ ____________     ;       ''. ' // /// // ///==\
 
     public class ElderHouse : Location
     {
+        //public Character character = new();
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
+        private Elder elder = new();
 
         public ElderHouse()
         {
@@ -195,8 +198,7 @@ ____________     ;       ''. ' // /// // ///==\
             + "\nYou need to increase population health to more than 90 to unlock algae cleaner, then talk to the elder to get it.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
-            //Console.WriteLine(elder);
-
+            Character = (Character)elder;
 
         /*    if (PopulationHealth > 90)
                 Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
@@ -255,7 +257,7 @@ __ ___ _            .   :  ;   .    V          ___
         // Algae stats go here
 
         // Code for fetching fish info goes here
-
+        private Scientist scientist = new();
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
             Art = @"
@@ -286,6 +288,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             Information = "Somehow you will be able to see fish stock here in the future.";
 
             CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
+            Character = (Character)scientist;
         }
     }
 

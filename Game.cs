@@ -114,7 +114,7 @@
                         break;
 
                     case "talk":
-                        Console.WriteLine(currentLocation?.Dialogue);
+                        Console.WriteLine(currentLocation?.Character?.characterName);
                         break;
 
                     //case "talk":
