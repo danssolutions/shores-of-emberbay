@@ -7,6 +7,7 @@ namespace TownOfZuul
         protected int selectedOption = 1;
         protected string[] options;
         protected bool continueDisplay = true;
+        protected string? Art, Text;
         protected Menu()
         {
             options = Array.Empty<string>();
@@ -15,8 +16,8 @@ namespace TownOfZuul
         public virtual void Display()
         {
             //Console.Clear();
-            //Console.WriteLine(this.Art);
-            //Console.WriteLine(this.Text);
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
 
             while (continueDisplay)
             {
@@ -77,7 +78,22 @@ namespace TownOfZuul
 
     public sealed class MainMenu : Menu
     {
-        private const string Art =
+        /*private const string Art =
+            @"
+             _____                            __   _____           _ 
+            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
+              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
+              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
+              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
+                                                                     
+            ---------------------------------------------------------
+                                                                     
+            ";*/
+
+        //private const string Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
+        public MainMenu()
+        {
+            Art =
             @"
              _____                            __   _____           _ 
             |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
@@ -88,10 +104,7 @@ namespace TownOfZuul
             ---------------------------------------------------------
                                                                      
             ";
-
-        private const string Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
-        public MainMenu()
-        {
+            Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
             options = new string[] {
                 "Play Game",
                 //"Settings",
@@ -104,8 +117,8 @@ namespace TownOfZuul
         {
             Console.Clear();
 
-            Console.WriteLine(Art);
-            Console.WriteLine(Text);
+            //Console.WriteLine(Art);
+            //Console.WriteLine(Text);
 
             base.Display();
         }
@@ -134,7 +147,7 @@ namespace TownOfZuul
             QuitGame();
         }
 
-        private static void StartGame()
+        private void StartGame()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -146,7 +159,7 @@ namespace TownOfZuul
             Console.WriteLine(Text);
         }
 
-        private static void ShowSettings()
+        private void ShowSettings()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -160,7 +173,7 @@ namespace TownOfZuul
             Console.WriteLine(Text);
         }
 
-        private static void ShowCredits()
+        private void ShowCredits()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -193,7 +206,7 @@ namespace TownOfZuul
 
     public class GenericMenu : Menu // a menu with no options except 'press any key to continue' prompt, with customizable art and text
     {
-        private readonly string Art, Text;
+        //private readonly string Art, Text;
         public GenericMenu(string art, string text)
         {
             this.Art = art;
@@ -365,7 +378,7 @@ namespace TownOfZuul
         private const string unlock = "Unlock item";
 
         private bool unlocked = false;
-        private bool continueDisplay = true;
+        //private bool continueDisplay = true;
 
         public DialogueMenu()
         {
@@ -500,7 +513,22 @@ namespace TownOfZuul
     public class EndingMenu : Menu
     {
         public bool StopGame { get; private set; } = false;
-        private const string Art = @"
+        /*private const string Art = @"
+
+
+                       Ending :)
+         I am placeholder art, replace me!
+            
+                                                                     
+---------------------------------------------------------
+                                                                     
+            ";*/
+
+        //private const string Text = "Would you like to continue playing?\n";
+
+        public EndingMenu()
+        {
+            Art = @"
 
 
                        Ending :)
@@ -510,11 +538,7 @@ namespace TownOfZuul
 ---------------------------------------------------------
                                                                      
             ";
-
-        private const string Text = "Would you like to continue playing?\n";
-
-        public EndingMenu()
-        {
+            Text = "Would you like to continue playing?\n";
             options = new string[] {
                 "Yes (Continue Playing)",
                 "No (Go to Main Menu)"
@@ -525,8 +549,8 @@ namespace TownOfZuul
         {
             Console.Clear();
 
-            Console.WriteLine(Art);
-            Console.WriteLine(Text);
+            //Console.WriteLine(Art);
+            //Console.WriteLine(Text);
 
             base.Display();
         }

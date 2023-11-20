@@ -6,8 +6,7 @@ namespace TownOfZuul
     {
         private bool continuePlaying = true;
         private Location? currentLocation;
-        private Menu? menus;
-        //private Location? characterLocation;
+        
         private readonly Stack<Location> previousLocations = new();
         private readonly List<FishableLocation> fishableLocations = new();
         private readonly List<CleanableLocation> cleanableLocations = new();
@@ -119,7 +118,8 @@ namespace TownOfZuul
                         break;
 
                     case "talk":
-                        Console.WriteLine(currentLocation?.Character?.characterName);
+                        currentLocation?.Character?.Display();
+                        //Console.WriteLine(currentLocation?.Character?.characterName);
                         break;
 
                     //case "talk":
