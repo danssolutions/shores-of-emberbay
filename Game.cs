@@ -197,7 +197,7 @@ namespace TownOfZuul
                     }
                 }
                 
-                previousLocations.Push(currentLocation);
+                if(currentLocation!=null )previousLocations.Push(currentLocation);
                 currentLocation = currentLocation?.Exits[direction];
 
                 Console.Clear();
