@@ -254,8 +254,9 @@ namespace TownOfZuul
                 Console.WriteLine(AssignedVillagersInfo + assignedVillagers + "".PadRight(assignedVillagers.ToString().Length));
                 for (int i = 1; i <= options.Length; i++)
                 {
-                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + fisherList[i-1] + AssignedOptionInfo + options[i-1] +
-                        "." + "".PadRight(fisherList[i-1].ToString().Length) + "\n");
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + fisherList[i-1] + AssignedOptionInfo + 
+                    options[i-1] + " (" + fishList[i-1].GetCatchDifficultyString() + " difficulty)" + 
+                    "".PadRight(fisherList[i-1].ToString().Length) + "\n");
                 }
                 
                 ConsoleKey key = Console.ReadKey(true).Key;

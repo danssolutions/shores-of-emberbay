@@ -322,6 +322,15 @@ __ ___ _            .   :  ;   .    V          ___
 
             Populate();
         }
+
+        public bool IsOceanUnlocked(int population = 0)
+        {
+            if (!OceanUnlocked)
+            {
+                OceanUnlocked = population > 400;
+            }
+            return OceanUnlocked;
+        }
     }
 
     public sealed class ResearchVessel : CleanableLocation

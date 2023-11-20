@@ -16,7 +16,19 @@ namespace TownOfZuul
 
         // How difficult this fish is to catch. Valid values range from 0.0 to 1.0 (larger value = more difficult to catch)
         public double? CatchDifficulty { get; protected set; }
-        
+
+        public string GetCatchDifficultyString()
+        {
+            if (CatchDifficulty == 1.0)
+                return "Impossible";
+            else if (CatchDifficulty >= 0.65)
+                return "Hard";
+            else if (CatchDifficulty >= 0.35)
+                return "Medium";
+            else
+                return "Easy";
+        }
+
         // Fish marked as "bycatch only" cannot be targeted by villagers, and are only caught as a random bonus. Default is false.
         public bool BycatchOnly { get; protected set; }
 

@@ -187,6 +187,15 @@ namespace TownOfZuul
         {
             if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
+                if (currentLocation?.Name=="Docks" && direction == "east")
+                {
+                    Docks docks = (Docks)currentLocation;
+                    if (!docks.IsOceanUnlocked(initialPopulation))
+                    {
+                        Console.WriteLine("Nope");
+                        return;
+                    }
+                }
                 previousLocations.Push(currentLocation);
                 currentLocation = currentLocation?.Exits[direction];
 
