@@ -1,10 +1,7 @@
 ﻿namespace TownOfZuul
 {
-    // Base class for all locations in the game.
-    // Its properties and methods are available to all classes derived from it.
     public abstract class Location
     {
-        private const string NoAssignment = "This location cannot have any villagers assigned to it.";
         public string? Art { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
@@ -21,7 +18,7 @@
             SetExit("south", south);
             SetExit("west", west);
         }
-        
+
         public void SetExit(string direction, Location? neighbor)
         {
             if (neighbor != null)
@@ -30,28 +27,27 @@
 
         public virtual void AssignVillagers(uint amount)
         {
-            Console.WriteLine(NoAssignment);
+            Console.WriteLine("This location cannot have any villagers assigned to it.");
         }
     }
 
     public abstract class FishableLocation : Location
     {
-        private const string ZeroAssignment = "Clearing this location of all fishers...";
         public List<Fish> LocalFish { get; private set; } = new();
-        public List<uint> LocalFishers { get; private set; } = new();
+        public List<uint> LocalFishers { get; protected set; } = new();
 
         public override void AssignVillagers(uint amount)
         {
             if (amount == 0)
             {
-                Console.WriteLine(ZeroAssignment);
+                Console.WriteLine("Clearing this location of all fishers...");
                 LocalFishers.Clear();
                 return;
             }
 
             //TODO: Make sure there are enough "free villagers" that can be assigned
 
-            FishingMenu fishMenu = new(this,amount);
+            FishingMenu fishMenu = new(this, amount);
             fishMenu.Display();
 
             LocalFishers = fishMenu.GetFisherList(LocalFishers);
@@ -63,16 +59,67 @@
         {
             return 2.0; // TODO: replace with something meaningful
         }
+
+        public void CatchFish()
+        {
+            uint catchAmount;
+            uint bycatchAmount;
+
+            Random random = new();
+
+            for (int fishType = 0; fishType < LocalFish.Count; fishType++) // for each type of fish in ocean
+            {
+                LocalFish[fishType].SetPreviousPopulation();
+                for (uint i = 0; i < LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
+                {
+                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+
+                    if (catchAmount > LocalFish[fishType].Population)
+                        catchAmount = LocalFish[fishType].Population;
+
+                    LocalFish[fishType].RemovePopulation(catchAmount);
+
+                    // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
+                    foreach (Fish bycatch in LocalFish) // for each type of fish in docks
+                    {
+                        bycatchAmount = (uint)(random.Next(1, 12) * random.NextDouble() * (1.0 - bycatch.CatchDifficulty.GetValueOrDefault()));
+
+                        if (bycatchAmount > bycatch.Population)
+                            bycatchAmount = bycatch.Population;
+
+                        bycatch.RemovePopulation(bycatchAmount);
+
+                        // pause for dramatic effect, for we caught an ultra rare fish (temporary)
+                        if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
+                        {
+                            Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
+                            Thread.Sleep(2000);
+                        }
+
+                        // TODO: move AddToFoodStock to more suitable location
+                        //village?.AddToFoodStock(bycatch.FoodValue);
+                    }
+
+                    //village?.AddToFoodStock(fishableLocation?.LocalFish[fishType].FoodValue);
+                }
+            }
+        }
+        public void UpdateFishPopulation(double waterQuality)
+        {
+            foreach (Fish fishType in LocalFish)
+            {
+                fishType.SetReproductionRates(waterQuality);
+                // Fish stocks are tweaked dependent on reproduction rates.
+                fishType.AddPopulation();
+            }
+        }
     }
 
     public abstract class CleanableLocation : Location
     {
-        private const string ZeroAssignment = "Clearing this location of all cleaners...";
-        private const string ConfirmedAssignment = "Assignment confirmed. \nVillagers ready to clean in this location: ";
-        private const string DeniedAssignment = "Cannot assign anyone here, as the village does not have the tools necessary for cleanup.";
-
         // The amount of pollution currently in the location.
         // For different locations, this represents different types of pollution, measured in its own type of unit.
+        public readonly double InitialPollution;
         public double PollutionCount { get; protected set; }
 
         // Whether this location can be cleaned by villagers assigned to it.
@@ -83,7 +130,7 @@
 
         public CleanableLocation(double pollutionUnits)
         {
-            PollutionCount = pollutionUnits;
+            InitialPollution = PollutionCount = pollutionUnits;
             LocalCleaners = 0;
         }
 
@@ -91,13 +138,13 @@
         {
             if (!CleanupUnlocked)
             {
-                Console.WriteLine(DeniedAssignment);
+                Console.WriteLine("Cannot assign anyone here, as the village does not have the tools necessary for cleanup.");
                 return;
             }
 
             if (amount == 0)
             {
-                Console.WriteLine(ZeroAssignment);
+                Console.WriteLine("Clearing this location of all cleaners...");
                 LocalCleaners = 0;
                 return;
             }
@@ -108,17 +155,21 @@
 
             //TODO: Update global "free villager" value after this is done, if any exist.
 
-            Console.WriteLine(ConfirmedAssignment + amount + ".");
+            Console.WriteLine("Assignment confirmed. \nVillagers ready to clean in this location: " + amount + ".");
+        }
+
+        public void CleanPollution()
+        {
+            Random random = new();
+            PollutionCount -= LocalCleaners * random.NextDouble();
+            if (PollutionCount < 0)
+                PollutionCount = 0;
         }
     }
 
     // TODO: put classes below in separate files
     public class Village : Location
     {
-        public uint PopulationCount { get; private set; }
-        public double PopulationHealth { get; private set; }
-        public double FoodUnits { get; private set; }
-
         public Village()
         {
             Art = @"
@@ -139,16 +190,14 @@ ____________     ;       ''. ' // /// // ///==\
 ------------------------------------------------------------
             ";
             Name = "Village";
-            Description = "You're in the village."+ 
+            Description = "You're in the village." +
             " Once a large and prosperous place, you can easily tell its glory days are in the past." +
-            " Most of the buildings, which used to provide the shelter and livelihood to numerous people "+
-            "are now desolate and ill-kept."+
+            " Most of the buildings, which used to provide the shelter and livelihood to numerous people " +
+            "are now desolate and ill-kept." +
             " Somehow, though, you can feel that this village might get another shot at prosperity.";
-            PopulationCount = 5;
-            PopulationHealth = 90.0;
-            FoodUnits = 10.0;
 
-            Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
+            //Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
+            Information = $"Current population is whatever.";
         }
     }
 
@@ -180,9 +229,9 @@ ____________     ;       ''. ' // /// // ///==\
             ";
 
             Name = "Village Elder's house";
-            Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack."+
-            " Although it is as old as most of the surrounding architecture,"+
-            " the passage of time has not managed to tear down this testament of the village's past greatness."+
+            Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack." +
+            " Although it is as old as most of the surrounding architecture," +
+            " the passage of time has not managed to tear down this testament of the village's past greatness." +
             " You're in front of the village elder's house.\n The elder provides you with knowledge on " +
             "how to take care of the population and expand the village. The village elder will provide what you with "
             + "\n what you need to help the village.";
@@ -202,7 +251,7 @@ ____________     ;       ''. ' // /// // ///==\
 
         /*    if (PopulationHealth > 90)
                 Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
-                else
+            else
                 Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
                 " Let me tell you a story about its past. " +
@@ -213,13 +262,40 @@ ____________     ;       ''. ' // /// // ///==\
 
     public class Docks : FishableLocation
     {
-        public SeaTrout seaTrout = new(500);
-        public SeaBass seaBass = new(500);
-        public Pike pike = new(500);
-        public Salmon salmon = new(500);
-        public Sturgeon sturgeon = new(500);
+        public SeaTrout? seaTrout;
+        public SeaBass? seaBass;
+        public Pike? pike;
+        public Salmon? salmon;
+        public Sturgeon? sturgeon;
 
         public bool OceanUnlocked { get; private set; }
+
+        private void Populate()
+        {
+            Random random = new();
+
+            seaTrout = new((uint)random.Next(200, 1000));
+            seaBass = new((uint)random.Next(200, 1000));
+            pike = new((uint)random.Next(200, 1000));
+            salmon = new((uint)random.Next(200, 1000));
+            sturgeon = new((uint)random.Next(200, 1000));
+
+            LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
+
+            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
+            for (int i = 0; i < LocalFish.Count - 1; i++)
+            {
+                Fish fish = LocalFish[i];
+                if (fish.BycatchOnly == true)
+                {
+                    LocalFish.RemoveAt(i);
+                    LocalFish.Add(fish);
+                }
+            }
+
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
+        }
         public Docks()
         {
             Art = @"
@@ -240,15 +316,24 @@ __ ___ _            .   :  ;   .    V          ___
 ------------------------------------------------------------
             ";
             Name = "Docks";
-            Description = "You're at the village docks. "+
-            "A place where many of the village people's found employment now lies empty, "+
-            "save for the odd boat or seagull. "+
-            "A large chunk of the construction has been taken by the sea and the storms throughout the years, "+
-            "some of it still floating on the water, rocking with the waves. "+
+            Description = "You're at the village docks. " +
+            "A place where many of the village people's found employment now lies empty, " +
+            "save for the odd boat or seagull. " +
+            "A large chunk of the construction has been taken by the sea and the storms throughout the years, " +
+            "some of it still floating on the water, rocking with the waves. " +
             "Even still, the view of the waterfront remains as impressive as it has always been.";
             OceanUnlocked = false;
-            
-            LocalFish.AddRange(new List<Fish>(){seaTrout, seaBass, pike, salmon, sturgeon});
+
+            Populate();
+        }
+
+        public bool IsOceanUnlocked(uint population = 0)
+        {
+            if (!OceanUnlocked)
+            {
+                OceanUnlocked = population > 400;
+            }
+            return OceanUnlocked;
         }
     }
 
@@ -278,12 +363,12 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 ------------------------------------------------------------
             ";
             Name = "Research Vessel";
-            Description = "You're in the research vessel. "+
-            "You are greeted by the sight of somewhat modern technology and machinery, "+
-            "some of which can be concidered a rare find nowadays. "+
-            "How such equipment has remained so well-maintained to this day is a mystery to you "+ 
-            "but you are nevertheless impressed by its condition. "+
-            "If this village and its surroundings are going to be saved, "+
+            Description = "You're in the research vessel. " +
+            "You are greeted by the sight of somewhat modern technology and machinery, " +
+            "some of which can be concidered a rare find nowadays. " +
+            "How such equipment has remained so well-maintained to this day is a mystery to you " +
+            "but you are nevertheless impressed by its condition. " +
+            "If this village and its surroundings are going to be saved, " +
             "you can already tell this ship will be instrumental in achieving that.";
             Information = "Somehow you will be able to see fish stock here in the future.";
 
@@ -294,14 +379,44 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 
     public class Ocean : FishableLocation
     {
-        public Mackerel mackerel = new(500);
-        public Herring herring = new(500);
-        public Cod cod = new(500);
-        public Tuna tuna = new(500);
-        public Halibut halibut = new(500);
-        public Eel eel = new(500);
-        public Garfish garfish = new(500);
-        public GiantOarfish oarfish = new(500);
+        public Mackerel? mackerel;
+        public Herring? herring;
+        public Cod? cod;
+        public Tuna? tuna;
+        public Halibut? halibut;
+        public Eel? eel;
+        public Garfish? garfish;
+        public GiantOarfish? oarfish;
+
+        private void Populate()
+        {
+            Random random = new();
+
+            mackerel = new((uint)random.Next(200, 1000));
+            herring = new((uint)random.Next(200, 1000));
+            cod = new((uint)random.Next(200, 1000));
+            tuna = new((uint)random.Next(200, 1000));
+            halibut = new((uint)random.Next(200, 1000));
+            eel = new((uint)random.Next(200, 1000));
+            garfish = new(25);
+            oarfish = new(3);
+
+            LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
+
+            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
+            for (int i = 0; i < LocalFish.Count - 1; i++)
+            {
+                Fish fish = LocalFish[i];
+                if (fish.BycatchOnly == true)
+                {
+                    LocalFish.RemoveAt(i);
+                    LocalFish.Add(fish);
+                }
+            }
+
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
+        }
 
         public Ocean()
         {
@@ -323,14 +438,14 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 ------------------------------------------------------------
             ";
             Name = "Ocean";
-            Description = "The ocean lays before you. "+
-            "Your eyes are met with the its insurmountable vastness, the light reflecting on its pellucid waters. "+
-            "Something in the distance, resembling a small island catches your eye "+ 
-            "but you quickly discern this object's true nature. "+
-            "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. "+
+            Description = "The ocean lays before you. " +
+            "Your eyes are met with the its insurmountable vastness, the light reflecting on its pellucid waters. " +
+            "Something in the distance, resembling a small island catches your eye " +
+            "but you quickly discern this object's true nature. " +
+            "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. " +
             "There is yet more work to be done.";
 
-            LocalFish.AddRange(new List<Fish>(){mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish});
+            Populate();
         }
     }
 
@@ -358,10 +473,10 @@ _                             V              - ( ) -
 ------------------------------------------------------------
             ";
             Name = "Coast";
-            Description = "You're on the coast. "+
-            "It appears that the village's current misfortunes have made their mark "+
-            "on the natural world around the settlement. "+
-            "Plastic pollutes the once beautiful beach and "+
+            Description = "You're on the coast. " +
+            "It appears that the village's current misfortunes have made their mark " +
+            "on the natural world around the settlement. " +
+            "Plastic pollutes the once beautiful beach and " +
             "makes the animals' lives an increasingly hard battle for survival each day.";
         }
     }
@@ -390,8 +505,8 @@ _-= _-= _ _-_= - _//
 ------------------------------------------------------------
             ";
             Name = "Wastewater Treatment Plant";
-            Description = "You're in the wastewater treatment plant. "+
-            "Or what is left of it. "+
+            Description = "You're in the wastewater treatment plant. " +
+            "Or what is left of it. " +
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
             CleanupUnlocked = false; // cannot clean until membrane filter unlocked
