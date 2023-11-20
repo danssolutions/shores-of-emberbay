@@ -80,12 +80,13 @@ namespace TownOfZuul
 {
     public class Program
     {
+        public const string QuitMessage = "Thank you for playing Town Of Zuul!";
         public static void Main()
         {
             Console.CancelKeyPress += delegate
             {
                 Console.Clear();
-                Console.WriteLine(MainMenu.QuitMessage);
+                Console.WriteLine(QuitMessage);
                 Console.CursorVisible = true;
             };
             MainMenu menu = new();

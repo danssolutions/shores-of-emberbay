@@ -6,6 +6,7 @@ namespace TownOfZuul
         protected const string InactiveOption = "  ";
         protected int selectedOption = 1;
         protected string[] options;
+        protected bool continueDisplay = true;
         protected Menu()
         {
             options = Array.Empty<string>();
@@ -13,18 +14,22 @@ namespace TownOfZuul
 
         public virtual void Display()
         {
-            while (true)
+            //Console.Clear();
+            //Console.WriteLine(this.Art);
+            //Console.WriteLine(this.Text);
+
+            while (continueDisplay)
             {
                 for (int i = 1; i <= options.Length; i++)
                 {
-                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i-1] + " (" + i + ")\n");
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i - 1] + " (" + i + ")\n");
                 }
-                
+
                 ConsoleKey key = Console.ReadKey(true).Key;
 
                 Console.SetCursorPosition(0, Console.CursorTop - options.Length);
                 Console.CursorVisible = false;
-                
+
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
@@ -51,7 +56,7 @@ namespace TownOfZuul
                     case ConsoleKey.D9:
                         ParseOption((int)key - 48);
                         break;
-                    
+
                     case ConsoleKey.Escape:
                         ParseEscapeOption();
                         break;
@@ -61,7 +66,7 @@ namespace TownOfZuul
 
         public virtual void ParseOption(int option)
         {
-             // Intentionally left empty. This method must be overridden in classes inherited from Menu.
+            // Intentionally left empty. This method must be overridden in classes inherited from Menu.
         }
 
         public virtual void ParseEscapeOption()
@@ -72,7 +77,7 @@ namespace TownOfZuul
 
     public sealed class MainMenu : Menu
     {
-        private const string Logo = 
+        private const string Art =
             @"
              _____                            __   _____           _ 
             |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
@@ -83,34 +88,28 @@ namespace TownOfZuul
             ---------------------------------------------------------
                                                                      
             ";
-        
-        private const string Instructions = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
-        private const string PlayOption = "Play Game";
-        private const string SettingsOption = "Settings";
-        private const string CreditsOption = "Credits";
-        private const string QuitOption = "Quit";
-        public const string QuitMessage = "Thank you for playing Town Of Zuul!";
-        
+
+        private const string Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
         public MainMenu()
         {
             options = new string[] {
-                PlayOption,
-                //SettingsOption,
-                CreditsOption,
-                QuitOption
+                "Play Game",
+                //"Settings",
+                "Credits",
+                "Quit"
             };
         }
 
         override public void Display()
         {
             Console.Clear();
-            
-            Console.WriteLine(Logo);
-            Console.WriteLine(Instructions);
+
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
 
             base.Display();
         }
-        
+
         override public void ParseOption(int option)
         {
             switch (option)
@@ -143,8 +142,8 @@ namespace TownOfZuul
             game.Play();
 
             Console.Clear();
-            Console.WriteLine(Logo);
-            Console.WriteLine(Instructions);
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
         }
 
         private static void ShowSettings()
@@ -157,8 +156,8 @@ namespace TownOfZuul
             //fishMenu.Display();
 
             Console.Clear();
-            Console.WriteLine(Logo);
-            Console.WriteLine(Instructions);
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
         }
 
         private static void ShowCredits()
@@ -166,99 +165,86 @@ namespace TownOfZuul
             Console.Clear();
             Console.CursorVisible = true;
 
-            CreditsMenu credits = new();
-            credits.Display();
-
-            Console.Clear();
-            Console.WriteLine(Logo);
-            Console.WriteLine(Instructions);
-        }
-
-        private static void QuitGame()
-        {
-            Console.Clear();
-            Console.CursorVisible = true;
-            Console.WriteLine(QuitMessage);
-            Environment.Exit(0);
-        }
-    }
-
-    public sealed class CreditsMenu : Menu
-    {
-        private const string Logo = 
-            @"
-             _____                            __   _____           _ 
-            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
-              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
-              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
-              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
-                                                                     
-            ---------------------------------------------------------
-                                                                     
-            ";
-        
-        private const string Credits = 
+            string Credits =
             "Town of Zuul was created as an SDU BSc Software Engineering project by:\n" +
             "- Bobike\n" +
             "- Condegall\n" +
             "- danssolutions\n" +
             "- Gierka\n" +
             "- Ivan\n" +
-            "- perdita\n" +
-            "\nPress any key to return to the main menu.\n";
+            "- perdita\n";
+
+            GenericMenu credits = new(Art, Credits);
+            credits.Display();
+
+            Console.Clear();
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
+        }
+
+        private static void QuitGame()
+        {
+            Console.Clear();
+            Console.CursorVisible = true;
+            Console.WriteLine(Program.QuitMessage);
+            Environment.Exit(0);
+        }
+    }
+
+    public class GenericMenu : Menu // a menu with no options except 'press any key to continue' prompt, with customizable art and text
+    {
+        private readonly string Art, Text;
+        public GenericMenu(string art, string text)
+        {
+            this.Art = art;
+            this.Text = text;
+        }
 
         override public void Display()
         {
             Console.Clear();
-            
-            Console.WriteLine(Logo);
-            Console.WriteLine(Credits);
-
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
+            Console.WriteLine("\nPress any key to continue.\n");
             ConsoleKey key = Console.ReadKey(true).Key;
         }
     }
 
     public sealed class FishingMenu : Menu
     {
-        private const string Intro = "~~~ Fishing time! ~~~";
-        private const string Instructions = " villagers in total have been assigned to fish in this location. " + 
-            "Choose which type of fish each villager should try to catch.\n" +
-            "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n";
         private const string AssignedVillagersInfo = "Villagers ready to fish: ";
         private const string FreeVillagersInfo = "Villagers waiting for assignment: ";
         private const string AssignedOptionInfo = " will be fishing for ";
-        private const string ConfirmedOutro = "Assignment confirmed.";
-        private const string CancelledOutro = "Assignment cancelled.";
-
         private readonly uint totalVillagers;
         private uint freeVillagers;
-        private bool continueDisplay = true;
         private bool confirmed = false;
-        
+
         private readonly List<Fish> fishList = new();
         public readonly List<uint> fisherList = new();
-        
+
         public FishingMenu(FishableLocation location, uint amount)
         {
             totalVillagers = freeVillagers = amount;
-            
-            fishList = location.LocalFish;
-            fishList.RemoveAll(fish => fish.BycatchOnly == true); // fish marked as "bycatch only" cannot be assigned to villagers and won't show up here
 
-            if (fishList.Count > 0)
-                options = fishList.Select(fish => fish.Name ?? "").ToArray();
-            
+            fishList = location.LocalFish;
+
             for (int i = 0; i < fishList.Count; i++)
                 fisherList.Add(0);
+
+            // fish marked as "bycatch only" cannot be assigned to villagers and won't show up here
+            if (fishList.Count > 0)
+                options = fishList.Where(fish => fish.BycatchOnly == false).Select(fish => fish.Name ?? "").ToArray();
         }
-        
+
         override public void Display()
         {
             Console.Clear();
-            
-            Console.WriteLine(Intro);
+
+            Console.WriteLine("~~~ Fishing time! ~~~");
             Console.Write(totalVillagers);
-            Console.WriteLine(Instructions);
+            Console.WriteLine(" villagers in total have been assigned to fish in this location. " +
+            "Choose which type of fish each villager should try to catch.\n" +
+            "Use up/down arrow keys to select option, left/right arrow keys to change villager amounts, Enter to confirm.\n");
 
             while (continueDisplay)
             {
@@ -268,15 +254,16 @@ namespace TownOfZuul
                 Console.WriteLine(AssignedVillagersInfo + assignedVillagers + "".PadRight(assignedVillagers.ToString().Length));
                 for (int i = 1; i <= options.Length; i++)
                 {
-                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + fisherList[i-1] + AssignedOptionInfo + options[i-1] +
-                        "." + "".PadRight(fisherList[i-1].ToString().Length) + "\n");
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + fisherList[i - 1] + AssignedOptionInfo +
+                    options[i - 1] + " (" + fishList[i - 1].GetCatchDifficultyString() + " difficulty)" +
+                    "".PadRight(fisherList[i - 1].ToString().Length) + "\n");
                 }
-                
+
                 ConsoleKey key = Console.ReadKey(true).Key;
 
                 Console.SetCursorPosition(0, Console.CursorTop - options.Length - 3);
                 Console.CursorVisible = false;
-                
+
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
@@ -287,7 +274,7 @@ namespace TownOfZuul
                         if (selectedOption < options.Length)
                             selectedOption++;
                         break;
-                    
+
                     case ConsoleKey.LeftArrow:
                         if (fisherList[selectedOption - 1] > 0)
                         {
@@ -314,7 +301,7 @@ namespace TownOfZuul
                     case ConsoleKey.D9:
                         ParseOption((int)key - 48);
                         break;
-                    
+
                     case ConsoleKey.Escape:
                         ParseEscapeOption();
                         break;
@@ -326,9 +313,9 @@ namespace TownOfZuul
 
         override public void ParseOption(int option)
         {
-            if (fisherList.Count < option)
+            if (options.Length < option)
                 return;
-            
+
             if (freeVillagers > 0)
             {
                 fisherList[option - 1]++;
@@ -342,7 +329,7 @@ namespace TownOfZuul
             continueDisplay = false;
 
             Console.Clear();
-            Console.WriteLine(CancelledOutro);
+            Console.WriteLine("Assignment cancelled.");
         }
 
         public void ConfirmAssignment()
@@ -352,17 +339,67 @@ namespace TownOfZuul
 
             Console.Clear();
 
-            Console.WriteLine(ConfirmedOutro + "\n");
+            Console.WriteLine("Assignment confirmed.\n");
             Console.WriteLine(AssignedVillagersInfo + (totalVillagers - freeVillagers));
             for (int i = 1; i <= options.Length; i++)
-                Console.Write(fisherList[i-1] + AssignedOptionInfo + options[i-1] + ".\n");
-            
+                Console.Write(fisherList[i - 1] + AssignedOptionInfo + options[i - 1] + ".\n");
+
             Console.WriteLine("\n");
         }
 
         public List<uint> GetFisherList(List<uint> existingFishers)
         {
             return confirmed ? fisherList : existingFishers;
+        }
+    }
+
+    public class EndingMenu : Menu
+    {
+        public bool StopGame { get; private set; } = false;
+        private const string Art = @"
+
+
+                       Ending :)
+         I am placeholder art, replace me!
+            
+                                                                     
+---------------------------------------------------------
+                                                                     
+            ";
+
+        private const string Text = "Would you like to continue playing?\n";
+
+        public EndingMenu()
+        {
+            options = new string[] {
+                "Yes (Continue Playing)",
+                "No (Go to Main Menu)"
+            };
+        }
+
+        override public void Display()
+        {
+            Console.Clear();
+
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
+
+            base.Display();
+        }
+
+        override public void ParseOption(int option)
+        {
+            switch (option)
+            {
+                case 1:
+                    StopGame = false;
+                    continueDisplay = false;
+                    break;
+                case 2:
+                    StopGame = true;
+                    continueDisplay = false;
+                    break;
+            }
         }
     }
 }
