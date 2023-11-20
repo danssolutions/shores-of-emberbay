@@ -50,13 +50,13 @@ namespace TownOfZuul
 ---------------------------------------------------------
                                                                      
             ";
-            string endingText1 = 
+            string endingText1 =
             "Ending text 1\n";
-            string endingText2 = 
+            string endingText2 =
             "Ending text 2\n";
-            string endingText3 = 
+            string endingText3 =
             "Ending text 3\n";
-            string endingText4 = 
+            string endingText4 =
             "Ending text 4\n";
             GenericMenu endingSlide1 = new(endingArt1, endingText1);
             endingSlide1.Display();
@@ -70,12 +70,12 @@ namespace TownOfZuul
 
         public void ShowBadEnding()
         {
-            
+
         }
 
         public void ShowGameOver()
         {
-            
+
         }
     }
 }

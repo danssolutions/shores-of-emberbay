@@ -12,7 +12,7 @@ namespace TownOfZuul
 
         private uint monthCounter;
         private const uint endingMonth = 13;
-        
+
         public uint PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
@@ -38,7 +38,7 @@ namespace TownOfZuul
             ResearchVessel? researchVessel = new(500.0);
             Coast? coast = new(500.0);
             WastePlant? wastePlant = new(500.0);
-            
+
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
             docks.SetExits(researchVessel, ocean, null, village);
             elderHouse.SetExit("east", village);
@@ -165,11 +165,11 @@ namespace TownOfZuul
                     case "sleep":
                         UpdateGame();
                         break;
-                    
+
                     case "close":
                         CloseGame();
                         break;
-                    
+
                     case "report":
                         GetReport();
                         break;
@@ -187,15 +187,16 @@ namespace TownOfZuul
         {
             if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
-                if (currentLocation?.Name=="Docks" && direction == "east")
+                if (currentLocation?.Name == "Docks" && direction == "east")
                 {
                     Docks docks = (Docks)currentLocation;
-                    if (!docks.IsOceanUnlocked(initialPopulation))
+                    if (!docks.IsOceanUnlocked(PopulationCount))
                     {
                         Console.WriteLine("Nope");
                         return;
                     }
                 }
+                
                 previousLocations.Push(currentLocation);
                 currentLocation = currentLocation?.Exits[direction];
 
@@ -241,7 +242,7 @@ namespace TownOfZuul
                 }
                 foreach (Fish fish in fishableLocation.LocalFish)
                 {
-                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate,2) + " (previously " + Math.Round(fish.PreviousReproductionRate,2) + ")");
+                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate, 2) + " (previously " + Math.Round(fish.PreviousReproductionRate, 2) + ")");
                 }
             }
             Console.WriteLine();
@@ -252,7 +253,7 @@ namespace TownOfZuul
                 for (int i = 0; i < fishableLocation.LocalFishers.Count; i++)
                     Console.WriteLine("- " + fishableLocation.LocalFish[i].Name + " fishers: " + fishableLocation.LocalFishers[i]);
             }
-            
+
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
             {
                 Console.WriteLine($"Villagers cleaning in {cleanableLocation.Name}: " + cleanableLocation.LocalCleaners);
@@ -308,7 +309,7 @@ namespace TownOfZuul
             if (monthCounter != endingMonth)
             {
                 // TODO: replace AdvanceMonth() art
-                string advanceArt = 
+                string advanceArt =
             @"
 
 
@@ -321,7 +322,7 @@ namespace TownOfZuul
                 ";
 
                 string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
-                "Time passes, and eventually, month #" + monthCounter + " arrives.\n" + 
+                "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
                 "As you prepare for planning once again, you wonder how the village has kept itself up " +
                 "since you last examined it and are eager to find out.\n";
 
@@ -336,16 +337,16 @@ namespace TownOfZuul
 
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.CatchFish();
-            
+
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 cleanableLocation.CleanPollution();
-            
+
             // Update actual fish reproduction rates based on water quality and population (and base repop rate, and biodiversity score)
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.UpdateFishPopulation(GetWaterQualityPercentage());
-            
+
             UpdatePopulation();
-            
+
             monthCounter++;
 
             // Check ending here
@@ -361,7 +362,7 @@ namespace TownOfZuul
                     return;
                 }
             }
-            
+
             Console.Clear();
             Console.WriteLine(currentLocation?.Art);
         }

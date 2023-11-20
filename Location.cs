@@ -82,7 +82,7 @@
                     foreach (Fish bycatch in LocalFish) // for each type of fish in docks
                     {
                         bycatchAmount = (uint)(random.Next(1, 12) * random.NextDouble() * (1.0 - bycatch.CatchDifficulty.GetValueOrDefault()));
-                        
+
                         if (bycatchAmount > bycatch.Population)
                             bycatchAmount = bycatch.Population;
 
@@ -94,7 +94,7 @@
                             Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
                             Thread.Sleep(2000);
                         }
-                        
+
                         // TODO: move AddToFoodStock to more suitable location
                         //village?.AddToFoodStock(bycatch.FoodValue);
                     }
@@ -189,10 +189,10 @@ ____________     ;       ''. ' // /// // ///==\
 ------------------------------------------------------------
             ";
             Name = "Village";
-            Description = "You're in the village."+ 
+            Description = "You're in the village." +
             " Once a large and prosperous place, you can easily tell its glory days are in the past." +
-            " Most of the buildings, which used to provide the shelter and livelihood to numerous people "+
-            "are now desolate and ill-kept."+
+            " Most of the buildings, which used to provide the shelter and livelihood to numerous people " +
+            "are now desolate and ill-kept." +
             " Somehow, though, you can feel that this village might get another shot at prosperity.";
 
             //Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
@@ -227,9 +227,9 @@ ____________     ;       ''. ' // /// // ///==\
             ";
             PopulationHealth = 90.0;
             Name = "Village Elder's house";
-            Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack."+
-            " Although it is as old as most of the surrounding architecture,"+
-            " the passage of time has not managed to tear down this testament of the village's past greatness."+
+            Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack." +
+            " Although it is as old as most of the surrounding architecture," +
+            " the passage of time has not managed to tear down this testament of the village's past greatness." +
             " You're in front of the village elder's house.\n The elder provides you with knowledge on " +
             "how to take care of the population and expand the village. The village elder will provide what you with "
             + "\n what you need to help the village.";
@@ -248,7 +248,7 @@ ____________     ;       ''. ' // /// // ///==\
 
             if (PopulationHealth > 90)
                 Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
-                else
+            else
                 Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
                 " Let me tell you a story about its past. " +
@@ -312,18 +312,18 @@ __ ___ _            .   :  ;   .    V          ___
 ------------------------------------------------------------
             ";
             Name = "Docks";
-            Description = "You're at the village docks. "+
-            "A place where many of the village people's found employment now lies empty, "+
-            "save for the odd boat or seagull. "+
-            "A large chunk of the construction has been taken by the sea and the storms throughout the years, "+
-            "some of it still floating on the water, rocking with the waves. "+
+            Description = "You're at the village docks. " +
+            "A place where many of the village people's found employment now lies empty, " +
+            "save for the odd boat or seagull. " +
+            "A large chunk of the construction has been taken by the sea and the storms throughout the years, " +
+            "some of it still floating on the water, rocking with the waves. " +
             "Even still, the view of the waterfront remains as impressive as it has always been.";
             OceanUnlocked = false;
 
             Populate();
         }
 
-        public bool IsOceanUnlocked(int population = 0)
+        public bool IsOceanUnlocked(uint population = 0)
         {
             if (!OceanUnlocked)
             {
@@ -359,12 +359,12 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 ------------------------------------------------------------
             ";
             Name = "Research Vessel";
-            Description = "You're in the research vessel. "+
-            "You are greeted by the sight of somewhat modern technology and machinery, "+
-            "some of which can be concidered a rare find nowadays. "+
-            "How such equipment has remained so well-maintained to this day is a mystery to you "+ 
-            "but you are nevertheless impressed by its condition. "+
-            "If this village and its surroundings are going to be saved, "+
+            Description = "You're in the research vessel. " +
+            "You are greeted by the sight of somewhat modern technology and machinery, " +
+            "some of which can be concidered a rare find nowadays. " +
+            "How such equipment has remained so well-maintained to this day is a mystery to you " +
+            "but you are nevertheless impressed by its condition. " +
+            "If this village and its surroundings are going to be saved, " +
             "you can already tell this ship will be instrumental in achieving that.";
             Information = "Somehow you will be able to see fish stock here in the future.";
 
@@ -397,7 +397,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             oarfish = new(3);
 
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
- 
+
             // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
             for (int i = 0; i < LocalFish.Count - 1; i++)
             {
@@ -433,11 +433,11 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 ------------------------------------------------------------
             ";
             Name = "Ocean";
-            Description = "The ocean lays before you. "+
-            "Your eyes are met with the its insurmountable vastness, the light reflecting on its pellucid waters. "+
-            "Something in the distance, resembling a small island catches your eye "+ 
-            "but you quickly discern this object's true nature. "+
-            "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. "+
+            Description = "The ocean lays before you. " +
+            "Your eyes are met with the its insurmountable vastness, the light reflecting on its pellucid waters. " +
+            "Something in the distance, resembling a small island catches your eye " +
+            "but you quickly discern this object's true nature. " +
+            "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. " +
             "There is yet more work to be done.";
 
             Populate();
@@ -468,10 +468,10 @@ _                             V              - ( ) -
 ------------------------------------------------------------
             ";
             Name = "Coast";
-            Description = "You're on the coast. "+
-            "It appears that the village's current misfortunes have made their mark "+
-            "on the natural world around the settlement. "+
-            "Plastic pollutes the once beautiful beach and "+
+            Description = "You're on the coast. " +
+            "It appears that the village's current misfortunes have made their mark " +
+            "on the natural world around the settlement. " +
+            "Plastic pollutes the once beautiful beach and " +
             "makes the animals' lives an increasingly hard battle for survival each day.";
         }
     }
@@ -500,8 +500,8 @@ _-= _-= _ _-_= - _//
 ------------------------------------------------------------
             ";
             Name = "Wastewater Treatment Plant";
-            Description = "You're in the wastewater treatment plant. "+
-            "Or what is left of it. "+
+            Description = "You're in the wastewater treatment plant. " +
+            "Or what is left of it. " +
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
             CleanupUnlocked = false; // cannot clean until membrane filter unlocked
