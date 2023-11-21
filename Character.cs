@@ -151,16 +151,22 @@ namespace TownOfZuul
             switch (option)
             {
                 case 1:
-                    nextLine = "I'm good, how bout u.";
+                    Console.Clear();
+                    nextLine = "I'm good, idk how bout u.";
+                    Console.WriteLine("idkkkkk");
+                    Console.Clear();
                     break;
                 case 2:
                     nextLine = "Thanks.";
+                    Console.Clear();
                     break;
                 case 3:
                     nextLine = "It's to the east, dummy. It's where you came from.";
+                    Console.Clear();
                     break;
                 case 4:
                     nextLine = "Aight, bye.";
+
                     continueDisplay = false;
                     break;
             }
