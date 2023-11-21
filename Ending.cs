@@ -62,13 +62,21 @@ namespace TownOfZuul
                                                                      
             ";
             string endingText1 =
-            "Ending text 1\n";
+            "And so, once the villagers took matters into their own hands under the new mayor’s leadership, their settlement changed forever. What used to be a fallen remnant of great times past is now prospering, becoming an inspiring symbol of harmony between humanity and nature.\n";
             string endingText2 =
-            "Ending text 2\n";
+            "The village docks, once a sad reminder of the settlement’s past glory, have become fully revitalized under the new mayor’s tenure. Numerous vessels coming and passing by the village have resulted in the harbour becoming a hub for travellers, traders and fishermen alike, serving as the core of the village’s resources and culture.\n";
             string endingText3 =
-            "Ending text 3\n";
+            "The local fishermen, now aware of sustainable fishing practices, have used their knowledge to satisfy the village’s food necessities while keeping the local marine environment healthy and biodiverse. Some local sailors say that marine life has become so plentiful that you can see dozens, even hundreds of fish swimming in the clear waters at a single time with the naked eye.\n";
             string endingText4 =
-            "Ending text 4\n";
+            "The village elder was happy with what she saw. She smiled for the first time in 60 years. Placeholder\n";
+            string endingText5 =
+            "With time and effort, the coast has been cleaned of the pollution which threatened the well-being of the animals and tainted its beauty. It is now a popular spot for adventurous young folk, especially those interested in ocean preservation.\n";
+            string endingText6 =
+            "When conditions were finally considered optimal, the scientists and crew aboard the local research vessel took off towards the deep ocean. The villagers thought the ship would never return, until it appeared on the horizon many months after its departure. The discoveries by the research team were astonishing - according to measurements, the local marine environment had become one of the least polluted in the world. In addition, numerous new species of fish were discovered as part of the expedition, which brought great acclaim to the operation and its crew.\n";
+            string endingText7 =
+            "The waste plant gained a substantial amount of news coverage because of its efficiency and novelty. Its technology and application inspired many more innovations in the field of marine preservation and helped kickstart ocean cleanup projects across the globe. \n";
+            string endingText8 =
+            "Throughout the last few months, the local trawlers have been catching record amounts of various diverse types of fish in the nearby ocean, making sure to implement sustainable trawling practices as part of their craft. The efforts of the trawlers will ensure that the village remains well fed and develops sustainably for a long time to come.\n";
             GenericMenu endingSlide1 = new(endingArt1, endingText1);
             endingSlide1.Display();
             GenericMenu endingSlide2 = new(endingArt2, endingText2);
@@ -77,16 +85,41 @@ namespace TownOfZuul
             endingSlide3.Display();
             GenericMenu endingSlide4 = new(endingArt4, endingText4);
             endingSlide4.Display();
+            GenericMenu endingSlide5 = new(endingArt1, endingText5);
+            endingSlide5.Display();
+            GenericMenu endingSlide6 = new(endingArt2, endingText6);
+            endingSlide6.Display();
+            GenericMenu endingSlide7 = new(endingArt3, endingText7);
+            endingSlide7.Display();
+            GenericMenu endingSlide8 = new(endingArt4, endingText8);
+            endingSlide8.Display();
         }
 
         public void ShowBadEndingSlides()
         {
+            /*
+                introduction to village general desciption of misfortune
+                the docks have slowly become unusable
+                fisherman (if included), lost his job, struggling to survive and keep his family afloat
+                village elder lies in her deathbed, sad that she never saw the village recover (cringe)
+                research vessel just left lmao, the docks are no longer safe to use
+                mayor's fate - their term expired, the village has remained stagnant for years to come until big oil comes in to "save" the village
+            */
             Console.WriteLine("Congrats, muppet. You failed lmao");
-            Thread.Sleep(5000);        }
+            Thread.Sleep(5000);
+        }
 
         public void ShowGameOverSlides()
         {
-
+            /*
+                introduction to village becoming abandoned
+                no one is left in the docks, what even is a dock anyway, it got completely reclaimed by the ocean over the years
+                fisherman (if included), the local urban explorers tell of a legend of a ghostly fisherman haunting what used to be the docks,
+                 still trying to feed his long gone family
+                village elder witnessed the last sight of the village ruins before passing away
+                the fate of the research vessel near the village is unknown
+                the village has become fully abandoned, eventually forgotten to time
+            */
         }
     }
 }

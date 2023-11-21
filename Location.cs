@@ -235,7 +235,7 @@ ____________     ;       ''. ' // /// // ///==\
             + "\n what you need to help the village.";
             Story = "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
             "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
-            + "\nNow we are just trying to survive. Our health i getting worse for everyday, \nbecause we either don't "
+            + "\nNow we are just trying to survive. Our health is getting worse for everyday, \nbecause we either don't "
             + "get anything to eat or because the fish we eat are contaminated with plastic or other chemicals. "
             + "\nCompanies take our fish so we barely have enough food and we have to be careful deciding what fish to catch. "
             + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "

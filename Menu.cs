@@ -367,13 +367,13 @@ namespace TownOfZuul
                                                                      
             ";
 
-        private const string Text = "Would you like to continue playing?\n";
+        private const string Text = "After their tenure, the mayor ended up writing a bestseller about their experience and associated tips for future mayors of cities and towns worldwide. The innovative application of sustainable development resulted in the mayor attending numerous interviews, discussing future goals and suggestions for aspiring city developers. During the last interview scheduled for this year, an interesting question is presented: “Are there any plans to return to the village and become mayor again?”\n";
 
         public EndingMenu()
         {
             options = new string[] {
-                "Yes (Continue Playing)",
-                "No (Go to Main Menu)"
+                "'Yep.' (Continue Playing)",
+                "'Nah.' (Go to Main Menu)"
             };
         }
 
