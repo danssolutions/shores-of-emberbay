@@ -25,8 +25,8 @@ namespace TownOfZuul
             //UpdateGame();
             monthCounter = 1;
             PopulationCount = 5;
-            PopulationHealth = 0.9;
-            FoodUnits = 10.0;
+            PopulationHealth = 0.5;
+            FoodUnits = 4.0;
         }
 
         private void CreateLocations()
@@ -289,10 +289,10 @@ namespace TownOfZuul
             }
             else
             {
-                SetPopulationHealth(1.5); //improves by 50% if all food needs are met
+                SetPopulationHealth(1.2); //improves by 50% if all food needs are met
             }
             // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            SetPopulationHealth(1.0 + 0.1 * (GetWaterQualityPercentage() - 0.3));
+            SetPopulationHealth(0.7 + 0.1 * (GetWaterQualityPercentage() - 0.3));
         }
 
         public void SetPopulationHealth(double multiplier)
