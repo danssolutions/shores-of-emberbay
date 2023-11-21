@@ -349,18 +349,11 @@ namespace TownOfZuul
 
             monthCounter++;
 
-            // Check ending here
+            // Check ending heres
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();
-                ending.ShowGoodEnding();
-                EndingMenu endingMenu = new();
-                endingMenu.Display();
-                if (endingMenu.StopGame)
-                {
-                    continuePlaying = false;
-                    return;
-                }
+                continuePlaying = ending.GetEnding(PopulationCount, PopulationHealth);
             }
 
             Console.Clear();

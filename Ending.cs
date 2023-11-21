@@ -2,13 +2,24 @@ namespace TownOfZuul
 {
     public class Ending
     {
-        public bool CheckEnding()
+        public bool GetEnding(uint populationCount, double populationHealth)
         {
-            // check win/fail condition here
-            return false;
+            // Check win condition and determine ending based on whether player met it.
+            if (populationCount >= 400 && populationHealth >= 0.95)
+            {
+                ShowGoodEndingSlides();
+                EndingMenu endingMenu = new();
+                endingMenu.Display();
+                return endingMenu.ContinueGame;
+            }
+            else
+            {
+                ShowBadEndingSlides();
+                return false;
+            }
         }
 
-        public void ShowGoodEnding()
+        public void ShowGoodEndingSlides()
         {
             string endingArt1 = @"
 
@@ -68,12 +79,12 @@ namespace TownOfZuul
             endingSlide4.Display();
         }
 
-        public void ShowBadEnding()
+        public void ShowBadEndingSlides()
         {
+            Console.WriteLine("Congrats, muppet. You failed lmao");
+            Thread.Sleep(5000);        }
 
-        }
-
-        public void ShowGameOver()
+        public void ShowGameOverSlides()
         {
 
         }

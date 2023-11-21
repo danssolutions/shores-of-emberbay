@@ -355,7 +355,7 @@ namespace TownOfZuul
 
     public class EndingMenu : Menu
     {
-        public bool StopGame { get; private set; } = false;
+        public bool ContinueGame { get; private set; } = false;
         private const string Art = @"
 
 
@@ -392,11 +392,11 @@ namespace TownOfZuul
             switch (option)
             {
                 case 1:
-                    StopGame = false;
+                    ContinueGame = true;
                     continueDisplay = false;
                     break;
                 case 2:
-                    StopGame = true;
+                    ContinueGame = false;
                     continueDisplay = false;
                     break;
             }
