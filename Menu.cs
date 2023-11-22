@@ -205,7 +205,7 @@ namespace TownOfZuul
             Console.Clear();
             Console.WriteLine(Art);
             Console.WriteLine(Text);
-            Console.WriteLine("\nPress any key to continue.\n");
+            Console.WriteLine("\nPress any key to continue.");
             ConsoleKey key = Console.ReadKey(true).Key;
         }
     }
@@ -350,56 +350,6 @@ namespace TownOfZuul
         public List<uint> GetFisherList(List<uint> existingFishers)
         {
             return confirmed ? fisherList : existingFishers;
-        }
-    }
-
-    public class EndingMenu : Menu
-    {
-        public bool ContinueGame { get; private set; } = false;
-        private const string Art = @"
-
-
-                       Ending :)
-         I am placeholder art, replace me!
-            
-                                                                     
----------------------------------------------------------
-                                                                     
-            ";
-
-        private const string Text = "After their tenure, the mayor ended up writing a bestseller about their experience and associated tips for future mayors of cities and towns worldwide. \n\nThe innovative application of sustainable development resulted in the mayor attending numerous interviews, discussing future goals and suggestions for aspiring city developers. \n\nDuring the last interview scheduled for the year, an interesting question is presented: \n\n“Are there any plans to return to the village and become mayor again?”\n";
-
-        public EndingMenu()
-        {
-            options = new string[] {
-                "'Yep.' (Continue Playing)",
-                "'Nah.' (Go to Main Menu)"
-            };
-        }
-
-        override public void Display()
-        {
-            Console.Clear();
-
-            Console.WriteLine(Art);
-            Console.WriteLine(Text);
-
-            base.Display();
-        }
-
-        override public void ParseOption(int option)
-        {
-            switch (option)
-            {
-                case 1:
-                    ContinueGame = true;
-                    continueDisplay = false;
-                    break;
-                case 2:
-                    ContinueGame = false;
-                    continueDisplay = false;
-                    break;
-            }
         }
     }
 }

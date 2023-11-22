@@ -187,12 +187,15 @@ namespace TownOfZuul
         {
             if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
+                // Special check if player attempts to enter ocean - do they have enough villagers to unlock it?
                 if (currentLocation?.Name == "Docks" && direction == "east")
                 {
                     Docks docks = (Docks)currentLocation;
                     if (!docks.IsOceanUnlocked(PopulationCount))
                     {
-                        Console.WriteLine("Nope");
+                        Console.Clear();
+                        Console.WriteLine(currentLocation?.Art);
+                        Console.WriteLine("Unfortunately, there are no seaworthy vessels that can take you to the ocean right now. \nPerhaps one will be available when the village grows larger?");
                         return;
                     }
                 }
@@ -308,19 +311,6 @@ namespace TownOfZuul
         {
             if (monthCounter != endingMonth)
             {
-                // TODO: replace AdvanceMonth() art
-                /*string advanceArt =
-            @"
-
-
-            Nap time, sleeby eeby
-        I am placeholder art, replace me!
-            
-                                                                     
----------------------------------------------------------
-                                                                     
-                ";*/
-
                 string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
                 "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
                 "As you prepare for planning once again, you wonder how the village has kept itself up " +
@@ -350,7 +340,7 @@ namespace TownOfZuul
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();
-                continuePlaying = ending.GetEnding(PopulationCount, PopulationHealth);
+                continuePlaying = Ending.GetEnding(PopulationCount, PopulationHealth);
             }
             else
                 AdvanceMonth(monthCounter);
