@@ -309,7 +309,7 @@ namespace TownOfZuul
             if (monthCounter != endingMonth)
             {
                 // TODO: replace AdvanceMonth() art
-                string advanceArt =
+                /*string advanceArt =
             @"
 
 
@@ -319,22 +319,20 @@ namespace TownOfZuul
                                                                      
 ---------------------------------------------------------
                                                                      
-                ";
+                ";*/
 
                 string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
                 "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
                 "As you prepare for planning once again, you wonder how the village has kept itself up " +
                 "since you last examined it and are eager to find out.\n";
 
-                GenericMenu advancementMenu = new(advanceArt, advanceText);
+                GenericMenu advancementMenu = new(GameArt.AdvanceMonth, advanceText);
                 advancementMenu.Display();
             }
         }
 
         public void UpdateGame()
         {
-            AdvanceMonth(monthCounter);
-
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.CatchFish();
 
@@ -349,12 +347,13 @@ namespace TownOfZuul
 
             monthCounter++;
 
-            // Check ending heres
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();
                 continuePlaying = ending.GetEnding(PopulationCount, PopulationHealth);
             }
+            else
+                AdvanceMonth(monthCounter);
 
             Console.Clear();
             Console.WriteLine(currentLocation?.Art);
