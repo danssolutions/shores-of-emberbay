@@ -119,12 +119,7 @@ namespace TownOfZuul
 
                     case "talk":
                         currentLocation?.Character?.Display();
-                        //Console.WriteLine(currentLocation?.Character?.characterName);
                         break;
-
-                    //case "talk":
-                    //    Console.WriteLine(Character?.Dialogue);
-                    //    break;
 
                     case "story":
                         Console.WriteLine(currentLocation?.Story);
@@ -168,11 +163,11 @@ namespace TownOfZuul
                         Console.WriteLine("Great, you now have the algae cleaner and can start cleaning the algae.");
                         break;
 
-                    case "speak":
+                /*    case "speak":
                         DialogueMenu dialogueMenu = new();
                         dialogueMenu.Display();
                         break;
-
+                */
                     case "sleep":
                         UpdateGame();
                         break;
