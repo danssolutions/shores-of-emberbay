@@ -54,3 +54,17 @@ C:\Users\asus\OneDrive\Desktop\Wozz\town-of-zuul\obj\Debug\net7.0\refint\town-of
 C:\Users\asus\OneDrive\Desktop\Wozz\town-of-zuul\obj\Debug\net7.0\town-of-zuul.pdb
 C:\Users\asus\OneDrive\Desktop\Wozz\town-of-zuul\obj\Debug\net7.0\town-of-zuul.genruntimeconfig.cache
 C:\Users\asus\OneDrive\Desktop\Wozz\town-of-zuul\obj\Debug\net7.0\ref\town-of-zuul.dll
+C:\programi\town-of-zuul\bin\Debug\net7.0\town-of-zuul.exe
+C:\programi\town-of-zuul\bin\Debug\net7.0\town-of-zuul.deps.json
+C:\programi\town-of-zuul\bin\Debug\net7.0\town-of-zuul.runtimeconfig.json
+C:\programi\town-of-zuul\bin\Debug\net7.0\town-of-zuul.dll
+C:\programi\town-of-zuul\bin\Debug\net7.0\town-of-zuul.pdb
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.GeneratedMSBuildEditorConfig.editorconfig
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.AssemblyInfoInputs.cache
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.AssemblyInfo.cs
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.csproj.CoreCompileInputs.cache
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.dll
+C:\programi\town-of-zuul\obj\Debug\net7.0\refint\town-of-zuul.dll
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.pdb
+C:\programi\town-of-zuul\obj\Debug\net7.0\town-of-zuul.genruntimeconfig.cache
+C:\programi\town-of-zuul\obj\Debug\net7.0\ref\town-of-zuul.dll

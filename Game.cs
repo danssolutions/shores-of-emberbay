@@ -187,12 +187,15 @@ namespace TownOfZuul
         {
             if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
+                // Special check if player attempts to enter ocean - do they have enough villagers to unlock it?
                 if (currentLocation?.Name == "Docks" && direction == "east")
                 {
                     Docks docks = (Docks)currentLocation;
                     if (!docks.IsOceanUnlocked(PopulationCount))
                     {
-                        Console.WriteLine("Nope");
+                        Console.Clear();
+                        Console.WriteLine(currentLocation?.Art);
+                        Console.WriteLine("Unfortunately, there are no seaworthy vessels that can take you to the ocean right now. \nPerhaps one will be available when the village grows larger?");
                         return;
                     }
                 }
@@ -306,34 +309,19 @@ namespace TownOfZuul
 
         public static void AdvanceMonth(uint monthCounter)
         {
-            if (monthCounter != endingMonth)
-            {
-                // TODO: replace AdvanceMonth() art
-                string advanceArt =
-            @"
+            string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
+            "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
+            "As you prepare for planning once again, you wonder how the village has kept itself up " +
+            "since you last examined it and are eager to find out.\n";
 
-
-            Nap time, sleeby eeby
-        I am placeholder art, replace me!
-            
-                                                                     
----------------------------------------------------------
-                                                                     
-                ";
-
-                string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
-                "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
-                "As you prepare for planning once again, you wonder how the village has kept itself up " +
-                "since you last examined it and are eager to find out.\n";
-
-                GenericMenu advancementMenu = new(advanceArt, advanceText);
-                advancementMenu.Display();
-            }
+            GenericMenu advancementMenu = new(GameArt.AdvanceMonth, advanceText);
+            advancementMenu.Display();
         }
 
         public void UpdateGame()
         {
-            AdvanceMonth(monthCounter);
+            if (monthCounter != endingMonth)
+                AdvanceMonth(monthCounter);
 
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.CatchFish();
@@ -349,18 +337,10 @@ namespace TownOfZuul
 
             monthCounter++;
 
-            // Check ending here
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();
-                ending.ShowGoodEnding();
-                EndingMenu endingMenu = new();
-                endingMenu.Display();
-                if (endingMenu.StopGame)
-                {
-                    continuePlaying = false;
-                    return;
-                }
+                continuePlaying = Ending.GetEnding(PopulationCount, PopulationHealth);
             }
 
             Console.Clear();
@@ -386,7 +366,7 @@ namespace TownOfZuul
 
         private static void PrintWelcome()
         {
-            Console.WriteLine("Welcome to Town Of Zuul!");
+            Console.WriteLine("Welcome to the village of Emberbay!");
             Console.WriteLine("Type 'help' for a list of commands.");
             //PrintHelp();
             Console.WriteLine();
@@ -394,8 +374,8 @@ namespace TownOfZuul
 
         private static void PrintHelp()
         {
-            Console.WriteLine("You are a mayor of the town of Zuul.");
-            Console.WriteLine("Your job is to manage the town's population and assign villagers from your town to do certain tasks, such as fishing.");
+            Console.WriteLine("You are the mayor of the village of Emberbay.");
+            Console.WriteLine("Your job is to manage the village's population and assign villagers from your settlement to do certain tasks, such as fishing.");
             Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
             Console.WriteLine("Type 'look' for more details about your current location.");

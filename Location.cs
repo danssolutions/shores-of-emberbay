@@ -88,11 +88,12 @@
 
                         bycatch.RemovePopulation(bycatchAmount);
 
-                        // pause for dramatic effect, for we caught an ultra rare fish (temporary)
+                        // Oarfish event check
                         if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
                         {
-                            Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
-                            Thread.Sleep(2000);
+                            string oarfishEventText = "Woah! Someone from the village caught and and hauled back a giant oarfish, an incredibly rare and massive fish!";
+                            GenericMenu oarfishEvent = new(GameArt.ResearchVessel, oarfishEventText);
+                            oarfishEvent.Display();
                         }
 
                         // TODO: move AddToFoodStock to more suitable location
@@ -171,23 +172,7 @@
     {
         public Village()
         {
-            Art = @"
-
-                                V           ~~
-~         ~~          V                                 V
-       _T      .,,.    ~--~ ^^          V        -==-
- ^^   // \                    _   ________     
-      |[O]    _____,----,-. .' './========\             ~~~
-- -/``-|_|- -|.-.-_II__|__ |-----| u    u |- -___ - -- -- _-
-\_/_  /   \ _|| | / ''   /'\_|T| |   ||   |\_| u |_ _ _ _/_ 
-| | ||--'''' \,--|--..._/,.-{ },  ````````   |u u| U U U U U
-| '/__\,.--';|   |[] .-.| O{ _ }     .;.     |+++|+-+-+-+-+-
-|  |  | []  -|   '`---.;[,-`\,/  ____________|===|>=== _ _ =
-| |[]|,.--'' '',   ''-,.     |  //// ////// /\ T |....| V |.
-____________     ;       ''. ' // /// // ///==\
-/// ////// /\   /           \ |//////-\////====|      \|/
-------------------------------------------------------------
-            ";
+            Art = GameArt.Village;
             Name = "Village";
             Description = "You're in the village." +
             " Once a large and prosperous place, you can easily tell its glory days are in the past." +
@@ -208,23 +193,7 @@ ____________     ;       ''. ' // /// // ///==\
 
         public ElderHouse()
         {
-            Art = @"
-
-  -==-              .-.    V      ~--~  _   ~~
-        ~--~       /   \              _/ \       V    -==-
-      _    ~~  .--'\/\_ \            /    \  V    ___
-  V  / \_    _/ V      \/\'__        /\/\  /\  __/   \ V
-    /    \  /    .'   _/  /  \     /    \/  \/ .`'\_/\   ~~
-   /\/\  /\/ :' __  ^/  ^/    `--./.'  ^  `-.\ _    _:\ _
-  /    \/  \  _/  \-' __/.' ^ _  ____  .'\   _/ \ .  __/ \
-/\  .-   `. \/     ______________|  |_____ \ /    `._/  ^  \
-  `-.__ ^   / .-'./_______________________\`-.  `-. `.  -  `
-'`-,   `.  / /     ||__|__||||||||__|__|||    \    \  \  .-/
-    `-~---~~--~-~--||__|__||||||||__|__|||~---~~--~~--~-~~`
- ~         `      ~|||||||||||||||||||||||~         ~
-    .              ````.~~~-.~~-.~~~..~```    `         .
-------------------------------------------------------------
-            ";
+            Art = GameArt.ElderHouse;
             PopulationHealth = 90.0;
             Name = "Village Elder's house";
             Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack." +
@@ -235,7 +204,7 @@ ____________     ;       ''. ' // /// // ///==\
             + "\n what you need to help the village.";
             Story = "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
             "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
-            + "\nNow we are just trying to survive. Our health i getting worse for everyday, \nbecause we either don't "
+            + "\nNow we are just trying to survive. Our health is getting worse for everyday, \nbecause we either don't "
             + "get anything to eat or because the fish we eat are contaminated with plastic or other chemicals. "
             + "\nCompanies take our fish so we barely have enough food and we have to be careful deciding what fish to catch. "
             + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "
@@ -294,23 +263,7 @@ ____________     ;       ''. ' // /// // ///==\
         }
         public Docks()
         {
-            Art = @"
-
-__ ___ _            .   :  ;   .    V          ___
-,=,_    ``------.__  \        /        .----``   ```--.
-    `--,____.------'-   ,--.  -        ``-------`````  V
- .    , \_______-_-~___/____\__~-_-_______/';\._____________
-  ~     `\.  V   --       --           .--    \'-.
-        . `\._          ~~ --   V      ```\``/``      --
-  V      `    `'--..    _--                '      V
-             --',.---'   - '  H--,  ___   _^__________^_
-    _~__----```` ~.      '__  H  | /  /   |LLLLLLLLLLLL|Y
-'```      '  V   /|     /   / H  `/   |   |____,,....__||
-        '       /_|_   /   /,_H..------````            `''--
-      '  --    \----/ /   ~`|
-    -`          ,----/   / /
-------------------------------------------------------------
-            ";
+            Art = GameArt.Docks;
             Name = "Docks";
             Description = "You're at the village docks. " +
             "A place where many of the village people's found employment now lies empty, " +
@@ -341,23 +294,7 @@ __ ___ _            .   :  ;   .    V          ___
 
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
-            Art = @"
-
-    .----``   ```--.               ___
-    ``-------`````  V           ,=,_    ``------.__
-                                    `--,____.------'- 
-                                            ,---L--E   _____
-                        V   __/___          |   H      |
-       V              _____/______|    V    G   H  ____|
-             ________/_____\_______\_____.      H``
-             \  O O O       __< < <      |\     H     V
-___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
- =_-_ -=,-T----------T`---/_/-------T----------'__T_________
-       /     /              /                   /   ____,---
-  -=  /T___________T______         _  /           _|\__/|\__
- - -=~~~-~~=~~~~~~~=~~--,/     -  [X]         -  |X|/  \|/
-------------------------------------------------------------
-            ";
+            Art = GameArt.ResearchVessel;
             Name = "Research Vessel";
             Description = "You're in the research vessel. " +
             "You are greeted by the sight of somewhat modern technology and machinery, " +
@@ -394,7 +331,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             halibut = new((uint)random.Next(200, 1000));
             eel = new((uint)random.Next(200, 1000));
             garfish = new(25);
-            oarfish = new(3);
+            oarfish = new(1);
 
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
 
@@ -415,23 +352,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 
         public Ocean()
         {
-            Art = @"
-
-        ...
-    .-``   `--.                          ___
-    ``---`````                    .----``   ```--.                  
-                                   ``-------`````  
-
-                             |                 V
-          V              \       /
- V                         .---.        V
-                      --  /     \  --               V
-`~~^~^~^~^~^~^~^~^~^~^~^-=======-~^~^~^~^~^~^~^~^~^~^~^~^~~`
-`~^_~^~^~^~^~-~^_~^~^_~-=========- -~^~^~-~^~^~^~^_~^~^~^~^`
-`~^~-~^~^~~^~^~-^~^_~^~~ -=====- ~^~^~-~^~_~^~^~^~^~^~-~^~~`
-`~^~^~-~^~~^~^~^~-~^~~-~^~^~-~^~~^-~^~^~^-~^~^~^~^~~~^~^~-^`
-------------------------------------------------------------
-            ";
+            Art = GameArt.Ocean;
             Name = "Ocean";
             Description = "The ocean lays before you. " +
             "Your eyes are met with the its insurmountable vastness, the light reflecting on its pellucid waters. " +
@@ -450,23 +371,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 
         public Coast(double pollutionUnits) : base(pollutionUnits)
         {
-            Art = @"
-
-
-                                              \ ' /
-_                             V              - ( ) -
---~~,     V       ~~~~                        / , \
-     \                           ~~~~~~
--------________ __________ __ _ ___ ___ __ _ _ _____ _ _ ___
-                     ---...___ =-= = -_= -=_= _-=_-_ -=- =-_
-                              ```--.._= -_= -_= _-=- -_= _=-
-                                      ``--._=-_ =-=_-= _-= _
-            ~                               ``-._=_-=_- =_-=
-                                                 `-._-=_-_=-
-                                                     `-._=-_
-  `                                             ~        `-.
-------------------------------------------------------------
-            ";
+            Art = GameArt.Coast;
             Name = "Coast";
             Description = "You're on the coast. " +
             "It appears that the village's current misfortunes have made their mark " +
@@ -482,23 +387,7 @@ _                             V              - ( ) -
 
         public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
-            Art = @"
-
-                                           ~~~~~~~~~~~~ 
-                             _________          ~~~~
-      ~~~                   (---------)
-    ~~~~~~~~~~~~             |      _|_       V
-          ~~~~               |    /'   `\
-                             |   |   H   |              V
-                      V      |   |   |--------------|
-                           .'    |   ||~~~~~~~~|    |    ,-~
-    V                  __/'______|___||__###___|____|_,./
-                V     |/  ~         .                `
- _ ___ ___ __ _ _ ___/     
-= _-=_-_ -=- =-_  =_//
-_-= _-= _ _-_= - _//
-------------------------------------------------------------
-            ";
+            Art = GameArt.WastePlant;
             Name = "Wastewater Treatment Plant";
             Description = "You're in the wastewater treatment plant. " +
             "Or what is left of it. " +
