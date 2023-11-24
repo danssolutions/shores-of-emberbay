@@ -88,11 +88,12 @@
 
                         bycatch.RemovePopulation(bycatchAmount);
 
-                        // pause for dramatic effect, for we caught an ultra rare fish (temporary)
+                        // Oarfish event check
                         if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
                         {
-                            Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
-                            Thread.Sleep(2000);
+                            string oarfishEventText = "Woah! Someone from the village caught and and hauled back a giant oarfish, an incredibly rare and massive fish!";
+                            GenericMenu oarfishEvent = new(GameArt.ResearchVessel, oarfishEventText);
+                            oarfishEvent.Display();
                         }
 
                         // TODO: move AddToFoodStock to more suitable location
@@ -330,7 +331,7 @@
             halibut = new((uint)random.Next(200, 1000));
             eel = new((uint)random.Next(200, 1000));
             garfish = new(25);
-            oarfish = new(3);
+            oarfish = new(1);
 
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
 

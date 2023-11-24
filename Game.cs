@@ -309,20 +309,20 @@ namespace TownOfZuul
 
         public static void AdvanceMonth(uint monthCounter)
         {
-            if (monthCounter != endingMonth)
-            {
-                string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
-                "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
-                "As you prepare for planning once again, you wonder how the village has kept itself up " +
-                "since you last examined it and are eager to find out.\n";
+            string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
+            "Time passes, and eventually, month #" + monthCounter + " arrives.\n" +
+            "As you prepare for planning once again, you wonder how the village has kept itself up " +
+            "since you last examined it and are eager to find out.\n";
 
-                GenericMenu advancementMenu = new(GameArt.AdvanceMonth, advanceText);
-                advancementMenu.Display();
-            }
+            GenericMenu advancementMenu = new(GameArt.AdvanceMonth, advanceText);
+            advancementMenu.Display();
         }
 
         public void UpdateGame()
         {
+            if (monthCounter != endingMonth)
+                AdvanceMonth(monthCounter);
+
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.CatchFish();
 
@@ -342,8 +342,6 @@ namespace TownOfZuul
                 Ending ending = new();
                 continuePlaying = Ending.GetEnding(PopulationCount, PopulationHealth);
             }
-            else
-                AdvanceMonth(monthCounter);
 
             Console.Clear();
             Console.WriteLine(currentLocation?.Art);
@@ -368,7 +366,7 @@ namespace TownOfZuul
 
         private static void PrintWelcome()
         {
-            Console.WriteLine("Welcome to Town Of Zuul!");
+            Console.WriteLine("Welcome to the village of Emberbay!");
             Console.WriteLine("Type 'help' for a list of commands.");
             //PrintHelp();
             Console.WriteLine();
@@ -376,8 +374,8 @@ namespace TownOfZuul
 
         private static void PrintHelp()
         {
-            Console.WriteLine("You are a mayor of the town of Zuul.");
-            Console.WriteLine("Your job is to manage the town's population and assign villagers from your town to do certain tasks, such as fishing.");
+            Console.WriteLine("You are the mayor of the village of Emberbay.");
+            Console.WriteLine("Your job is to manage the village's population and assign villagers from your settlement to do certain tasks, such as fishing.");
             Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
             Console.WriteLine("Type 'look' for more details about your current location.");

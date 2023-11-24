@@ -2,6 +2,28 @@ namespace TownOfZuul
 {
     public static class GameArt
     {
+        /*
+        TODO: art needed for:
+        - oarfish event
+        - mayor
+        - month advancement
+        - elder
+        - scientist
+        - fisherman
+        - trawler
+        - villagers (1, 2, 3)
+        */
+
+        public const string MenuLogo = @"
+             _____                            __   _____           _ 
+            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
+              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
+              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
+              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
+                                                                     
+            ---------------------------------------------------------
+                                                                     
+            ";
         public const string Village = @"
 
                                 V           ~~

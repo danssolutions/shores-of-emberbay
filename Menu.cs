@@ -77,18 +77,7 @@ namespace TownOfZuul
 
     public sealed class MainMenu : Menu
     {
-        private const string Art =
-            @"
-             _____                            __   _____           _ 
-            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
-              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
-              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
-              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
-                                                                     
-            ---------------------------------------------------------
-                                                                     
-            ";
-
+        private const string Art = GameArt.MenuLogo;
         private const string Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
         public MainMenu()
         {
@@ -138,6 +127,22 @@ namespace TownOfZuul
         {
             Console.Clear();
             Console.CursorVisible = true;
+
+            // Play intro slides
+            string villageText =
+            "The village of Emberbay is a remote settlement next to the ocean. \nIt used to be a sizable trading hub a few decades ago, \nbut due to excessive pollution and unsustainable development by local industries, \nthe village suffers from food shortages and overall poor health among the population to this day.";
+            string wildlifeText = 
+            "Up until now, no attempts to restore the village have been made due to lack of interest and funding. \nHowever, according to latest reports from the on-site FRV, \nthe local marine environment is on the verge of irreversible decline and eventual extinction \ndue to extreme pollution and the actions of the local villagers in the past. \nThis is an unacceptable course of events which must be resolved immediately.";
+            string mayorText =
+            "You have been appointed as the new mayor of the village of Emberbay. \nYour task is to restore the village to a state where it can be self-sufficient and develop sustainably in the span of 12 months. \nTo ensure this, the village should have a population of at least 400 and at least 95% of the population should be healthy.";
+            GenericMenu villageSlide = new(GameArt.Village, villageText);
+            villageSlide.Display();
+            GenericMenu wildlifeSlide = new(GameArt.ResearchVessel, wildlifeText);
+            wildlifeSlide.Display();
+            GenericMenu mayorSlide = new(GameArt.Village, mayorText);
+            mayorSlide.Display();
+            Console.Clear();
+
             Game game = new();
             game.Play();
 
@@ -172,7 +177,13 @@ namespace TownOfZuul
             "- danssolutions\n" +
             "- Gierka\n" +
             "- Ivan\n" +
-            "- perdita\n";
+            "- perdita\n\n" +
+            "This game features ASCII art, partially or wholly created by:\n" +
+            "Joan Stark (jgs) - mountain backdrop for village elder's house, ocean sunset\n" +
+            "Ric_Hotchkiss_sdrc_com - village elder's house\n" +
+            "Steven Maddison - left side of village\n" +
+            "dgb/itz - docks sunset and background\n" +
+            "gnv - coast graphic";
 
             GenericMenu credits = new(Art, Credits);
             credits.Display();
