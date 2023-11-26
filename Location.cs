@@ -76,6 +76,9 @@
                     if (catchAmount > LocalFish[fishType].Population)
                         catchAmount = LocalFish[fishType].Population;
 
+                    Game.CurrentGameInstance?.AddToFoodStock((LocalFish[fishType].CatchDifficulty *catchAmount)*LocalFish[fishType].CatchDifficulty);
+                    // (fish dif* catch amount)* catch diff
+
                     LocalFish[fishType].RemovePopulation(catchAmount);
 
                     // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
@@ -94,7 +97,7 @@
                             Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
                             Thread.Sleep(2000);
                         }
-
+                        Game.CurrentGameInstance?.AddToFoodStock(bycatch.FoodValue);
                         // TODO: move AddToFoodStock to more suitable location
                         //village?.AddToFoodStock(bycatch.FoodValue);
                     }
@@ -323,7 +326,7 @@ __ ___ _            .   :  ;   .    V          ___
             Populate();
         }
 
-        public bool IsOceanUnlocked(uint population = 0)
+        public bool IsOceanUnlocked(int population = 0)
         {
             if (!OceanUnlocked)
             {

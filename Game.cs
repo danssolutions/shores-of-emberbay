@@ -9,15 +9,13 @@ namespace TownOfZuul
         private readonly Stack<Location> previousLocations = new();
         private readonly List<FishableLocation> fishableLocations = new();
         private readonly List<CleanableLocation> cleanableLocations = new();
-
         private uint monthCounter;
         private const uint endingMonth = 13;
-
-        public uint PopulationCount { get; private set; }
+        public int PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
-
         public bool AlgaeCleanerUnlocked = false;
+        public static Game? CurrentGameInstance { get; private set; } // Static reference to the Game instance
 
         public Game()
         {
@@ -27,6 +25,8 @@ namespace TownOfZuul
             PopulationCount = 5;
             PopulationHealth = 0.5;
             FoodUnits = 4.0;
+            // Set the CurrentGameInstance to this instance
+            CurrentGameInstance=this;
         }
 
         private void CreateLocations()
@@ -277,10 +277,12 @@ namespace TownOfZuul
         public void UpdatePopulation()
         {
             // Population count is updated based on food stock, and existing health
-            uint newVillagers = (uint)((FoodUnits - PopulationCount) * PopulationHealth * 0.8);
+            int newVillagers = (int)((FoodUnits - PopulationCount) * PopulationHealth );
             if (newVillagers > 150)
                 newVillagers = 150;
             PopulationCount += newVillagers;
+            if(PopulationCount<0)
+                PopulationCount=0;
             double leftovers = ConsumeFoodStock(PopulationCount);
             // Population health is updated dependent on food, water quality
             if (leftovers < 0)
@@ -289,10 +291,10 @@ namespace TownOfZuul
             }
             else
             {
-                SetPopulationHealth(1.2); //improves by 50% if all food needs are met
+                SetPopulationHealth(1.1); //improves by 50% if all food needs are met
             }
             // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            SetPopulationHealth(0.7 + 0.1 * (GetWaterQualityPercentage() - 0.3));
+            SetPopulationHealth(0.5 + 0.1 * (GetWaterQualityPercentage() - 0.3));
         }
 
         public void SetPopulationHealth(double multiplier)
