@@ -179,11 +179,12 @@ namespace TownOfZuul
             "- Ivan\n" +
             "- perdita\n\n" +
             "This game features ASCII art, partially or wholly created by:\n" +
-            "Joan Stark (jgs) - mountain backdrop for village elder's house, ocean sunset, trawler\n" +
+            "Joan Stark (jgs) - mountain backdrop for village elder's house, ocean sunset, trawler portrait\n" +
             "Ric_Hotchkiss_sdrc_com - village elder's house\n" +
             "Steven Maddison - left side of village\n" +
             "dgb/itz - docks sunset and background\n" +
-            "gnv - coast graphic";
+            "gnv - coast graphic\n" +
+            "JRO - scientist portrait";
 
             GenericMenu credits = new(Art, Credits);
             credits.Display();

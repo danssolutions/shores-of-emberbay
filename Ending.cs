@@ -93,7 +93,7 @@ namespace TownOfZuul
             scientistSlide.Display();
             GenericMenu wastePlantSlide = new(GameArt.WastePlant, wastePlantText);
             wastePlantSlide.Display();
-            GenericMenu trawlerSlide = new(GameArt.Ocean, trawlerText);
+            GenericMenu trawlerSlide = new(GameArt.Trawler, trawlerText);
             trawlerSlide.Display();
         }
 

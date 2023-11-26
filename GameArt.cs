@@ -8,13 +8,12 @@ namespace TownOfZuul
         - mayor
         - month advancement
         - elder
-        - scientist
         - fisherman
-        - trawler
         - villagers (1, 2, 3)
         */
 
-        public const string MenuLogo = @"
+        public const string MenuLogo = 
+          @"
              _____                            __   _____           _ 
             |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
               | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
@@ -24,7 +23,8 @@ namespace TownOfZuul
             ---------------------------------------------------------
                                                                      
             ";
-        public const string Village = @"
+        public const string Village = // includes art by Steven Maddison and an unknown artist
+          @"
 
                                 V           ~~
 ~         ~~          V                                 V
@@ -41,7 +41,8 @@ ____________     ;       ''. ' // /// // ///==\
 /// ////// /\   /           \ |//////-\////====|      \|/
 ------------------------------------------------------------
             ";
-        public const string ElderHouse = @"
+        public const string ElderHouse = // includes art by Joan Stark (mountains) and Ric_Hotchkiss_sdrc_com (house itself)
+          @"
 
   -==-              .-.    V      ~--~  _   ~~
         ~--~       /   \              _/ \       V    -==-
@@ -58,7 +59,8 @@ ____________     ;       ''. ' // /// // ///==\
     .              ````.~~~-.~~-.~~~..~```    `         .
 ------------------------------------------------------------
             ";
-        public const string Docks = @"
+        public const string Docks = // includes art by dgb/itz (docks sunset and background)
+          @"
 
 __ ___ _            .   :  ;   .    V          ___
 ,=,_    ``------.__  \        /        .----``   ```--.
@@ -75,7 +77,8 @@ __ ___ _            .   :  ;   .    V          ___
     -`          ,----/   / /
 ------------------------------------------------------------
             ";
-        public const string ResearchVessel = @"
+        public const string ResearchVessel = // includes art by an unknown artist (ship graphic)
+          @"
 
     .----``   ```--.               ___
     ``-------`````  V           ,=,_    ``------.__
@@ -92,7 +95,8 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
  - -=~~~-~~=~~~~~~~=~~--,/     -  [X]         -  |X|/  \|/
 ------------------------------------------------------------
             ";
-        public const string Ocean = @"
+        public const string Ocean = // includes art by Joan Stark (ocean sunset)
+          @"
 
         ...
     .-``   `--.                          ___
@@ -109,7 +113,8 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
 `~^~^~-~^~~^~^~^~-~^~~-~^~^~-~^~~^-~^~^~^-~^~^~^~^~~~^~^~-^`
 ------------------------------------------------------------
             ";
-        public const string Coast = @"
+        public const string Coast = // includes art by gnv (coast graphic)
+          @"
 
 
                                               \ ' /
@@ -126,7 +131,8 @@ _                             V              - ( ) -
   `                                             ~        `-.
 ------------------------------------------------------------
             ";
-        public const string WastePlant = @"
+        public const string WastePlant = // includes art by an unknown artist (factory graphic)
+          @"
 
                                            ~~~~~~~~~~~~ 
                              _________          ~~~~
@@ -144,7 +150,7 @@ _-= _-= _ _-_= - _//
 ------------------------------------------------------------
             ";
         public const string AdvanceMonth =
-            @"
+          @"
 
              i am sleeby eeby
          replace me please :)
@@ -160,7 +166,8 @@ _-= _-= _ _-_= - _//
 
 ------------------------------------------------------------
             ";
-        public const string Trawler = @"
+        public const string Trawler = // includes art by Joan Stark (ocean and trawler portrait)
+          @"
 
                           ...
                       .-``   `--.                        V
@@ -175,6 +182,24 @@ _-= _-= _ _-_= - _//
 _,____._____________________.'| ^  ^||       |______________
 T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
  |/__\|       /       /    ```| ^ ^ | |     | /           /
+------------------------------------------------------------
+            ";
+        public const string Scientist = // includes art by JRO (scientist portrait)
+          @"
+             :             __..\                :      
+             :            /\ \  \\              :      
+             :           /_/\_.___\             :      
+   ____________________ /\~()/()~//\____________:_________
+      :   / __`\   :    \_  (_ .  _/   :               
+      :  / /    \  :      \ //\\ /     :               
+      : |        | :    __/\ __ /\__   :               
+      :  \-~~-~-/  :   /  \ \  / /  \  :               
+   ___:___\,__./___:__/    \/\/\/    \_:_____-------------
+                     /      \../      \      \    ||   
+         ________    |   |   \/ __|   |       \  /__\  
+        |        |   \   \   o    /   /        \       
+        |        |    \   \  o   /   /          \,UUU. 
+   _____|        |_____\___\____/___/___________ \__________
 ------------------------------------------------------------
             ";
     }
