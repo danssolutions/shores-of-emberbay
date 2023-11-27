@@ -143,7 +143,7 @@ namespace TownOfZuul
             elderSlide.Display();
             GenericMenu fisherSlide = new(GameArt.Docks, fisherText);
             fisherSlide.Display();
-            GenericMenu scientistSlide = new(GameArt.ResearchVessel, scientistText);
+            GenericMenu scientistSlide = new(GameArt.Ocean, scientistText);
             scientistSlide.Display();
             GenericMenu villageSlide = new(GameArt.Coast, villageText);
             villageSlide.Display();

@@ -25,7 +25,7 @@ namespace TownOfZuul
             CreateLocations();
             //UpdateGame();
             monthCounter = 1;
-            PopulationCount = FreeVillagers = 25;
+            PopulationCount = FreeVillagers = 5;
             PopulationHealth = 0.9;
             FoodUnits = 10.0;
         }
@@ -344,7 +344,7 @@ namespace TownOfZuul
                 Ending.ShowGameOverSlides();
                 continuePlaying = false;
             }
-            
+
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();

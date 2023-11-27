@@ -185,7 +185,8 @@ namespace TownOfZuul
             "dgb/itz - docks sunset and background\n" +
             "gnv - coast graphic\n" +
             "JRO - scientist portrait\n" +
-            "OOShy - fisherman portrait and dock graphic";
+            "OOShy - fisherman portrait and dock graphic\n" +
+            "Shanaka Dias (snd) - computer and table graphic";
 
             GenericMenu credits = new(Art, Credits);
             credits.Display();
