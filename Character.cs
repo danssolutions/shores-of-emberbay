@@ -15,9 +15,6 @@ namespace TownOfZuul
 
         //Unlock
         bool unlock = false;
-        private const string more = "Keep talking with the character";
-        private const string stop = "Stop if you have heard enough, and wish to move on";
-        private const string who = "Learn more about how the character can help";
 
         //private const string items = "Ask what items you can unlock and how"; elder
         //private const string unlocked = "Unlock item"; elder
@@ -81,58 +78,38 @@ namespace TownOfZuul
 
     public sealed class Elder : Character
     {
- //       string currentLocation = ElderHouse;
-        /*string characterName = "Elder";
-        string characterPicture = "Picture of elder";
-        string more = "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
-            "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
-            + "\nNow we are just trying to survive. Our health i getting worse for everyday, \nbecause we either don't "
-            + "get anything to eat or because the fish we eat are contaminated with plastic or other chemicals. "
-            + "\nCompanies take our fish so we barely have enough food and we have to be careful deciding what fish to catch. "
-            + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "
-            + "\nbut now we need to think about what fish we catch and eat fish from polluted water. "
-            + "\nWe need you, Mayor. Please help the village become sustainable and make it thrive again.";
-        string stop = "No problem";
-        string who = "You can unlock algae cleaner and water filter and get it from the Elder, when unlocked. "
-            + "\nYou need to increase population health to more than 90 to unlock algae cleaner, then talk to the elder to get it.";
-        */
-
-        /*private const string Art =
-            @"
-             _____                            __   _____           _ 
-            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
-              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
-              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
-              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
-                                                                     
-            ---------------------------------------------------------
-                                                                     
-            ";
-*/
-        //private string Text = "Well, hello there. Welcome to my humble abode.\n";
-
         public Elder()
         {
-            Art =
-            @"
-             _____                            __   _____           _ 
-            |_   _|____      ___ __     ___  / _| |__  /   _ _   _| |
-              | |/ _ \ \ /\ / / '_ \   / _ \| |_    / / | | | | | | |
-              | | (_) \ V  V /| | | | | (_) |  _|  / /| |_| | |_| | |
-              |_|\___/ \_/\_/ |_| |_|  \___/|_|   /____\__,_|\__,_|_|
-                                                                     
-            ---------------------------------------------------------
-                                                                     
+
+            Art = $@"
+                      ___
+                     (___)
+                     / _ \
+                    / / \ \
+                    \/o o\/
+                    (  /  )
+                    `\_-_/`
+                    / ___ \
+                   / /_ _\ \
+                   \ \___/ /
+                    \/   \/
+                    ||---||
+                    ||---||
+                    ||___||
+                    |_____|
+                      |||
+                     /_|_\
             ";
+
             Text = "Well, hello there. Welcome to my humble abode.\n";
             characterName = "elder";
 
             options = new string[] {
-                "Keep talking with the character",
-                "How are you?",
-                "Where's the village?",
-                "Do you want my help?",
-                "Goodbye"
+                "Talk with the Elder",
+                "Talk about feelings",
+                "Get the directions to the village",
+                "Ask the Elder how she can help",
+                "quit"
             };
         }
 
@@ -141,7 +118,8 @@ namespace TownOfZuul
             Console.Clear();
 
             //Console.WriteLine(Art);
-            //Console.WriteLine(Text);
+            Console.WriteLine("You have entered the elder's property. The wise elder can help you with what you need to know. "
+            + "\nDon't be afraid to ask. Press (talk) to communicate with the elder.");
 
             base.Display();
 
@@ -154,22 +132,12 @@ namespace TownOfZuul
             {
                 case 1:
                     option1();
-                /*
-                    Console.Clear();
-                    nextLine = "I'm good, idk how bout u.";
-                    Console.WriteLine("idkkkkk");
-                    Console.Clear();
-                */
                     break;
                 case 2:
                     option2();
-                //    nextLine = "Thanks.";
-                //    Console.Clear();
                     break;
                 case 3:
                     option3();
-                //    nextLine = "It's to the east, dummy. It's where you came from.";
-                //    Console.Clear();
                     break;
                 case 4:
                     option4();
@@ -200,9 +168,6 @@ namespace TownOfZuul
                 elderOption1.Display();
 
                 Console.Clear();
-
-                //Console.WriteLine("you chose more");
- //               Console.WriteLine(currentLocation?.Description);
             }
 
             private static void option2()
@@ -214,8 +179,6 @@ namespace TownOfZuul
                 elderOption2.Display();
 
                 Console.Clear();
-
-                Console.WriteLine("You chose option 2");
             }
 
             private static void option3()
@@ -223,9 +186,10 @@ namespace TownOfZuul
                 Console.Clear();
                 Console.CursorVisible = true;
 
-                Console.Clear();
+                option3ElderMenu elderOption3 = new();
+                elderOption3.Display();
 
-                Console.WriteLine("You chose option 3");
+                Console.Clear();
             }
 
             private static void option4()
@@ -233,8 +197,10 @@ namespace TownOfZuul
                 Console.Clear();
                 Console.CursorVisible = true;
 
-                Console.Clear();                
-                Console.WriteLine("You chose option 4");
+                option4ElderMenu elderOption4 = new();
+                elderOption4.Display();
+
+                Console.Clear();
             }
 
             private static void option5()
@@ -249,8 +215,6 @@ namespace TownOfZuul
         
         public sealed class option1ElderMenu : Character
         {
-            private Location? currentLocation;
-            
             private const string option1 = 
                 "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
                 "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
@@ -259,37 +223,72 @@ namespace TownOfZuul
                 + "\nCompanies take our fish so we barely have enough food and we have to be careful deciding what fish to catch. "
                 + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "
                 + "\nbut now we need to think about what fish we catch and eat fish from polluted water. "
-                + "\nWe need you, Mayor. Please help the village become sustainable and make it thrive again."
-                + "\n"
-                + "\nChoose what to answer the elder (type (1), for answer 1, (2) for answer 2):"
-                + "\n- I will do what I can to help you and all the other villagers."
-                + "\n- Times change, maybe it is okay like it is. We can just focus on other food sources.";
-
-            private const string option11 = 
-                "Thank you so much Mayor. If you succeed you will be our hero.";
-
-            private const string option12 = 
-                "We are dependent on the water and the food from the ocean. It makes up more than half of the villagers income and food source. "
-                + "I don't believe that it would be the right decision to give up on this rich resource, that keeps us alive.";
+                + "\nWe need you, Mayor. Please help the village become sustainable and make it thrive again.";
 
             private const string option2 = 
                 "That is okay. Maybe another time.";
+
+            private string[] option10 = 
+            {
+                "(1) I will do everyting in my power to help the village.",
+                "(2) Maybe we should focus on other resources instead of what is in the water."
+            };
+
+            private static string[] option11 = 
+            {
+                "Thank you so much Mayor. If you succeed you will be our hero.",
+                "We are dependent on the water and the food from the ocean. "
+                + "It makes up more than half of the villagers income and food source. "
+                + "\nI don't believe that it would be the right decision to give up on this rich resource, that keeps us alive. "
+                + "\nI hope you will change your mind."
+            };
+
+            private static string[] optionYN = 
+            {
+                "(1) Yes",
+                "(2) No"
+            };
+
+            private const string notValid = 
+                "Please enter (1) for yes or (2) for no. Try again";
 
             override public void Display()
             {
                 Console.Clear();
                 
                 Console.WriteLine("Hello Mayor, thank you for visiting. You may know me as the Elder. " +
-                "Do you want to hear the story about the good old days? " +
-                "\n Type (y) for yes and (n) for no.");
-                string readAnswer = Console.ReadLine();
-                if (readAnswer != null)
-                    if (readAnswer == "y")
-                        Console.WriteLine(option1);
-                            Console.WriteLine(option12);
-                    else if (readAnswer == "n")
-                        Console.WriteLine(option2);
+                "Do you want to hear the story about the good old days?");
 
+                Console.Clear();
+                
+                Console.WriteLine(optionYN[0]);
+                Console.WriteLine(optionYN[1]);
+
+                string readAnswer = Console.ReadLine();
+                Console.Clear();
+                if (readAnswer != null)
+                switch (readAnswer)
+                    {
+                        case "1":
+                            Console.WriteLine(option1);
+                            Console.ReadKey();
+                            Console.Clear();
+                            Console.WriteLine(option10[0]);
+                            Console.WriteLine(option10[1]);
+                            string readAnswer1 = Console.ReadLine();
+                            Console.Clear();
+                            if (readAnswer1 != null)
+                                if (readAnswer1 == "1")
+                                    Console.WriteLine(option11[0]);
+                                if (readAnswer1 == "2")
+                                    Console.WriteLine(option11[1]);
+                                else
+                                    Console.WriteLine(notValid);
+                            break;
+                        case "2":
+                            Console.WriteLine(option2);
+                            break;
+                    }
                 ConsoleKey key = Console.ReadKey(true).Key;
             }
         }
@@ -317,6 +316,184 @@ namespace TownOfZuul
                     else
                         Console.WriteLine(option2);
 
+                ConsoleKey key = Console.ReadKey(true).Key;
+            }
+        }
+
+        public sealed class option3ElderMenu : Character
+        {
+            private const string option1 = 
+                "The Village is the way you came from, (east). "
+                + "Do yo want to know how to get to the other places from here?";
+
+            private string[] optionY = 
+            {
+                "(1) Where is the Docks?",
+                "(2) Where is the Ocean?",
+                "(3) Where is the researchVessel?",
+                "(4) Where is the Wastewater Treatment plant?",
+                "(5) Where is the Coast?",
+                "(6) Where is the Village?"
+            };
+
+             private string[] option11 = 
+            {
+                "The Docks is east and then more east ",
+                "The Ocean is (direction) (state: locked/unlocked) ",
+                "The researchVessel is east and then more east and then go to the north",
+                "The Wastewater Treatment Plant is east, south and more south (state: locked/unlocked)",
+                "The Coast is east, south ",
+                "The Village is to the east."
+            };
+
+            private const string optionN = 
+                "You can always ask me if you forget, as long as you remember the way to my house.";
+
+            private string[] optionYN = 
+            {
+                "(1) Yes",
+                "(2) No"
+            };
+
+            //private const string notValid = 
+            //    "Please enter a number between 1 and 6.";
+
+            override public void Display()
+            {
+                Console.Clear();
+                
+                Console.WriteLine(option1);
+                Console.ReadKey();
+                Console.Clear();
+
+                Console.WriteLine(optionYN[0]);
+                Console.WriteLine(optionYN[1]);
+
+                string readAnswer = Console.ReadLine();
+                Console.Clear();
+                if (readAnswer != null)
+                switch (readAnswer)
+                    {
+                        case "1":
+                            Console.WriteLine(optionY[0]);
+                            Console.WriteLine(optionY[1]);
+                            Console.WriteLine(optionY[2]);
+                            Console.WriteLine(optionY[3]);
+                            Console.WriteLine(optionY[4]);
+                            Console.WriteLine(optionY[5]);
+                            string readAnswer1 = Console.ReadLine();
+                            Console.Clear();
+                            if (readAnswer1 != null)
+                                if (readAnswer1 == "1")
+                                    Console.WriteLine(option11[0]);
+                                if (readAnswer1 == "2")
+                                    Console.WriteLine(option11[1]);
+                                if (readAnswer1 == "3")
+                                    Console.WriteLine(option11[2]);
+                                if (readAnswer1 == "4")
+                                    Console.WriteLine(option11[3]);
+                                if (readAnswer1 == "5")
+                                    Console.WriteLine(option11[4]);
+                                if (readAnswer1 == "6")
+                                    Console.WriteLine(option11[5]);
+                            break;
+                        case "2":
+                            Console.WriteLine(optionN);
+                            break;
+                    }
+                ConsoleKey key = Console.ReadKey(true).Key;
+            }
+        }
+
+        public sealed class option4ElderMenu : Character
+        {
+            private const string option1 = 
+                "Hello Mayor, I am delighted to know that someone appreciate the knowledge of en elder. "
+                + "How can I help?";
+
+            private string[] option11 = 
+            {
+                "(1) What areas can be unlocked?",
+                "(2) What items can I unlock?",
+                "(3) How can I improve the Village?",
+                "(4) Whom can I ask for help?"
+            };
+
+             private string[] option111 = 
+            {
+                "The Ocean and the Wastewater Plant can be unlocked. "
+                + "\nDo you want to know more about how you can unlock these areas?",
+                "If you clean the Coast from trash, I can help you clean the water even better. "
+                + "\nCome back to me when you have come to that and you will receive a gift.",
+                "To improve a Village you must improve the lives of the people in the Village. "
+                + "\nThe overall health is decreasing. People are getting sick. The waters needs to be cleaned, "
+                + "\nfor the Villagers to be able to drink, eat and work, thereby becomming happy and healthy.",
+                "I am always here to help, "
+                + "\nbut the intelligent scientist at the Research vessel might also be a great help.",
+            };
+
+            private const string optionN = 
+                "If you change your mind, just let me know.";
+
+            private const string notValid = 
+                "Please enter (1) for yes or (2) for no. Try again";
+
+            private const string optionY =
+                "By improving the health of the villagers you can expand the Village and get access to the Ocean. "
+                + "To unlock the Wastewater Plant, you must have cleaned the ocean.";
+
+            private string[] optionYN = 
+            {
+                "(1) Yes",
+                "(2) No"
+            };
+
+            override public void Display()
+            {
+                Console.Clear();
+                
+                Console.WriteLine(option1);
+                Console.ReadKey();
+                Console.Clear();
+
+                Console.WriteLine(option11[0]);
+                Console.WriteLine(option11[1]);
+                Console.WriteLine(option11[2]);
+                Console.WriteLine(option11[3]);
+
+                string readAnswer = Console.ReadLine();
+                Console.Clear();
+                if (readAnswer != null)
+                switch (readAnswer)
+                    {
+                        case "1":
+                            Console.WriteLine(option111[0]);
+                            Console.ReadKey();
+                            Console.Clear();
+
+                            Console.WriteLine(optionYN[0]);
+                            Console.WriteLine(optionYN[1]);
+
+                            string readAnswer1 = Console.ReadLine();
+                            Console.Clear();
+                            if (readAnswer1 != null)
+                                if (readAnswer1 == "1")
+                                    Console.WriteLine(optionY);
+                                if (readAnswer1 == "2")
+                                    Console.WriteLine(optionN); 
+                                else
+                                    Console.WriteLine(notValid); 
+                            break;
+                        case "2":
+                            Console.WriteLine(option111[1]);
+                            break;
+                        case "3":
+                            Console.WriteLine(option111[2]);
+                            break;
+                        case "4":
+                            Console.WriteLine(option111[3]);
+                            break;
+                    }
                 ConsoleKey key = Console.ReadKey(true).Key;
             }
         }
