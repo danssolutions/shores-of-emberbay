@@ -110,7 +110,7 @@ namespace TownOfZuul
             string scientistText =
             "Shortly after the mayor's tenure, the villagers witnessed the research vessel in the docks taking off towards the deep ocean. \n\nNobody saw the ship ever return.\n";
             string mayorText =
-            "Despite the fate of the settlement, the mayor was never viewed in a negative light. \nAfter all, they brought hope to the villagers that eventually, things would get better, \nand the sustainable development practices utilized by the mayor could be fully realized by new leadership. \nSomeday, the village will prosper once again.\n\n - THE END -";
+            "Despite the fate of the settlement, the mayor was never viewed in a negative light. \nAfter all, they brought hope to the villagers that eventually, things would get better, \nand the sustainable development practices utilized by the mayor could be fully realized by new leadership. \nSomeday, Emberbay will prosper once again.\n\n - THE END -";
             GenericMenu villageSlide = new(GameArt.Village, villageText);
             villageSlide.Display();
             GenericMenu docksSlide = new(GameArt.Docks, docksText);
@@ -132,11 +132,11 @@ namespace TownOfZuul
             string elderText =
             "The elder of the village ended up becoming its last remaining inhabitant. \nWith her old age and poor health, she knew her demise would come soon, \nand vowed to commemorate the village and its former residents until the very end.";
             string fisherText =
-            "For a while there existed a rumor among the local urban explorers, \nlegends of 'ghost' fishermen in the ruins of the village harbor. \n\nSome said that these fishermen still haunt the abandoned docks at night, \nin a futile attempt to provide for their long gone families.";
+            "Some local urban explorers tell rumors of 'ghost' fishermen still haunting the abandoned docks at night, \nin a futile attempt to provide for their long gone families.";
             string scientistText =
             "The fate of the research vessel that used to be anchored at the now desolate docks remains unknown.";
             string villageText =
-            "Over the years, the village was lost to time, it's only signs of existence being scattered ruins of long gone buildings. \nIt would never get a chance to prosper again. \n\n - GAME OVER -";
+            "Over the years, the village was lost to time, it's only signs of existence being scattered ruins of long gone buildings. \nEmberbay would never get a chance to prosper again. \n\n - GAME OVER -";
             GenericMenu mayorSlide = new(GameArt.Village, mayorText);
             mayorSlide.Display();
             GenericMenu elderSlide = new(GameArt.ElderHouse, elderText);

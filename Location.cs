@@ -40,7 +40,8 @@
             if (amount == 0)
             {
                 Console.WriteLine("Clearing this location of all fishers...");
-                LocalFishers.Clear();
+                for (int i = 0; i < LocalFish.Count-1; i++)
+                    LocalFishers[i] = 0;
                 return;
             }
 

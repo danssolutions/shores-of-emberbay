@@ -335,6 +335,12 @@ namespace TownOfZuul
 
             UpdatePopulation();
 
+            if (PopulationCount < 3)
+            {
+                Ending.ShowGameOverSlides();
+                continuePlaying = false;
+            }
+
             monthCounter++;
 
             if (monthCounter == endingMonth)
