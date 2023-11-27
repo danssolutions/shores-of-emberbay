@@ -24,9 +24,10 @@
                 Exits[direction] = neighbor;
         }
 
-        public virtual void AssignVillagers(uint amount)
+        public virtual uint AssignVillagers(uint amount, uint freeVillagers)
         {
             Console.WriteLine("This location cannot have any villagers assigned to it.");
+            return freeVillagers;
         }
     }
 
@@ -35,24 +36,39 @@
         public List<Fish> LocalFish { get; private set; } = new();
         public List<uint> LocalFishers { get; protected set; } = new();
 
-        public override void AssignVillagers(uint amount)
+        public override uint AssignVillagers(uint amount, uint freeVillagers)
         {
+            uint assignableVillagers = 0;
+
+            for (int i = 0; i < LocalFish.Count; i++)
+                assignableVillagers += LocalFishers[i];
+            
+            uint totalVillagers = assignableVillagers + freeVillagers;
+            
             if (amount == 0)
             {
                 Console.WriteLine("Clearing this location of all fishers...");
-                for (int i = 0; i < LocalFish.Count-1; i++)
+                for (int i = 0; i < LocalFish.Count; i++)
                     LocalFishers[i] = 0;
-                return;
+                
+                return totalVillagers;
             }
 
-            //TODO: Make sure there are enough "free villagers" that can be assigned
+            if (amount > totalVillagers)
+            {
+                Console.WriteLine("Cannot assign " + amount + " villagers when there are only " + totalVillagers + " available.");
+                return freeVillagers;
+            }
 
             FishingMenu fishMenu = new(this, amount);
             fishMenu.Display();
 
             LocalFishers = fishMenu.GetFisherList(LocalFishers);
 
-            //TODO: Update global "free villager" value after this is done, if any exist.
+            foreach (uint fishers in LocalFishers)
+                totalVillagers -= fishers;
+            
+            return totalVillagers;
         }
 
         public double GetBiodiversityScore()
@@ -135,28 +151,34 @@
             LocalCleaners = 0;
         }
 
-        public override void AssignVillagers(uint amount)
+        public override uint AssignVillagers(uint amount, uint freeVillagers)
         {
             if (!CleanupUnlocked)
             {
                 Console.WriteLine("Cannot assign anyone here, as the village does not have the tools necessary for cleanup.");
-                return;
+                return freeVillagers;
             }
 
+            uint totalVillagers = LocalCleaners + freeVillagers;
+            
             if (amount == 0)
             {
                 Console.WriteLine("Clearing this location of all cleaners...");
                 LocalCleaners = 0;
-                return;
-            }
 
-            //TODO: Make sure there are enough "free villagers" that can be assigned
+                return totalVillagers;
+            }
+            
+            if (amount > totalVillagers)
+            {
+                Console.WriteLine("Cannot assign " + amount + " villagers when there are only " + totalVillagers + " available.");
+                return freeVillagers;
+            }
 
             LocalCleaners = amount;
 
-            //TODO: Update global "free villager" value after this is done, if any exist.
-
             Console.WriteLine("Assignment confirmed. \nVillagers ready to clean in this location: " + amount + ".");
+            return totalVillagers - LocalCleaners;
         }
 
         public void CleanPollution()

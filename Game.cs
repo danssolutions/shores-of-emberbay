@@ -14,6 +14,7 @@ namespace TownOfZuul
         private const uint endingMonth = 13;
 
         public uint PopulationCount { get; private set; }
+        public uint FreeVillagers { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
 
@@ -24,7 +25,7 @@ namespace TownOfZuul
             CreateLocations();
             //UpdateGame();
             monthCounter = 1;
-            PopulationCount = 5;
+            PopulationCount = FreeVillagers = 25;
             PopulationHealth = 0.9;
             FoodUnits = 10.0;
         }
@@ -139,14 +140,14 @@ namespace TownOfZuul
                             break;
                         }
 
-                        if (uint.TryParse(command.SecondWord, out uint result))
-                            currentLocation?.AssignVillagers(result);
+                        if (uint.TryParse(command.SecondWord, out uint assignedVillagers))
+                            FreeVillagers = (currentLocation?.AssignVillagers(assignedVillagers, FreeVillagers)).GetValueOrDefault();
                         else
                             Console.WriteLine("\"" + command.SecondWord + "\" is not a valid or accepted number. Please try again.");
                         break;
 
                     case "unassign":
-                        currentLocation?.AssignVillagers(0);
+                        FreeVillagers = (currentLocation?.AssignVillagers(0, FreeVillagers)).GetValueOrDefault();
                         break;
 
                     case "boo":
@@ -220,6 +221,7 @@ namespace TownOfZuul
             Console.WriteLine("\n- Report -");
 
             Console.WriteLine("Population count: " + PopulationCount);
+            Console.WriteLine("Villagers free for assignment: " + FreeVillagers);
             Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
             Console.WriteLine("Village food stock: " + FoodUnits);
             Console.WriteLine();
@@ -284,6 +286,7 @@ namespace TownOfZuul
             if (newVillagers > 150)
                 newVillagers = 150;
             PopulationCount += newVillagers;
+            FreeVillagers += newVillagers;
             double leftovers = ConsumeFoodStock(PopulationCount);
             // Population health is updated dependent on food, water quality
             if (leftovers < 0)
