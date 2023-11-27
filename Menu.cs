@@ -184,7 +184,8 @@ namespace TownOfZuul
             "Steven Maddison - left side of village\n" +
             "dgb/itz - docks sunset and background\n" +
             "gnv - coast graphic\n" +
-            "JRO - scientist portrait";
+            "JRO - scientist portrait\n" +
+            "OOShy - fisherman portrait and dock graphic";
 
             GenericMenu credits = new(Art, Credits);
             credits.Display();

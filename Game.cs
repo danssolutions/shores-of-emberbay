@@ -323,6 +323,7 @@ namespace TownOfZuul
 
         public void UpdateGame()
         {
+            monthCounter++;
             if (monthCounter != endingMonth)
                 AdvanceMonth(monthCounter);
 
@@ -343,9 +344,7 @@ namespace TownOfZuul
                 Ending.ShowGameOverSlides();
                 continuePlaying = false;
             }
-
-            monthCounter++;
-
+            
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();

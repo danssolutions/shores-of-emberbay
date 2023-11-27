@@ -83,7 +83,7 @@ namespace TownOfZuul
             villageSlide.Display();
             GenericMenu docksSlide = new(GameArt.Docks, docksText);
             docksSlide.Display();
-            GenericMenu fisherSlide = new(GameArt.Docks, fisherText);
+            GenericMenu fisherSlide = new(GameArt.Fisherman, fisherText);
             fisherSlide.Display();
             GenericMenu elderSlide = new(GameArt.ElderHouse, elderText);
             elderSlide.Display();
@@ -115,7 +115,7 @@ namespace TownOfZuul
             villageSlide.Display();
             GenericMenu docksSlide = new(GameArt.Docks, docksText);
             docksSlide.Display();
-            GenericMenu fisherSlide = new(GameArt.Docks, fisherText);
+            GenericMenu fisherSlide = new(GameArt.Fisherman, fisherText);
             fisherSlide.Display();
             GenericMenu elderSlide = new(GameArt.ElderHouse, elderText);
             elderSlide.Display();

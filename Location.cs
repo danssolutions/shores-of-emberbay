@@ -109,7 +109,7 @@
                         if (bycatchAmount > 0 && bycatch.Name == "Giant Oarfish")
                         {
                             string oarfishEventText = "Woah! Someone from the village caught and and hauled back a giant oarfish, an incredibly rare and massive fish!";
-                            GenericMenu oarfishEvent = new(GameArt.ResearchVessel, oarfishEventText);
+                            GenericMenu oarfishEvent = new(GameArt.Fisherman, oarfishEventText);
                             oarfishEvent.Display();
                         }
 
