@@ -59,10 +59,11 @@
             return 2.0; // TODO: replace with something meaningful
         }
 
-        public void CatchFish()
+        public double CatchFish()
         {
             uint catchAmount;
             uint bycatchAmount;
+            double foodAmount = 0;
 
             Random random = new();
 
@@ -76,8 +77,7 @@
                     if (catchAmount > LocalFish[fishType].Population)
                         catchAmount = LocalFish[fishType].Population;
 
-                    Game.CurrentGameInstance?.AddToFoodStock((LocalFish[fishType].CatchDifficulty *catchAmount)*LocalFish[fishType].CatchDifficulty);
-                    // (fish dif* catch amount)* catch diff
+                    foodAmount += (LocalFish[fishType].FoodValue * catchAmount).GetValueOrDefault();
 
                     LocalFish[fishType].RemovePopulation(catchAmount);
 
@@ -97,14 +97,11 @@
                             Console.WriteLine("Woah, a villager caught a rare " + bycatch.Name + "!");
                             Thread.Sleep(2000);
                         }
-                        Game.CurrentGameInstance?.AddToFoodStock(bycatch.FoodValue);
-                        // TODO: move AddToFoodStock to more suitable location
-                        //village?.AddToFoodStock(bycatch.FoodValue);
+                        foodAmount += (bycatch.FoodValue * bycatchAmount).GetValueOrDefault();
                     }
-
-                    //village?.AddToFoodStock(fishableLocation?.LocalFish[fishType].FoodValue);
                 }
             }
+            return foodAmount;
         }
         public void UpdateFishPopulation(double waterQuality)
         {
@@ -330,7 +327,7 @@ __ ___ _            .   :  ;   .    V          ___
         {
             if (!OceanUnlocked)
             {
-                OceanUnlocked = population > 400;
+                OceanUnlocked = population > 200;
             }
             return OceanUnlocked;
         }

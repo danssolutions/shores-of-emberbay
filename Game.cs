@@ -15,8 +15,6 @@ namespace TownOfZuul
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
         public bool AlgaeCleanerUnlocked = false;
-        public static Game? CurrentGameInstance { get; private set; } // Static reference to the Game instance
-
         public Game()
         {
             CreateLocations();
@@ -25,8 +23,6 @@ namespace TownOfZuul
             PopulationCount = 5;
             PopulationHealth = 0.5;
             FoodUnits = 4.0;
-            // Set the CurrentGameInstance to this instance
-            CurrentGameInstance=this;
         }
 
         private void CreateLocations()
@@ -278,8 +274,8 @@ namespace TownOfZuul
         {
             // Population count is updated based on food stock, and existing health
             int newVillagers = (int)((FoodUnits - PopulationCount) * PopulationHealth );
-            if (newVillagers > 150)
-                newVillagers = 150;
+            if (newVillagers > 100)
+                newVillagers = 100;
             PopulationCount += newVillagers;
             if(PopulationCount<0)
                 PopulationCount=0;
@@ -338,7 +334,7 @@ namespace TownOfZuul
             AdvanceMonth(monthCounter);
 
             foreach (FishableLocation fishableLocation in fishableLocations)
-                fishableLocation.CatchFish();
+                AddToFoodStock(fishableLocation.CatchFish());
 
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 cleanableLocation.CleanPollution();
