@@ -126,7 +126,27 @@ namespace TownOfZuul
                         break;
 
                     case "info":
-                        Console.WriteLine(currentLocation?.Information);
+                        string? name = currentLocation?.Name;
+                        switch(name)
+                        {
+                            case "Village":
+
+                                break;
+                            case "Docks":
+                                break;
+                            case "Ocean":
+                                break;
+                            case "Coast":
+                                break;
+                            case "Research Vessel":
+                                break;
+                            case "Wastewater Treatment Plant":
+                                break;
+                            default:
+                                Console.WriteLine("This location cannot provide any information.");
+                                break;
+                        }
+                        //Console.WriteLine(currentLocation?.Information);
                         break;
 
                     case "clear":
@@ -215,29 +235,16 @@ namespace TownOfZuul
             }
         }
 
-        private void GetReport()
+        private void ShowPopulationStats()
         {
-            // TODO: split all these into separate methods, since they'd be useful outside this function also (and probably help w/ encapsulation)
-            Console.WriteLine("\n- Report -");
-
             Console.WriteLine("Population count: " + PopulationCount);
             Console.WriteLine("Villagers free for assignment: " + FreeVillagers);
             Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
-            Console.WriteLine("Village food stock: " + FoodUnits);
-            Console.WriteLine();
+            Console.WriteLine("Current food stock: " + FoodUnits + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
+        }
 
-            //Console.WriteLine($"Ocean unlocked: " + (docks != null && docks.OceanUnlocked ? "Yes" : "No"));
-            foreach (CleanableLocation cleanableLocation in cleanableLocations)
-            {
-                Console.WriteLine($"{cleanableLocation.Name} unlocked: " + (cleanableLocation.CleanupUnlocked ? "Yes" : "No"));
-                Console.WriteLine($"{cleanableLocation.Name} initial pollution: " + cleanableLocation.InitialPollution);
-                Console.WriteLine($"{cleanableLocation.Name} current pollution: " + cleanableLocation.PollutionCount);
-            }
-            Console.WriteLine();
-
-            Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "% pure");
-            Console.WriteLine();
-
+        private void ShowFishStats()
+        {
             foreach (FishableLocation fishableLocation in fishableLocations)
             {
                 Console.WriteLine($"Total fish in the {fishableLocation.Name}: " + fishableLocation.LocalFish.Sum(item => item.Population));
@@ -250,6 +257,38 @@ namespace TownOfZuul
                     Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate, 2) + " (previously " + Math.Round(fish.PreviousReproductionRate, 2) + ")");
                 }
             }
+        }
+
+        private void ShowCleanableLocationStats()
+        {
+            foreach (CleanableLocation cleanableLocation in cleanableLocations)
+            {
+                Console.WriteLine($"{cleanableLocation.PollutionType} cleaning available: " + (cleanableLocation.CleanupUnlocked ? "Yes" : "No"));
+                //Console.WriteLine($"{cleanableLocation.PollutionType} initial pollution: " + cleanableLocation.InitialPollution);
+                Console.WriteLine($"{cleanableLocation.PollutionType} pollution: " + cleanableLocation.PollutionCount + " " + cleanableLocation.PollutionTypeUnit);
+            }
+        }
+
+        private void ShowWaterQuality()
+        {
+            Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "% pure");
+        }
+
+        private void GetReport()
+        {
+            // TODO: split all these into separate methods, since they'd be useful outside this function also (and probably help w/ encapsulation)
+            Console.WriteLine("\n- Report -");
+
+            ShowPopulationStats();
+            Console.WriteLine();
+
+            ShowCleanableLocationStats();
+            Console.WriteLine();
+
+            ShowWaterQuality();
+            Console.WriteLine();
+
+            ShowFishStats();
             Console.WriteLine();
 
             foreach (FishableLocation fishableLocation in fishableLocations)

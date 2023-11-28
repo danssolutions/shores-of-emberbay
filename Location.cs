@@ -137,6 +137,9 @@
         // The amount of pollution currently in the location.
         // For different locations, this represents different types of pollution, measured in its own type of unit.
         public readonly double InitialPollution;
+
+        public string PollutionType;
+        public string PollutionTypeUnit;
         public double PollutionCount { get; protected set; }
 
         // Whether this location can be cleaned by villagers assigned to it.
@@ -149,6 +152,7 @@
         {
             InitialPollution = PollutionCount = pollutionUnits;
             LocalCleaners = 0;
+            PollutionType = PollutionTypeUnit = "";
         }
 
         public override uint AssignVillagers(uint amount, uint freeVillagers)
@@ -311,14 +315,12 @@
 
     public sealed class ResearchVessel : CleanableLocation
     {
-        // Algae stats go here
-
-        // Code for fetching fish info goes here
-
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.ResearchVessel;
             Name = "Research Vessel";
+            PollutionType = "Phosphorus";
+            PollutionTypeUnit = "ug/l";
             Description = "You're in the research vessel. " +
             "You are greeted by the sight of somewhat modern technology and machinery, " +
             "some of which can be concidered a rare find nowadays. " +
@@ -390,12 +392,12 @@
 
     public sealed class Coast : CleanableLocation
     {
-        // Coast trash stats goes here
-
         public Coast(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.Coast;
             Name = "Coast";
+            PollutionType = "Garbage";
+            PollutionTypeUnit = "mg/l";
             Description = "You're on the coast. " +
             "It appears that the village's current misfortunes have made their mark " +
             "on the natural world around the settlement. " +
@@ -406,12 +408,12 @@
 
     public sealed class WastePlant : CleanableLocation
     {
-        // Microplastic trash stats goes here
-
         public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.WastePlant;
             Name = "Wastewater Treatment Plant";
+            PollutionType = "Microplastic";
+            PollutionTypeUnit = "ppm";
             Description = "You're in the wastewater treatment plant. " +
             "Or what is left of it. " +
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";

@@ -5,7 +5,6 @@ namespace TownOfZuul
         /*
         TODO: art needed for:
         - mayor
-        - month advancement
         - elder
         */
 
