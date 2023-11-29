@@ -179,7 +179,7 @@ namespace TownOfZuul
             "- Ivan\n" +
             "- perdita\n\n" +
             "This game features ASCII art, partially or wholly created by:\n" +
-            "Joan Stark (jgs) - mountain backdrop for village elder's house, ocean sunset, trawler portrait\n" +
+            "Joan Stark (jgs) - mountain backdrop for village elder's house, ocean sunset, trawler & elder portraits\n" +
             "Ric_Hotchkiss_sdrc_com - village elder's house\n" +
             "Steven Maddison - left side of village\n" +
             "dgb/itz - docks sunset and background\n" +
