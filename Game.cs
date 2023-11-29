@@ -283,11 +283,11 @@ namespace TownOfZuul
                 SetPopulationHealth(1.5); //improves by 50% if all food needs are met
             }
             // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            SetPopulationHealth(0.7 + 0.1 * (GetWaterQualityPercentage() - 0.3));
+            SetPopulationHealth(0.7 + 0.5*(GetWaterQualityPercentage() - 0.3));
             // Population count is updated based on food stock, and existing health
             int newVillagers = (int)(leftovers * (leftovers >= 0 ? PopulationHealth : 1.0));
-            if (newVillagers > 100)
-                newVillagers = 100;
+            if (newVillagers > 50)
+                newVillagers = 50;
             PopulationCount += newVillagers;
             if(PopulationCount<0)
                 PopulationCount=0;

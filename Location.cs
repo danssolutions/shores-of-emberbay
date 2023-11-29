@@ -271,10 +271,10 @@ ____________     ;       ''. ' // /// // ///==\
         {
             Random random = new();
 
-            seaTrout = new((uint)random.Next(200, 1000));
-            seaBass = new((uint)random.Next(200, 1000));
-            pike = new((uint)random.Next(200, 1000));
-            salmon = new((uint)random.Next(200, 1000));
+            seaTrout = new((uint)random.Next(500, 1000));
+            seaBass = new((uint)random.Next(500, 1000));
+            pike = new((uint)random.Next(300, 1000));
+            salmon = new((uint)random.Next(300, 1000));
             sturgeon = new((uint)random.Next(200, 1000));
 
             LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
@@ -388,10 +388,10 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         {
             Random random = new();
 
-            mackerel = new((uint)random.Next(200, 1000));
-            herring = new((uint)random.Next(200, 1000));
-            cod = new((uint)random.Next(200, 1000));
-            tuna = new((uint)random.Next(200, 1000));
+            mackerel = new((uint)random.Next(800, 1000));
+            herring = new((uint)random.Next(800, 1000));
+            cod = new((uint)random.Next(400, 1000));
+            tuna = new((uint)random.Next(300, 1000));
             halibut = new((uint)random.Next(200, 1000));
             eel = new((uint)random.Next(200, 1000));
             garfish = new(25);
