@@ -219,7 +219,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
 ------------------------------------------------------------
             ";
           
-          public const string Elder =
+          public const string Elder = // includes art by Joan Stark (elder portrait)
           @"
                             ___
                            (___)
