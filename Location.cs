@@ -236,7 +236,7 @@ ____________     ;       ''. ' // /// // ///==\
             + "\n what you need to help the village.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
-            Character = (Character)elder;
+            Character = elder;
 
         /*    if (PopulationHealth > 90)
                 Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
@@ -256,6 +256,7 @@ ____________     ;       ''. ' // /// // ///==\
         public Pike? pike;
         public Salmon? salmon;
         public Sturgeon? sturgeon;
+        private Trawler trawler = new();
 
         public bool OceanUnlocked { get; private set; }
 
@@ -312,6 +313,7 @@ __ ___ _            .   :  ;   .    V          ___
             "some of it still floating on the water, rocking with the waves. " +
             "Even still, the view of the waterfront remains as impressive as it has always been.";
             OceanUnlocked = false;
+            Character = trawler;
 
             Populate();
         }

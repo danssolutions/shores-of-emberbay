@@ -119,6 +119,8 @@ namespace TownOfZuul
 
                     case "talk":
                         currentLocation?.Character?.Display();
+                        Console.Clear();
+                        Console.WriteLine(currentLocation?.Art);
                         break;
 
                     case "info":

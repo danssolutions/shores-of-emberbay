@@ -15,6 +15,13 @@ namespace TownOfZuul
 
         //private const string items = "Ask what items you can unlock and how"; elder
         //private const string unlocked = "Unlock item"; elder
+        public readonly string OriginalText;
+        public string ReturnText;
+
+        public Character()
+        {
+            OriginalText = ReturnText = Text ?? "";
+        }
 
         public override void Display()
         {
@@ -77,6 +84,187 @@ namespace TownOfZuul
         }
     }
 
+    public class Trawler : Character
+    {
+        public Trawler()
+        {
+            Art =
+                $@"
+                      ___
+                     (___)
+                     /~_~\
+                    /~/ \~\
+                    \/o o\/
+                    (  /  )
+                    `\_-_/`
+                    /|___|\
+                   / /   \ \
+                   \ \___/ /
+                    \/   \/
+                    |     |
+                    |     |
+                    |     |
+                    |_____|
+                      |||
+                     /_|_\
+            ";
+
+            Text = "Hi, Mayor.\n";
+            characterName = "Trawler";
+
+            options = new string[]
+            {
+                "\"I'd like to ask a question.\"",
+                "\"That's a big fish you got there.\"",
+                "\"Goodbye, see you soon.\""
+            };
+        }
+
+        public override void ParseOption(int option)
+        {
+            switch (option)
+            {
+                case 1:
+                    Console.Clear();
+                    TextChangeMenu textChangeMenu = new();
+                    textChangeMenu.Display();
+                    Text = textChangeMenu.ReturnText;
+                    Console.Clear();
+                    Console.WriteLine(Art);
+                    Console.WriteLine(Text);
+                    break;
+                case 2:
+                    Console.Clear();
+                    ReturnTextChangeMenu returnTextChangeMenu = new();
+                    returnTextChangeMenu.Display();
+                    Text = returnTextChangeMenu.ReturnText;
+                    Console.Clear();
+                    Console.WriteLine(Art);
+                    Console.WriteLine(Text);
+                    break;
+                case 3:
+                    continueDisplay = false;
+                    Text = OriginalText;
+                    break;
+            }
+        }
+
+        public sealed class TextChangeMenu : Character
+        {
+            
+            public TextChangeMenu()
+            {
+                Art =
+                    $@"
+                        ___
+                        (___)
+                        /~_~\
+                        /~/ \~\
+                        \/_ _\/
+                        (  /  )
+                        `\_-_/`
+                        /|___|\
+                       / /   \ \
+                       \ \___/ /
+                        \/   \/
+                        |     |
+                        |     |
+                        |     |
+                        |_____|
+                        |||
+                        /_|_\
+                ";
+
+                Text = "Shoot.\n";
+                characterName = "Trawler";
+
+                options = new string[]
+                {
+                    "\"How is it going?\"",
+                    "\"Do you miss home?\"",
+                    "\"Nice weather, isn't it?\"",
+                    "\"What do you think about the Sustainable Development Goals?\"",
+                    "\"Let's talk about something else.\"",
+                };
+            }
+
+            public override void ParseOption(int option)
+            {
+                switch (option)
+                {
+                    case 1:
+                        ReturnText = "It's good, how about you?\n";
+                        break;
+                    case 2:
+                        ReturnText = "Nah, I like the seas.\n";
+                        break;
+                    case 3:
+                        ReturnText = "... I guess?\n";
+                        break;
+                    case 4:
+                        ReturnText = "The sustainable what now?\n";
+                        break;
+                    case 5:
+                        ReturnText = "Yeah, sure, ask away.\n";
+                        break;
+                }
+                continueDisplay = false;
+            }
+        }
+
+        public sealed class ReturnTextChangeMenu : Character
+        {
+            
+            public ReturnTextChangeMenu()
+            {
+                Art =
+                    $@"
+                        ___
+                        (___)
+                        /~_~\
+                        /~/ \~\
+                        \/o o\/
+                        ( /   )
+                        `\_O_/`
+                        /|___|\
+                       / /   \ \
+                       \ \___/ /
+                        \/   \/
+                        |     |
+                        |     |
+                        |     |
+                        |_____|
+                        |||
+                        /_|_\
+                ";
+
+                Text = "Sure is. You jealous?\n";
+                characterName = "Trawler";
+
+                options = new string[]
+                {
+                    "\"Yeah, I am. Please share it with the village.\"",
+                    "\"No, I'm totally not jealous.\"",
+                };
+            }
+
+            public override void ParseOption(int option)
+            {
+                switch (option)
+                {
+                    case 1:
+                        ReturnText = "Oh, it's because this is actually a prop, it's fake, made of plastic. Sorry.\n";
+                        continueDisplay = false;
+                        break;
+                    case 2:
+                        ReturnText = "Oh, ok.\n";
+                        continueDisplay = false;
+                        break;
+                }
+            }
+        }
+    }
+
     public sealed class Elder : Character
     {
         public Elder()
@@ -120,8 +308,6 @@ namespace TownOfZuul
             Console.Clear();
 
             base.Display();
-
-            Console.Clear();
         }
 
         public override void ParseOption(int option)
@@ -153,15 +339,19 @@ namespace TownOfZuul
                 continueDisplay = false;
             }
         */
-        private static void TalkOption()
+        private void TalkOption()
         {
             Console.Clear();
             //Console.CursorVisible = true;
 
+
             TalkMenu elderOption1 = new();
             elderOption1.Display();
+            Text = TalkMenu.TalkBack;
 
             Console.Clear();
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
         }
 
         private static void FeelingOption()
@@ -205,6 +395,7 @@ namespace TownOfZuul
                 Text = 
             }
 */
+            public const string TalkBack = "Ok, what else do you need to ask?";
             private const string option1 =
                 "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse "
                 + "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
