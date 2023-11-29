@@ -2,19 +2,6 @@ namespace TownOfZuul
 {
     public abstract class Character : Menu
     {
-        //picture of each character
-        public string? characterPicture { get; protected set; }
-
-        //Dialogue menu
-        //public menu? dialogueMenu;
-
-        //Name of charater
-        public string? characterName { get; protected set; }
-
-        public string? nextLine { get; protected set; }
-
-        //private const string items = "Ask what items you can unlock and how"; elder
-        //private const string unlocked = "Unlock item"; elder
         public readonly string OriginalText;
         public string ReturnText;
 
@@ -32,15 +19,7 @@ namespace TownOfZuul
             while (continueDisplay)
             {
                 for (int i = 1; i <= options.Length; i++)
-                {
-                    Console.Write(
-                        (selectedOption == i ? ActiveOption : InactiveOption)
-                            + options[i - 1]
-                            + " ("
-                            + i
-                            + ")\n"
-                    );
-                }
+                    Console.Write((selectedOption == i ? ActiveOption : InactiveOption) + options[i - 1] + " (" + i + ")\n");
 
                 ConsoleKey key = Console.ReadKey(true).Key;
 
@@ -109,7 +88,6 @@ namespace TownOfZuul
             ";
 
             Text = "Hi, Mayor.";
-            characterName = "Trawler";
 
             options = new string[]
             {
@@ -178,7 +156,6 @@ namespace TownOfZuul
                 ";
 
                 Text = "Shoot.";
-                characterName = "Trawler";
 
                 options = new string[]
                 {
@@ -239,7 +216,6 @@ namespace TownOfZuul
                 ";
 
                 Text = "Sure is. You jealous?";
-                characterName = "Trawler";
 
                 options = new string[]
                 {
@@ -267,6 +243,8 @@ namespace TownOfZuul
 
     public sealed class Elder : Character
     {
+        public bool nutrientCleaningUnlocked = false;
+        public bool wastePlantUnlocked = false;
         public Elder()
         {
             Art =
@@ -289,7 +267,6 @@ namespace TownOfZuul
             ";
 
             Text = "Well, hello there. Welcome to my humble abode.\n";
-            characterName = "elder";
 
             options = new string[]
             {
@@ -673,7 +650,6 @@ namespace TownOfZuul
 */
         public Scientist()
         {
-            characterName = "Scientist";
         }
     }
 
