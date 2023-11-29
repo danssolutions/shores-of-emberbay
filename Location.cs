@@ -379,6 +379,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         public Eel? eel;
         public Garfish? garfish;
         public GiantOarfish? oarfish;
+        private Trawler? trawler = new();
 
         private void Populate()
         {
@@ -435,7 +436,10 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             "Something in the distance, resembling a small island catches your eye " +
             "but you quickly discern this object's true nature. " +
             "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. " +
-            "There is yet more work to be done.";
+            "There is yet more work to be done.\n\n" +
+            "A single trawler belonging to the crew of the boat you're on is working nearby, seemingly expecting you to *talk* to him at any moment, " +
+            "or possibly ask for *info*.";
+            Character = trawler;
 
             Populate();
         }
