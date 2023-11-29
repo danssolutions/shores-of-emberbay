@@ -160,7 +160,8 @@
         public void CleanPollution()
         {
             Random random = new();
-            PollutionCount -= LocalCleaners * random.NextDouble();
+            if (LocalCleaners > 0)
+                PollutionCount -= double.Clamp(LocalCleaners * random.NextDouble(),0.5,1.0);
             if (PollutionCount < 0)
                 PollutionCount = 0;
         }
@@ -368,7 +369,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             "you can already tell this ship will be instrumental in achieving that.";
             Information = "Somehow you will be able to see fish stock here in the future.";
 
-            CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
+            CleanupUnlocked = true; // cannot clean until algae cleaner unlocked
         }
     }
 
@@ -504,7 +505,7 @@ _-= _-= _ _-_= - _//
             "Or what is left of it. " +
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
-            CleanupUnlocked = false; // cannot clean until membrane filter unlocked
+            CleanupUnlocked = true; // cannot clean until membrane filter unlocked
         }
     }
 }

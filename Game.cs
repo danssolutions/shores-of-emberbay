@@ -14,15 +14,15 @@ namespace TownOfZuul
         public int PopulationCount { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
-        public bool AlgaeCleanerUnlocked = false;
+        public bool AlgaeCleanerUnlocked = true;
         public Game()
         {
             CreateLocations();
             //UpdateGame();
             monthCounter = 1;
-            PopulationCount = 5;
+            PopulationCount = 10;
             PopulationHealth = 0.5;
-            FoodUnits = 4.0;
+            FoodUnits = 15.0;
         }
 
         private void CreateLocations()
@@ -31,9 +31,9 @@ namespace TownOfZuul
             ElderHouse? elderHouse = new();
             Docks? docks = new();
             Ocean? ocean = new();
-            ResearchVessel? researchVessel = new(500.0);
-            Coast? coast = new(500.0);
-            WastePlant? wastePlant = new(500.0);
+            ResearchVessel? researchVessel = new(100.0);
+            Coast? coast = new(100.0);
+            WastePlant? wastePlant = new(100.0);
 
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
             docks.SetExits(researchVessel, ocean, null, village);
@@ -272,25 +272,31 @@ namespace TownOfZuul
 
         public void UpdatePopulation()
         {
+            double leftovers = ConsumeFoodStock(PopulationCount);
+            // Population health is updated dependent on food, water quality
+            Console.WriteLine($"Leftovers {leftovers}");
+            string? input=Console.ReadLine();
+            if (leftovers < 0)
+            {
+                Console.WriteLine($"leftovers<0 {1.0+(leftovers/PopulationCount)}");
+                string? input1=Console.ReadLine();
+                SetPopulationHealth(1.0 + (leftovers / PopulationCount));
+            }
+            else
+            {
+                SetPopulationHealth(1.5); //improves by 50% if all food needs are met
+            }
+            // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
+            Console.WriteLine($"Natural increase {0.7+(GetWaterQualityPercentage()-0.3)}");
+            string? input3=Console.ReadLine();
+            SetPopulationHealth(0.7 + (GetWaterQualityPercentage() - 0.3));
             // Population count is updated based on food stock, and existing health
-            int newVillagers = (int)((FoodUnits - PopulationCount) * PopulationHealth );
+            int newVillagers = (int)(leftovers * (leftovers >= 0 ? PopulationHealth : 1.0));
             if (newVillagers > 100)
                 newVillagers = 100;
             PopulationCount += newVillagers;
             if(PopulationCount<0)
                 PopulationCount=0;
-            double leftovers = ConsumeFoodStock(PopulationCount);
-            // Population health is updated dependent on food, water quality
-            if (leftovers < 0)
-            {
-                SetPopulationHealth(1.0 - (leftovers / PopulationCount));
-            }
-            else
-            {
-                SetPopulationHealth(1.1); //improves by 50% if all food needs are met
-            }
-            // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            SetPopulationHealth(0.5 + 0.1 * (GetWaterQualityPercentage() - 0.3));
         }
 
         public void SetPopulationHealth(double multiplier)
@@ -370,7 +376,7 @@ namespace TownOfZuul
             double waterPollution = 0;
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 waterPollution += 0.25 * (cleanableLocation.PollutionCount / cleanableLocation.InitialPollution);
-            double waterQuality = 1.0 - waterPollution;
+            double waterQuality = 1.0 - waterPollution * 0.5;
             return waterQuality;
         }
 
