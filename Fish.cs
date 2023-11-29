@@ -112,9 +112,9 @@ namespace TownOfZuul
         public Pike(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Pike";
-            FoodValue = 0.1;
-            CatchDifficulty = 0.7;
-            BaseReproductionRate = 1.065;
+            FoodValue = 0.15;
+            CatchDifficulty = 0.6;
+            BaseReproductionRate = 1.2;
             PollutionSensitivity = 0.4;
         }
     }
@@ -124,7 +124,7 @@ namespace TownOfZuul
         public Salmon(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Salmon";
-            FoodValue = 0.5;
+            FoodValue = 0.4;
             CatchDifficulty = 0.6;
             BaseReproductionRate = 1.27;
             PollutionSensitivity = 0.2;
@@ -136,9 +136,9 @@ namespace TownOfZuul
         public Sturgeon(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Sturgeon";
-            FoodValue = 0.4;
-            CatchDifficulty = 0.8;
-            BaseReproductionRate = 1.25;
+            FoodValue = 1;
+            CatchDifficulty = 0.9;
+            BaseReproductionRate = 1.10;
             PollutionSensitivity = 0.1;
         }
     }

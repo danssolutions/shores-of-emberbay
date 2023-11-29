@@ -72,7 +72,7 @@
                 LocalFish[fishType].SetPreviousPopulation();
                 for (uint i = 0; i < LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
                 {
-                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+                    catchAmount = (uint)(random.Next(30, 100) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
 
                     if (catchAmount > LocalFish[fishType].Population)
                         catchAmount = LocalFish[fishType].Population;
@@ -161,7 +161,7 @@
         {
             Random random = new();
             if (LocalCleaners > 0)
-                PollutionCount -= double.Clamp(LocalCleaners * random.NextDouble(),0.5,1.0);
+                PollutionCount -= LocalCleaners * double.Clamp(random.NextDouble(),0.5,1.0);
             if (PollutionCount < 0)
                 PollutionCount = 0;
         }
@@ -328,7 +328,7 @@ __ ___ _            .   :  ;   .    V          ___
         {
             if (!OceanUnlocked)
             {
-                OceanUnlocked = population > 200;
+                OceanUnlocked = population > 150;
             }
             return OceanUnlocked;
         }

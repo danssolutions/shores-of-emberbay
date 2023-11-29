@@ -274,22 +274,16 @@ namespace TownOfZuul
         {
             double leftovers = ConsumeFoodStock(PopulationCount);
             // Population health is updated dependent on food, water quality
-            Console.WriteLine($"Leftovers {leftovers}");
-            string? input=Console.ReadLine();
             if (leftovers < 0)
             {
                 Console.WriteLine($"leftovers<0 {1.0+(leftovers/PopulationCount)}");
-                string? input1=Console.ReadLine();
-                SetPopulationHealth(1.0 + (leftovers / PopulationCount));
             }
             else
             {
                 SetPopulationHealth(1.5); //improves by 50% if all food needs are met
             }
             // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            Console.WriteLine($"Natural increase {0.7+(GetWaterQualityPercentage()-0.3)}");
-            string? input3=Console.ReadLine();
-            SetPopulationHealth(0.7 + (GetWaterQualityPercentage() - 0.3));
+            SetPopulationHealth(0.7 + 0.1 * (GetWaterQualityPercentage() - 0.3));
             // Population count is updated based on food stock, and existing health
             int newVillagers = (int)(leftovers * (leftovers >= 0 ? PopulationHealth : 1.0));
             if (newVillagers > 100)
