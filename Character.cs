@@ -1306,8 +1306,8 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
             ";
 
                 Text = "As in, with the trawling? I'm guessing you're not able to help us full time, and we could use some more hands on deck.\n" +
-                "You could probably get some of the locals to help us, though. As long as they aren't seasick, they could help us process fish " + 
-                "at a faster rate, and we can donate more of our catch to Emberbay. We're nice like that, you see.\n";
+                "You could probably get some of the locals to help us, though. As long as they don't get seasick easily, they could help us process " +
+                "fish at a faster rate, and we can donate more of our catch to Emberbay. We're nice like that, you see.";
 
                 options = new string[]
                 {
