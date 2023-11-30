@@ -370,7 +370,7 @@ namespace TownOfZuul
             double waterPollution = 0;
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 waterPollution += 0.25 * (cleanableLocation.PollutionCount / cleanableLocation.InitialPollution);
-            double waterQuality = 1.0 - waterPollution * 0.5;
+            double waterQuality = 1.0 - waterPollution;
             return waterQuality;
         }
 

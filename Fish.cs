@@ -77,7 +77,7 @@ namespace TownOfZuul
         public void SetReproductionRates(double waterQuality)
         {
             PreviousReproductionRate = ReproductionRate;
-            ReproductionRate = BaseReproductionRate * (1.0 - (PollutionSensitivity.GetValueOrDefault() * waterQuality)); // TODO: add biodiversity score, possibly?
+            ReproductionRate = BaseReproductionRate + (-0.5 + waterQuality) * PollutionSensitivity.GetValueOrDefault(); // TODO: add biodiversity score, possibly?
         }
     }
 
@@ -103,7 +103,7 @@ namespace TownOfZuul
             FoodValue = 0.1;
             CatchDifficulty = 0.7;
             BaseReproductionRate = 1.3;
-            PollutionSensitivity = 0.4;
+            PollutionSensitivity = 0.6;
         }
     }
 
@@ -115,7 +115,7 @@ namespace TownOfZuul
             FoodValue = 0.3;
             CatchDifficulty = 0.6;
             BaseReproductionRate = 1.15;
-            PollutionSensitivity = 0.4;
+            PollutionSensitivity = 0.6;
         }
     }
 
@@ -127,7 +127,7 @@ namespace TownOfZuul
             FoodValue = 0.25;
             CatchDifficulty = 0.6;
             BaseReproductionRate = 1.27;
-            PollutionSensitivity = 0.2;
+            PollutionSensitivity = 0.8;
         }
     }
 
@@ -139,7 +139,7 @@ namespace TownOfZuul
             FoodValue = 1;
             CatchDifficulty = 0.9;
             BaseReproductionRate = 1.10;
-            PollutionSensitivity = 0.1;
+            PollutionSensitivity = 0.9;
         }
     }
 
@@ -151,7 +151,7 @@ namespace TownOfZuul
             FoodValue = 0.05;
             CatchDifficulty = 0.1;
             BaseReproductionRate = 1.5;
-            PollutionSensitivity = 0.35;
+            PollutionSensitivity = 0.65;
         }
     }
 
@@ -163,7 +163,7 @@ namespace TownOfZuul
             FoodValue = 0.05;
             CatchDifficulty = 0.1;
             BaseReproductionRate = 1.5;
-            PollutionSensitivity = 0.2;
+            PollutionSensitivity = 0.8;
         }
     }
 
@@ -175,7 +175,7 @@ namespace TownOfZuul
             FoodValue = 0.2;
             CatchDifficulty = 0.5;
             BaseReproductionRate = 1.155;
-            PollutionSensitivity = 0.4;
+            PollutionSensitivity = 0.6;
         }
     }
 
@@ -199,7 +199,7 @@ namespace TownOfZuul
             FoodValue = 0.5;
             CatchDifficulty = 0.7;
             BaseReproductionRate = 1.3;
-            PollutionSensitivity = 0.3;
+            PollutionSensitivity = 0.7;
         }
     }
 
@@ -211,7 +211,7 @@ namespace TownOfZuul
             FoodValue = 0.3;
             CatchDifficulty = 0.4;
             BaseReproductionRate = 1.1;
-            PollutionSensitivity = 0.2;
+            PollutionSensitivity = 0.8;
         }
     }
 
