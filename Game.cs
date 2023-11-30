@@ -1,10 +1,21 @@
 ﻿using System.Reflection;
+using System.Security.Permissions;
 
 namespace TownOfZuul
 {
     public class Game
     {
         private bool continuePlaying = true;
+
+        // All locations in the game
+        private readonly Village village = new();
+        private readonly ElderHouse elderHouse = new();
+        private readonly Docks docks = new();
+        private readonly Ocean ocean = new();
+        private readonly ResearchVessel researchVessel;
+        private readonly Coast coast;
+        private readonly WastePlant wastePlant;
+        
         private Location? currentLocation;
         private readonly Stack<Location> previousLocations = new();
         private readonly List<FishableLocation> fishableLocations = new();
@@ -18,28 +29,30 @@ namespace TownOfZuul
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
 
-        public bool AlgaeCleanerUnlocked = false;
+        public bool ReportsUnlocked = false;
 
         public Game()
         {
-            CreateLocations();
-            //UpdateGame();
+            researchVessel = new(500.0);
+            coast = new(500.0);
+            wastePlant = new(500.0);
+
+            SetLocationExits();
+
+            fishableLocations.AddRange(new List<FishableLocation>() { docks, ocean });
+            cleanableLocations.AddRange(new List<CleanableLocation>() { coast, researchVessel, wastePlant });
+
+            currentLocation = village;
+
             monthCounter = 1;
+
             PopulationCount = FreeVillagers = 5;
             PopulationHealth = 0.9;
             FoodUnits = 10.0;
         }
 
-        private void CreateLocations()
+        private void SetLocationExits()
         {
-            Village? village = new();
-            ElderHouse? elderHouse = new();
-            Docks? docks = new();
-            Ocean? ocean = new();
-            ResearchVessel? researchVessel = new(500.0);
-            Coast? coast = new(500.0);
-            WastePlant? wastePlant = new(500.0);
-
             village.SetExits(null, docks, coast, elderHouse); // North, East, South, West
             docks.SetExits(researchVessel, ocean, null, village);
             elderHouse.SetExit("east", village);
@@ -47,11 +60,6 @@ namespace TownOfZuul
             ocean.SetExit("west", docks);
             coast.SetExits(village, null, wastePlant, null);
             wastePlant.SetExit("north", coast);
-
-            fishableLocations.AddRange(new List<FishableLocation>() { docks, ocean });
-            cleanableLocations.AddRange(new List<CleanableLocation>() { coast, researchVessel, wastePlant });
-
-            currentLocation = village;
         }
 
         public void Play()
@@ -126,27 +134,14 @@ namespace TownOfZuul
                         break;
 
                     case "info":
-                        string? name = currentLocation?.Name;
-                        switch(name)
+                        currentLocation?.GetLocationInfo();
+                        // researchVessel is a special case since it also shows info about other fishableLocations
+                        if (currentLocation?.Name == "Research Vessel")
                         {
-                            case "Village":
-
-                                break;
-                            case "Docks":
-                                break;
-                            case "Ocean":
-                                break;
-                            case "Coast":
-                                break;
-                            case "Research Vessel":
-                                break;
-                            case "Wastewater Treatment Plant":
-                                break;
-                            default:
-                                Console.WriteLine("This location cannot provide any information.");
-                                break;
+                            Console.WriteLine();
+                            ShowWaterQuality();
+                            ResearchVessel.ShowFishStats(fishableLocations);
                         }
-                        //Console.WriteLine(currentLocation?.Information);
                         break;
 
                     case "clear":
@@ -177,12 +172,7 @@ namespace TownOfZuul
                     case "xmas":
                         Console.WriteLine("             *\r\n            /.\\\r\n           /..'\\\r\n           /'.'\\\r\n          /.''.'\\\r\n          /.'.'.\\\r\n         /'.''.'.\\\n         ^^^[_]^^^\r\n\r\n");
                         break;
-
-                    case "algae":
-                        AlgaeCleanerUnlocked = true;
-                        Console.WriteLine("Great, you now have the algae cleaner and can start cleaning the algae.");
-                        break;
-
+                    
                     case "sleep":
                         UpdateGame();
                         break;
@@ -192,7 +182,11 @@ namespace TownOfZuul
                         break;
 
                     case "report":
-                        GetReport();
+                        UnlockReports();
+                        if (ReportsUnlocked)
+                            GetReport();
+                        else
+                            Console.WriteLine("There are no reports available right now.");
                         break;
 
                     default:
@@ -235,6 +229,7 @@ namespace TownOfZuul
             }
         }
 
+        // TODO remove this
         private void ShowPopulationStats()
         {
             Console.WriteLine("Population count: " + PopulationCount);
@@ -243,65 +238,37 @@ namespace TownOfZuul
             Console.WriteLine("Current food stock: " + FoodUnits + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
         }
 
-        private void ShowFishStats()
-        {
-            foreach (FishableLocation fishableLocation in fishableLocations)
-            {
-                Console.WriteLine($"Total fish in the {fishableLocation.Name}: " + fishableLocation.LocalFish.Sum(item => item.Population));
-                foreach (Fish fish in fishableLocation.LocalFish)
-                {
-                    Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")");
-                }
-                foreach (Fish fish in fishableLocation.LocalFish)
-                {
-                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate, 2) + " (previously " + Math.Round(fish.PreviousReproductionRate, 2) + ")");
-                }
-            }
-        }
-
-        private void ShowCleanableLocationStats()
-        {
-            foreach (CleanableLocation cleanableLocation in cleanableLocations)
-            {
-                Console.WriteLine($"{cleanableLocation.PollutionType} cleaning available: " + (cleanableLocation.CleanupUnlocked ? "Yes" : "No"));
-                //Console.WriteLine($"{cleanableLocation.PollutionType} initial pollution: " + cleanableLocation.InitialPollution);
-                Console.WriteLine($"{cleanableLocation.PollutionType} pollution: " + cleanableLocation.PollutionCount + " " + cleanableLocation.PollutionTypeUnit);
-            }
-        }
-
         private void ShowWaterQuality()
         {
             Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "% pure");
         }
 
+        private void UnlockReports()
+        {
+            ReportsUnlocked = true;
+            string reportsText = "Emberbay has reached a population of 400! \n" +
+            "Well done - your only remaining task is to maintain the population count and keep everyone healthy for the rest of the year.\n" +
+            "Upon hearing the news, your superiors have decided to appoint a secretary whose job is to collect all information from the village into monthly reports.\n" +
+            "You can now view these reports at any time by using the \"report\" command in any location.";
+            GenericMenu reportsEvent = new(GameArt.Village, reportsText);
+            reportsEvent.Display();
+        }
+
         private void GetReport()
         {
-            // TODO: split all these into separate methods, since they'd be useful outside this function also (and probably help w/ encapsulation)
-            Console.WriteLine("\n- Report -");
+            Console.WriteLine($"\n- Report for month #{monthCounter} -\n");
 
             ShowPopulationStats();
             Console.WriteLine();
 
-            ShowCleanableLocationStats();
-            Console.WriteLine();
-
             ShowWaterQuality();
-            Console.WriteLine();
-
-            ShowFishStats();
-            Console.WriteLine();
+            ResearchVessel.ShowFishStats(fishableLocations);
 
             foreach (FishableLocation fishableLocation in fishableLocations)
-            {
-                Console.WriteLine($"Villagers fishing in {fishableLocation.Name}: " + fishableLocation.LocalFishers.Sum(item => Convert.ToUInt32(item)));
-                for (int i = 0; i < fishableLocation.LocalFishers.Count; i++)
-                    Console.WriteLine("- " + fishableLocation.LocalFish[i].Name + " fishers: " + fishableLocation.LocalFishers[i]);
-            }
-
+                fishableLocation.GetLocationInfo();
+            Console.WriteLine();
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
-            {
-                Console.WriteLine($"Villagers cleaning in {cleanableLocation.Name}: " + cleanableLocation.LocalCleaners);
-            }
+                cleanableLocation.GetLocationInfo();
             Console.WriteLine();
         }
 
@@ -389,6 +356,9 @@ namespace TownOfZuul
                 Ending ending = new();
                 continuePlaying = Ending.GetEnding(PopulationCount, PopulationHealth);
             }
+
+            if (PopulationCount >= 400 && ReportsUnlocked == false)
+                UnlockReports();
 
             Console.Clear();
             Console.WriteLine(currentLocation?.Art);

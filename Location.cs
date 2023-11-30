@@ -5,9 +5,6 @@
         public string? Art { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
-        public string? Information { get; protected set; }
-        public string? Dialogue { get; protected set; }
-        public string? Story { get; protected set; }
         public Dictionary<string, Location> Exits { get; private set; } = new();
 
         public void SetExits(Location? north, Location? east, Location? south, Location? west)
@@ -28,6 +25,11 @@
         {
             Console.WriteLine("This location cannot have any villagers assigned to it.");
             return freeVillagers;
+        }
+
+        public virtual void GetLocationInfo()
+        {
+            Console.WriteLine("This location does not contain any useful information.");
         }
     }
 
@@ -121,6 +123,14 @@
                 }
             }
         }
+
+        override public void GetLocationInfo()
+        {
+            Console.WriteLine($"Villagers fishing in {Name}: " + LocalFishers.Sum(item => Convert.ToUInt32(item)));
+            for (int i = 0; i < LocalFishers.Count; i++)
+                Console.WriteLine("- " + LocalFish[i].Name + " fishers: " + LocalFishers[i]);
+        }
+
         public void UpdateFishPopulation(double waterQuality)
         {
             foreach (Fish fishType in LocalFish)
@@ -185,6 +195,18 @@
             return totalVillagers - LocalCleaners;
         }
 
+        override public void GetLocationInfo()
+        {
+            if (CleanupUnlocked)
+            {
+                Console.WriteLine($"Villagers cleaning in the {Name}: " + LocalCleaners);
+                Console.WriteLine($"{PollutionType} pollution: " + PollutionCount + " " + PollutionTypeUnit);
+                //Console.WriteLine($"{PollutionType} initial pollution: " + InitialPollution + " " + PollutionTypeUnit);
+            }
+            else
+                Console.WriteLine($"Cleaning in the {Name} is unavailable right now.");
+        }
+
         public void CleanPollution()
         {
             Random random = new();
@@ -206,9 +228,17 @@
             " Most of the buildings, which used to provide the shelter and livelihood to numerous people " +
             "are now desolate and ill-kept." +
             " Somehow, though, you can feel that this village might get another shot at prosperity.";
+        }
 
-            //Information = $"Current population is: {PopulationCount}. Population health: {PopulationHealth}. Avaible food units: {FoodUnits}.";
-            Information = $"Current population is whatever.";
+        override public void GetLocationInfo()
+        {
+            // TODO: move vars like PopulationCount etc back here
+
+            /*Console.WriteLine("Population count: " + PopulationCount);
+            Console.WriteLine("Villagers free for assignment: " + FreeVillagers);
+            Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
+            Console.WriteLine("Current food stock: " + FoodUnits + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
+            */
         }
     }
 
@@ -237,8 +267,6 @@
             + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "
             + "\nbut now we need to think about what fish we catch and eat fish from polluted water. "
             + "\nWe need you, Mayor. Please help the village become sustainable and make it thrive again.";
-            Information = "You can unlock algae cleaner and water filter and get it from the Elder, when unlocked. "
-            + "\nYou need to increase population health to more than 90 to unlock algae cleaner, then talk to the elder to get it.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
 
@@ -302,7 +330,6 @@
 
             Populate();
         }
-
         public bool IsOceanUnlocked(uint population = 0)
         {
             if (!OceanUnlocked)
@@ -323,14 +350,31 @@
             PollutionTypeUnit = "ug/l";
             Description = "You're in the research vessel. " +
             "You are greeted by the sight of somewhat modern technology and machinery, " +
-            "some of which can be concidered a rare find nowadays. " +
+            "some of which can be considered a rare find nowadays. " +
             "How such equipment has remained so well-maintained to this day is a mystery to you " +
             "but you are nevertheless impressed by its condition. " +
             "If this village and its surroundings are going to be saved, " +
             "you can already tell this ship will be instrumental in achieving that.";
-            Information = "Somehow you will be able to see fish stock here in the future.";
 
-            CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
+            CleanupUnlocked = false; // cannot clean until nutrient cleaner unlocked
+        }
+        public static void ShowFishStats(List<FishableLocation> fishableLocations)
+        {
+            Console.WriteLine();
+            foreach (FishableLocation fishableLocation in fishableLocations)
+            {
+                Console.WriteLine($"Total fish in the {fishableLocation.Name}: " + fishableLocation.LocalFish.Sum(item => item.Population));
+                foreach (Fish fish in fishableLocation.LocalFish)
+                {
+                    Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")");
+                }
+                Console.WriteLine();
+                foreach (Fish fish in fishableLocation.LocalFish)
+                {
+                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate, 2) + " (previously " + Math.Round(fish.PreviousReproductionRate, 2) + ")");
+                }
+                Console.WriteLine();
+            }
         }
     }
 
