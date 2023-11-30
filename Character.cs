@@ -944,7 +944,8 @@ namespace TownOfZuul
                 {
                     case 1:
                         ReturnText = "Whenever you're here at the docks, let me know that you want to *assign* a number of people to fish here.\n" +
-                        "I'll prepare a list with all the local fish types, and you can get certain people to cast for specific fish.\n" +
+                        "I'll prepare a list with all the local fish types, as well as how difficult each one is to catch, and you can get certain " +
+                        "people to cast for specific fish.\n" +
                         "When you're done, I'll add your plans to the bulletin board and let everyone know what to do.\n";
                         break;
                     case 2:
@@ -1199,7 +1200,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
 ------------------------------------------------------------
             ";
 
-                Text = "Yeah, a big ol' \"lunker\", as the boys onshore would say. This one's from our last haul.";
+                Text = "Yeah, a \"big ol' lunker\", as the boys onshore would say. This one's from our last haul.";
 
                 options = new string[]
                 {
@@ -1259,7 +1260,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
                 {
                     "\"Nothing at all? There has to be something of interest.\"",
                     "\"Okay. What's the craziest thing you've done in your life?\"",
-                    "\"Just trying to strike up a conversion here...\"",
+                    "\"Just trying to strike up a conversation here...\"",
                 };
             }
 
