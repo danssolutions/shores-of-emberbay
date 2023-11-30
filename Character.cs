@@ -65,6 +65,10 @@ namespace TownOfZuul
 
     public class Elder : Character
     {
+        public bool coastCleaned = false;
+        public bool coastCleaningDiscussed = false;
+        public bool nutrientsCleaned = false;
+        public bool nutrientCleaningDiscussed = false;
         private const string BackText = "Hello again.";
         public Elder()
         {
@@ -94,6 +98,7 @@ namespace TownOfZuul
                 "\"Can you tell me more about the village?.\"",
                 "\"Can you help me with some directions?.\"",
                 "\"How can you help me?.\"",
+                "\"I wanted to ask if you have any tools available for ocean cleanup.\"",
                 "\"Goodbye, see you soon.\""
             };
         }
@@ -130,6 +135,15 @@ namespace TownOfZuul
                     Console.WriteLine(Text);
                     break;
                 case 4:
+                    Console.Clear();
+                    // add option check here
+                    // if unlocked, display one type of menu and set __CleaningDiscussed to true
+                    // if still locked, display a different type of menu informing player that they still need to clean a specific location
+                    Console.Clear();
+                    Console.WriteLine(Art);
+                    Console.WriteLine(Text);
+                    break;
+                case 5:
                     ParseEscapeOption();
                     break;
             }
@@ -322,7 +336,8 @@ namespace TownOfZuul
                         ReturnText = "I would recommend visiting the Docks and the WasteWater Plant, and when possible the Ocean.";
                         break;
                     case 2:
-                        ReturnText = "If you clean the Coast from trash, I can help you clean the water even better with some tools.\n";
+                        ReturnText = "Yes, I have a few tools for ocean cleanup in mind that I'm working on getting for you.\n" +
+                        "In the meantime, focus on what you can do right now. For example, maybe you can clean the Coast from trash.\n";
                         break;
                     case 3:
                         ReturnText = "To improve a Village you must improve the lives of the people in the Village. "
