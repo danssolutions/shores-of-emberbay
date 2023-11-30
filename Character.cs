@@ -139,9 +139,26 @@ namespace TownOfZuul
                     // add option check here
                     // if unlocked, display one type of menu and set __CleaningDiscussed to true
                     // if still locked, display a different type of menu informing player that they still need to clean a specific location
-                    Console.Clear();
-                    Console.WriteLine(Art);
-                    Console.WriteLine(Text);
+                    ReturnTextChangeMenu3 returnTextChangeMenu3 = new();
+                    ReturnTextChangeMenu4 returnTextChangeMenu4 = new();
+
+                    if (coastCleaned == false)
+                    {
+                        returnTextChangeMenu3.Display();  
+                        Text = returnTextChangeMenu3.ReturnText;
+                        Console.Clear();
+                        Console.WriteLine(Art);
+                        Console.WriteLine(Text);
+                    }
+                    else if (coastCleaned == true)
+                    {
+                        nutrientsCleaned = true;
+                        returnTextChangeMenu4.Display();
+                        Text = returnTextChangeMenu4.ReturnText;
+                        Console.Clear();
+                        Console.WriteLine(Art);
+                        Console.WriteLine(Text);
+                    }
                     break;
                 case 5:
                     ParseEscapeOption();
@@ -333,26 +350,131 @@ namespace TownOfZuul
                 switch (option)
                 {
                     case 1:
-                        ReturnText = "I would recommend visiting the Docks and the WasteWater Plant, and when possible the Ocean.";
+                        ReturnText = "I would recommend visiting the Docks and the WasteWater Plant, and when possible the Ocean.\n";
+                        continueDisplay = false;
                         break;
                     case 2:
                         ReturnText = "Yes, I have a few tools for ocean cleanup in mind that I'm working on getting for you.\n" +
                         "In the meantime, focus on what you can do right now. For example, maybe you can clean the Coast from trash.\n";
+                        continueDisplay = false;
                         break;
                     case 3:
                         ReturnText = "To improve a Village you must improve the lives of the people in the Village. "
                     + "\nThe overall health is decreasing. People are getting sick. The waters needs to be cleaned, "
                     + "\nfor the Villagers to be able to drink, eat and work, thereby becomming happy and healthy.\n";
+                        continueDisplay = false;
                         break;
                     case 4:
                         ReturnText = "I am always here to help, "
                     + "\nbut the intelligent scientist at the Research vessel might also be a great help.\n";
+                        continueDisplay = false;
+                        break;
+                }
+            }
+        }
+
+        public sealed class ReturnTextChangeMenu3 : Character
+        {
+            
+            public ReturnTextChangeMenu3()
+            {
+                Art =
+                    $@"
+  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
+  |   |   |   |   _________(___)   |   | ________________  |
+  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
+  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
+  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
+  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
+  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
+  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
+  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
+  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
+  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
+ /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
+/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
+   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
+------------------------------------------------------------
+                ";
+
+                Text = "What task do you need these tools for? Then I will check if I have them.";
+
+                options = new string[]
+                {
+                    "\"I was wondering if you have some tools for cleening the garbage more effeciently.\"",
+                    "\"I could really use some tools to clean the nutrients from the water\""
+                };
+            }
+
+            public override void ParseOption(int option)
+            {
+                switch (option)
+                {
+                    case 1:
+                        ReturnText = "I believe you have the best available tools in this Village for that task.\n";
+                        continueDisplay = false;
+                        break;
+                    case 2:
+                        ReturnText = "I believe I have something for that, but I need some parts for it to be fully functioning first. \n" +
+                        "If you come back later, it might be ready for you. In the meantime maybe you can work on cleaning the garbage from the coast.\n";
+                        continueDisplay = false;
+                        break;
+                }
+            }
+        }
+
+    public sealed class ReturnTextChangeMenu4 : Character
+        {
+            
+            public ReturnTextChangeMenu4()
+            {
+                Art =
+                    $@"
+  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
+  |   |   |   |   _________(___)   |   | ________________  |
+  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
+  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
+  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
+  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
+  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
+  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
+  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
+  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
+  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
+ /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
+/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
+   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
+------------------------------------------------------------
+                ";
+
+                Text = "Are you thinking if the tool is ready for cleaning the nutrients?";
+
+                options = new string[]
+                {
+                    "\"Yes, exactly. Now would be a great time to upgrade to more advanced tools to clean the water.\"",
+                    "\"I was actually thinking if you might have found other helpfull tools.\""
+                };
+            }
+
+            public override void ParseOption(int option)
+            {
+                switch (option)
+                {
+                    case 1:
+                        ReturnText = "Perfect timing, I just got the tool up and running. Here you go... I hope it will be usefull.\n";
+                        continueDisplay = false;
+                        break;
+                    case 2:
+                        ReturnText = "I have not found any other tools, but I will to give you the tool for cleaning nurtrients. \n";
+                        continueDisplay = false;
                         break;
                 }
                 continueDisplay = false;
             }
         }
     }
+
+    
 
     public class Fisherman : Character
     {
