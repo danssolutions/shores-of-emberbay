@@ -764,7 +764,7 @@ namespace TownOfZuul
 ------------------------------------------------------------
             ";
 
-            Text = "Ahoy. You must be the new mayor. Heh, maybe things will finally turn around for us ol' anglers...";
+            Text = "Ahoy. You must be the new mayor. Maybe things will finally turn around for us ol' anglers...";
 
             options = new string[]
             {
@@ -852,7 +852,7 @@ namespace TownOfZuul
 ------------------------------------------------------------
                 ";
 
-                Text = "Heh, indeed I have. Been fishing and living in Emberbay with my family for... 40 years? 50, maybe? " + 
+                Text = "Hah, indeed I have. Been fishing and living in Emberbay with my family for... 40 years? 50, maybe? " + 
                 "Used to know the old mayor personally, back when this place was in its prime.\n" +
                 "Y'know, it's a shame, what happened to this ol' town. You should've seen it before all these factories were built, " +
                 "it was as beautiful as the seas themselves.";
@@ -872,7 +872,7 @@ namespace TownOfZuul
                 switch (option)
                 {
                     case 1:
-                        ReturnText = "Much obliged. The elder's been here longer than I have, believe it or not, heh. " +
+                        ReturnText = "Much obliged. The elder's been here longer than I have, believe it or not. " +
                         "Lives all the way west from here, if you haven't met her yet.\n" +
                         "Don't tell her I said it, but she's the old mayor I was talking about, though she doesn't like talking about it. " + 
                         "Retired a while ago, something regarding health issues, but I'm pretty sure she'd jump at the opportunity to help you out, heh.\n";
@@ -987,7 +987,7 @@ namespace TownOfZuul
 ------------------------------------------------------------
                 ";
 
-                Text = "Heh, aye, just about everybody can't shut up about the water quality. " +
+                Text = "Hah, aye, just about everybody can't shut up about the water quality. " +
                 "The pollution here's been horrible for as long as the factories have been closed. It hurts the fish as well as the locals. " + 
                 "Seen too many people become sick from the water here... Hey, maybe you could do something about it?\n";
 
