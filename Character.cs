@@ -881,7 +881,7 @@ namespace TownOfZuul
                         ReturnText = "Aye, of course it did. Bunch o' industrious types came in, built canneries, fishpacking plants, all kinds of eyesores. " +
                         "And on top of that, they plundered the seas and dumped all kinds of waste to the local waters for good measure.\n " +
                         "When they reeled all the fish out the water, they scuttled and left their factories behind to rot, " +
-                        "and the local fish haven't recovered from that ever since.\n";
+                        "and the local fish haven't recovered ever since.\n";
                         break;
                     case 3:
                         ReturnText = "Nay, that ship's recent. She first anchored here less than a couple years ago. Don't know what that crew's up to, " + 
@@ -989,7 +989,7 @@ namespace TownOfZuul
 
                 Text = "Hah, aye, just about everybody can't shut up about the water quality. " +
                 "The pollution here's been horrible for as long as the factories have been closed. It hurts the fish as well as the locals. " + 
-                "Seen too many people become sick from the water here... Hey, maybe you could do something about it?\n";
+                "Seen too many people become sick from the water here... Hey, maybe you could do something about it?";
 
                 options = new string[]
                 {
