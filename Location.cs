@@ -256,6 +256,7 @@ ____________     ;       ''. ' // /// // ///==\
         public Pike? pike;
         public Salmon? salmon;
         public Sturgeon? sturgeon;
+        private Fisherman? fisherman = new();
 
         public bool OceanUnlocked { get; private set; }
 
@@ -310,8 +311,10 @@ __ ___ _            .   :  ;   .    V          ___
             "save for the odd boat or seagull. " +
             "A large chunk of the construction has been taken by the sea and the storms throughout the years, " +
             "some of it still floating on the water, rocking with the waves. " +
-            "Even still, the view of the waterfront remains as impressive as it has always been.";
+            "Even still, the view of the waterfront remains as impressive as it has always been.\n\n" +
+            "You see a bulletin board containing some kind of *info*, as well as an old fisherman hanging around one of the docks. Someone to *talk* to?";
             OceanUnlocked = false;
+            Character = fisherman;
 
             Populate();
         }
@@ -376,6 +379,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
         public Eel? eel;
         public Garfish? garfish;
         public GiantOarfish? oarfish;
+        private Trawler? trawler = new();
 
         private void Populate()
         {
@@ -432,7 +436,10 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             "Something in the distance, resembling a small island catches your eye " +
             "but you quickly discern this object's true nature. " +
             "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. " +
-            "There is yet more work to be done.";
+            "There is yet more work to be done.\n\n" +
+            "A single trawler belonging to the crew of the boat you're on is working nearby, seemingly expecting you to *talk* to him at any moment, " +
+            "or possibly ask for *info*.";
+            Character = trawler;
 
             Populate();
         }
