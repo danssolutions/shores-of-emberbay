@@ -875,7 +875,8 @@ namespace TownOfZuul
                         ReturnText = "Much obliged. The elder's been here longer than I have, believe it or not. " +
                         "Lives all the way west from here, if you haven't met her yet.\n" +
                         "Don't tell her I said it, but she's the old mayor I was talking about, though she doesn't like talking about it. " + 
-                        "Retired a while ago, something regarding health issues, but I'm pretty sure she'd jump at the opportunity to help you out, heh.\n";
+                        "Retired a while ago, something regarding health issues, \n" +
+                        "but I'm pretty sure she'd jump at the opportunity to help you out, heh.\n";
                         break;
                     case 2:
                         ReturnText = "Aye, of course it did. Bunch o' industrious types came in, built canneries, fishpacking plants, all kinds of eyesores. " +
