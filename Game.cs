@@ -276,7 +276,7 @@ namespace TownOfZuul
             // Population health is updated dependent on food, water quality
             if (leftovers < 0)
             {
-                Console.WriteLine($"leftovers<0 {1.0+(leftovers/PopulationCount)}");
+                SetPopulationHealth(1.0+(leftovers/PopulationCount));
             }
             else
             {
@@ -289,14 +289,17 @@ namespace TownOfZuul
             if (newVillagers > 50)
                 newVillagers = 50;
             PopulationCount += newVillagers;
-            if(PopulationCount<0)
+            if(PopulationCount<=0)
+            {
                 PopulationCount=0;
+                SetPopulationHealth(0);
+            }
         }
 
         public void SetPopulationHealth(double multiplier)
         {
             PopulationHealth *= multiplier;
-            if (PopulationHealth < 0.0)
+            if (PopulationHealth <= 0.0)
                 PopulationHealth = 0.0;
             else if (PopulationHealth > 1.0)
                 PopulationHealth = 1.0;
@@ -370,7 +373,7 @@ namespace TownOfZuul
             double waterPollution = 0;
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 waterPollution += 0.25 * (cleanableLocation.PollutionCount / cleanableLocation.InitialPollution);
-            double waterQuality = 1.0 - waterPollution;
+            double waterQuality = 1.0 - waterPollution * 0.5;
             return waterQuality;
         }
 
