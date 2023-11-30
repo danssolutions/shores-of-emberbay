@@ -20,17 +20,14 @@ namespace TownOfZuul
         private readonly Stack<Location> previousLocations = new();
         private readonly List<FishableLocation> fishableLocations = new();
         private readonly List<CleanableLocation> cleanableLocations = new();
-
         private uint monthCounter;
         private const uint endingMonth = 13;
 
-        public uint PopulationCount { get; private set; }
-        public uint FreeVillagers { get; private set; }
+        public int PopulationCount { get; private set; }
+        public int FreeVillagers { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
-
         public bool ReportsUnlocked = false;
-
         public Game()
         {
             researchVessel = new(500.0);
@@ -45,10 +42,10 @@ namespace TownOfZuul
             currentLocation = village;
 
             monthCounter = 1;
-
-            PopulationCount = FreeVillagers = 5;
-            PopulationHealth = 0.9;
-            FoodUnits = 10.0;
+            
+            PopulationCount = FreeVillagers = 10;
+            PopulationHealth = 0.5;
+            FoodUnits = 15.0;
         }
 
         private void SetLocationExits()
@@ -287,30 +284,34 @@ namespace TownOfZuul
 
         public void UpdatePopulation()
         {
-            // Population count is updated based on food stock, and existing health
-            uint newVillagers = (uint)((FoodUnits - PopulationCount) * PopulationHealth * 0.8);
-            if (newVillagers > 150)
-                newVillagers = 150;
-            PopulationCount += newVillagers;
-            FreeVillagers += newVillagers;
             double leftovers = ConsumeFoodStock(PopulationCount);
             // Population health is updated dependent on food, water quality
             if (leftovers < 0)
             {
-                SetPopulationHealth(1.0 - (leftovers / PopulationCount));
+                SetPopulationHealth(1.0+(leftovers/PopulationCount));
             }
             else
             {
                 SetPopulationHealth(1.5); //improves by 50% if all food needs are met
             }
             // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            SetPopulationHealth(1.0 + 0.1 * (GetWaterQualityPercentage() - 0.3));
+            SetPopulationHealth(0.7 + 0.5*(GetWaterQualityPercentage() - 0.3));
+            // Population count is updated based on food stock, and existing health
+            int newVillagers = (int)(leftovers * (leftovers >= 0 ? PopulationHealth : 1.0));
+            if (newVillagers > 50)
+                newVillagers = 50;
+            PopulationCount += newVillagers;
+            if(PopulationCount<=0)
+            {
+                PopulationCount=0;
+                SetPopulationHealth(0);
+            }
         }
 
         public void SetPopulationHealth(double multiplier)
         {
             PopulationHealth *= multiplier;
-            if (PopulationHealth < 0.0)
+            if (PopulationHealth <= 0.0)
                 PopulationHealth = 0.0;
             else if (PopulationHealth > 1.0)
                 PopulationHealth = 1.0;
@@ -334,7 +335,7 @@ namespace TownOfZuul
                 AdvanceMonth(monthCounter);
 
             foreach (FishableLocation fishableLocation in fishableLocations)
-                fishableLocation.CatchFish();
+                AddToFoodStock(fishableLocation.CatchFish());
 
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 cleanableLocation.CleanPollution();

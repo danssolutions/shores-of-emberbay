@@ -78,10 +78,11 @@
             return 2.0; // TODO: replace with something meaningful
         }
 
-        public void CatchFish()
+        public double CatchFish()
         {
             uint catchAmount;
             uint bycatchAmount;
+            double foodAmount = 0;
 
             Random random = new();
 
@@ -90,10 +91,12 @@
                 LocalFish[fishType].SetPreviousPopulation();
                 for (uint i = 0; i < LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
                 {
-                    catchAmount = (uint)(random.Next(30, 200) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+                    catchAmount = (uint)(random.Next(30, 100) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
 
                     if (catchAmount > LocalFish[fishType].Population)
                         catchAmount = LocalFish[fishType].Population;
+
+                    foodAmount += (LocalFish[fishType].FoodValue * catchAmount).GetValueOrDefault();
 
                     LocalFish[fishType].RemovePopulation(catchAmount);
 
@@ -114,14 +117,11 @@
                             GenericMenu oarfishEvent = new(GameArt.Fisherman, oarfishEventText);
                             oarfishEvent.Display();
                         }
-
-                        // TODO: move AddToFoodStock to more suitable location
-                        //village?.AddToFoodStock(bycatch.FoodValue);
+                        foodAmount += (bycatch.FoodValue * bycatchAmount).GetValueOrDefault();
                     }
-
-                    //village?.AddToFoodStock(fishableLocation?.LocalFish[fishType].FoodValue);
                 }
             }
+            return foodAmount;
         }
 
         override public void GetLocationInfo()
@@ -210,7 +210,8 @@
         public void CleanPollution()
         {
             Random random = new();
-            PollutionCount -= LocalCleaners * random.NextDouble();
+            if (LocalCleaners > 0)
+                PollutionCount -= LocalCleaners * double.Clamp(random.NextDouble(),0.5,1.0);
             if (PollutionCount < 0)
                 PollutionCount = 0;
         }
@@ -294,10 +295,10 @@
         {
             Random random = new();
 
-            seaTrout = new((uint)random.Next(200, 1000));
-            seaBass = new((uint)random.Next(200, 1000));
-            pike = new((uint)random.Next(200, 1000));
-            salmon = new((uint)random.Next(200, 1000));
+            seaTrout = new((uint)random.Next(500, 1000));
+            seaBass = new((uint)random.Next(500, 1000));
+            pike = new((uint)random.Next(300, 1000));
+            salmon = new((uint)random.Next(300, 1000));
             sturgeon = new((uint)random.Next(200, 1000));
 
             LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
@@ -330,11 +331,12 @@
 
             Populate();
         }
-        public bool IsOceanUnlocked(uint population = 0)
+
+        public bool IsOceanUnlocked(int population = 0)
         {
             if (!OceanUnlocked)
             {
-                OceanUnlocked = population > 400;
+                OceanUnlocked = population > 150;
             }
             return OceanUnlocked;
         }
@@ -393,10 +395,10 @@
         {
             Random random = new();
 
-            mackerel = new((uint)random.Next(200, 1000));
-            herring = new((uint)random.Next(200, 1000));
-            cod = new((uint)random.Next(200, 1000));
-            tuna = new((uint)random.Next(200, 1000));
+            mackerel = new((uint)random.Next(800, 1000));
+            herring = new((uint)random.Next(800, 1000));
+            cod = new((uint)random.Next(400, 1000));
+            tuna = new((uint)random.Next(300, 1000));
             halibut = new((uint)random.Next(200, 1000));
             eel = new((uint)random.Next(200, 1000));
             garfish = new(25);
@@ -462,7 +464,7 @@
             "Or what is left of it. " +
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
-            CleanupUnlocked = false; // cannot clean until membrane filter unlocked
+            CleanupUnlocked = true; // cannot clean until membrane filter unlocked
         }
     }
 }

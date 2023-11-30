@@ -3,7 +3,7 @@ namespace TownOfZuul
     public abstract class Fish
     {
         // If the current population of this species of fish is less than this number, it is immediately treated as endangered.
-        protected const uint EndangermentThreshold = 500;
+        protected const uint EndangermentThreshold = 300;
 
         public string? Name { get; protected set; }
         // How nutritious this fish is. For example, one fish with a food value of 1.0 can feed 1 villager for 1 day (1/30th of a month).
@@ -77,7 +77,7 @@ namespace TownOfZuul
         public void SetReproductionRates(double waterQuality)
         {
             PreviousReproductionRate = ReproductionRate;
-            ReproductionRate = BaseReproductionRate * (1.0 - (PollutionSensitivity.GetValueOrDefault() * waterQuality)); // TODO: add biodiversity score, possibly?
+            ReproductionRate = BaseReproductionRate + (-0.5 + waterQuality) * PollutionSensitivity.GetValueOrDefault(); // TODO: add biodiversity score, possibly?
         }
     }
 
@@ -88,9 +88,9 @@ namespace TownOfZuul
         public SeaTrout(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Sea Trout";
-            FoodValue = 0.9;
+            FoodValue = 0.1;
             CatchDifficulty = 0.6;
-            BaseReproductionRate = 1.575;
+            BaseReproductionRate = 1.3;
             PollutionSensitivity = 0.5;
         }
     }
@@ -100,10 +100,10 @@ namespace TownOfZuul
         public SeaBass(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Sea Bass";
-            FoodValue = 0.8;
+            FoodValue = 0.1;
             CatchDifficulty = 0.7;
-            BaseReproductionRate = 1.6;
-            PollutionSensitivity = 0.4;
+            BaseReproductionRate = 1.3;
+            PollutionSensitivity = 0.6;
         }
     }
 
@@ -112,10 +112,10 @@ namespace TownOfZuul
         public Pike(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Pike";
-            FoodValue = 0.9;
-            CatchDifficulty = 0.7;
-            BaseReproductionRate = 1.65;
-            PollutionSensitivity = 0.4;
+            FoodValue = 0.3;
+            CatchDifficulty = 0.6;
+            BaseReproductionRate = 1.15;
+            PollutionSensitivity = 0.6;
         }
     }
 
@@ -124,10 +124,10 @@ namespace TownOfZuul
         public Salmon(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Salmon";
-            FoodValue = 1.2;
+            FoodValue = 0.25;
             CatchDifficulty = 0.6;
-            BaseReproductionRate = 1.7;
-            PollutionSensitivity = 0.2;
+            BaseReproductionRate = 1.27;
+            PollutionSensitivity = 0.8;
         }
     }
 
@@ -136,10 +136,10 @@ namespace TownOfZuul
         public Sturgeon(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Sturgeon";
-            FoodValue = 1.5;
-            CatchDifficulty = 0.8;
-            BaseReproductionRate = 1.25;
-            PollutionSensitivity = 0.1;
+            FoodValue = 1;
+            CatchDifficulty = 0.9;
+            BaseReproductionRate = 1.10;
+            PollutionSensitivity = 0.9;
         }
     }
 
@@ -148,10 +148,10 @@ namespace TownOfZuul
         public Mackerel(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Mackerel";
-            FoodValue = 0.25;
-            CatchDifficulty = 0.3;
-            BaseReproductionRate = 1.75;
-            PollutionSensitivity = 0.35;
+            FoodValue = 0.05;
+            CatchDifficulty = 0.1;
+            BaseReproductionRate = 1.5;
+            PollutionSensitivity = 0.65;
         }
     }
 
@@ -160,10 +160,10 @@ namespace TownOfZuul
         public Herring(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Herring";
-            FoodValue = 0.2;
-            CatchDifficulty = 0.2;
-            BaseReproductionRate = 1.8;
-            PollutionSensitivity = 0.2;
+            FoodValue = 0.05;
+            CatchDifficulty = 0.1;
+            BaseReproductionRate = 1.5;
+            PollutionSensitivity = 0.8;
         }
     }
 
@@ -172,10 +172,10 @@ namespace TownOfZuul
         public Cod(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Cod";
-            FoodValue = 1;
+            FoodValue = 0.2;
             CatchDifficulty = 0.5;
-            BaseReproductionRate = 1.55;
-            PollutionSensitivity = 0.4;
+            BaseReproductionRate = 1.155;
+            PollutionSensitivity = 0.6;
         }
     }
 
@@ -184,9 +184,9 @@ namespace TownOfZuul
         public Tuna(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Tuna";
-            FoodValue = 8;
-            CatchDifficulty = 0.5;
-            BaseReproductionRate = 2.1;
+            FoodValue = 0.9;
+            CatchDifficulty = 0.7;
+            BaseReproductionRate = 1.2;
             PollutionSensitivity = 0.5;
         }
     }
@@ -196,10 +196,10 @@ namespace TownOfZuul
         public Halibut(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Halibut";
-            FoodValue = 4;
-            CatchDifficulty = 0.6;
-            BaseReproductionRate = 1.55;
-            PollutionSensitivity = 0.3;
+            FoodValue = 0.5;
+            CatchDifficulty = 0.7;
+            BaseReproductionRate = 1.3;
+            PollutionSensitivity = 0.7;
         }
     }
 
@@ -208,10 +208,10 @@ namespace TownOfZuul
         public Eel(uint initialPopulation) : base(initialPopulation)
         {
             Name = "Eel";
-            FoodValue = 2;
+            FoodValue = 0.3;
             CatchDifficulty = 0.4;
-            BaseReproductionRate = 1.65;
-            PollutionSensitivity = 0.2;
+            BaseReproductionRate = 1.1;
+            PollutionSensitivity = 0.8;
         }
     }
 
