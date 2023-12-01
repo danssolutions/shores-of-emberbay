@@ -117,16 +117,21 @@ namespace TownOfZuul
                         break;
 
                     case "talk":
-                        currentLocation?.Character?.Display();
-                        Console.Clear();
-                        Console.WriteLine(currentLocation?.Art);
+                        if (currentLocation?.Character is not null)
+                        {
+                            currentLocation?.Character?.Display();
+                            Console.Clear();
+                            Console.WriteLine(currentLocation?.Art);
+                        }
+                        else
+                            currentLocation?.DefaultNoCharacters();
                         break;
 
                     case "info":
                         currentLocation?.GetLocationInfo();
                         // researchVessel is a special case since it also shows additional info sourced from other locations.
                         if (currentLocation?.Name == "Research Vessel")
-                            ResearchVessel.ShowResearchStats(fishableLocations, GetWaterQualityPercentage());
+                            ResearchVessel.ShowResearchStats(fishableLocations, cleanableLocations, GetWaterQualityPercentage());
                         break;
 
                     case "clear":
@@ -232,7 +237,7 @@ namespace TownOfZuul
             Console.WriteLine($"\n- Report for month #{monthCounter} -\n");
 
             village.GetLocationInfo();
-            ResearchVessel.ShowResearchStats(fishableLocations, GetWaterQualityPercentage());
+            ResearchVessel.ShowResearchStats(fishableLocations, cleanableLocations, GetWaterQualityPercentage());
 
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.GetLocationInfo();
@@ -304,8 +309,6 @@ namespace TownOfZuul
             Console.WriteLine(Program.QuitMessage);
             Environment.Exit(0);
         }
-
-
         private static void PrintWelcome()
         {
             Console.WriteLine("Welcome to the village of Emberbay!");
@@ -313,7 +316,6 @@ namespace TownOfZuul
             //PrintHelp();
             Console.WriteLine();
         }
-
         private static void PrintHelp()
         {
             Console.WriteLine("You are the mayor of the village of Emberbay.");
@@ -330,19 +332,6 @@ namespace TownOfZuul
             Console.WriteLine("Type 'sleep' to advance to the next month.");
             Console.WriteLine("Type 'close' to immediately close this application.");
             Console.WriteLine("Type 'speak' to open the speak menu.");
-        }
-
-        private static void PrintSpeak()
-        {
-            /*Console.WriteLine("");
-            Console.WriteLine("Speak menu is used to communicate withe the characters");
-            Console.WriteLine("");
-            Console.WriteLine("Type (more) to Keep talking with the character");
-            Console.WriteLine("Type (stop) if you have heard enough, and wish to move on");
-            Console.WriteLine("Type (who) to learn more about how the character can help");
-            Console.WriteLine("Type (items) to ask what items you can unlock and how");
-            Console.WriteLine("Type (unlock) to unlock item");
-            */
         }
     }
 }

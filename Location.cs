@@ -32,6 +32,11 @@
         {
             Console.WriteLine("This location does not contain any useful information.");
         }
+
+        public virtual void DefaultNoCharacters()
+        {
+            Console.WriteLine("There doesn't seem to be anyone to talk to here.");
+        }
     }
 
     public abstract class FishableLocation : Location
@@ -129,7 +134,8 @@
         {
             Console.WriteLine($"Villagers fishing in {Name}: " + LocalFishers.Sum(item => Convert.ToUInt32(item)));
             for (int i = 0; i < LocalFishers.Count; i++)
-                Console.WriteLine("- " + LocalFish[i].Name + " fishers: " + LocalFishers[i]);
+                if (LocalFish[i].BycatchOnly == false)
+                    Console.WriteLine("- " + LocalFish[i].Name + " fishers: " + LocalFishers[i]);
         }
 
         public void UpdateFishPopulation(double waterQuality)
@@ -199,11 +205,7 @@
         override public void GetLocationInfo()
         {
             if (CleanupUnlocked)
-            {
                 Console.WriteLine($"Villagers cleaning in the {Name}: " + LocalCleaners);
-                Console.WriteLine($"{PollutionType} pollution: " + PollutionCount + " " + PollutionTypeUnit);
-                //Console.WriteLine($"{PollutionType} initial pollution: " + InitialPollution + " " + PollutionTypeUnit);
-            }
             else
                 Console.WriteLine($"Cleaning in the {Name} is unavailable right now.");
         }
@@ -265,7 +267,6 @@
                 FoodUnits = 0;
             return leftovers;
         }
-
         public void UpdatePopulation(double waterQuality)
         {
             double leftovers = ConsumeFoodStock(PopulationCount);
@@ -287,7 +288,6 @@
                 SetPopulationHealth(0);
             }
         }
-
         public void SetPopulationHealth(double multiplier)
         {
             PopulationHealth *= multiplier;
@@ -295,6 +295,10 @@
                 PopulationHealth = 0.0;
             else if (PopulationHealth > 1.0)
                 PopulationHealth = 1.0;
+        }
+        override public void DefaultNoCharacters()
+        {
+            Console.WriteLine("You try to talk to random villagers, but none of them seem very talkative.");
         }
     }
 
@@ -318,15 +322,6 @@
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
             Character = elder;
-
-            /*    if (PopulationHealth > 90)
-                    Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
-                else
-                    Dialogue = "Welcome! As you take a look around," +
-                    " you may notice that this town is not what it used to be." +
-                    " Let me tell you a story about its past. " +
-                     "\nType (story) if you wish to continue.";
-            */
         }
     }
 
@@ -419,9 +414,14 @@
         {
             Console.WriteLine("Water quality: " + Math.Round(waterQuality * 100, 2) + "% pure");
         }
-        public static void ShowResearchStats(List<FishableLocation> fishableLocations, double waterQuality)
+        public static void ShowResearchStats(List<FishableLocation> fishableLocations, List<CleanableLocation> cleanableLocations, double waterQuality)
         {
             Console.WriteLine();
+            foreach (CleanableLocation cleanableLocation in cleanableLocations)
+            {
+                Console.WriteLine($"{cleanableLocation.PollutionType} pollution: " + cleanableLocation.PollutionCount + " " + cleanableLocation.PollutionTypeUnit);
+                //Console.WriteLine($"{cleanableLocation.PollutionType} initial pollution: " + cleanableLocation.InitialPollution + " " + cleanableLocation.PollutionTypeUnit);
+            }
             ShowWaterQuality(waterQuality);
             Console.WriteLine();
             foreach (FishableLocation fishableLocation in fishableLocations)
@@ -434,7 +434,9 @@
                 Console.WriteLine();
                 foreach (Fish fish in fishableLocation.LocalFish)
                 {
-                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(fish.ReproductionRate, 2) + " (previously " + Math.Round(fish.PreviousReproductionRate, 2) + ")");
+                    double reproductionRate = fish.ReproductionRate != 0 ? fish.ReproductionRate : fish.BaseReproductionRate;
+                    double previousReproductionRate = fish.PreviousReproductionRate != 0 ? fish.PreviousReproductionRate : fish.BaseReproductionRate;
+                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(reproductionRate, 2) + " (previously " + Math.Round(previousReproductionRate, 2) + ")");
                 }
                 Console.WriteLine();
             }
@@ -515,6 +517,15 @@
             "Plastic pollutes the once beautiful beach and " +
             "makes the animals' lives an increasingly hard battle for survival each day.";
         }
+
+        override public void DefaultNoCharacters()
+        {
+            if (LocalCleaners > 0)
+                Console.WriteLine("It's kind of hard to talk to someone far off knee deep in the water trying to sift for trash. " +
+                "It might be easier to just focus on villager assignment.");
+            else
+                base.DefaultNoCharacters();
+        }
     }
 
     public class WastePlant : CleanableLocation
@@ -530,6 +541,14 @@
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
             CleanupUnlocked = true; // cannot clean until membrane filter unlocked
+        }
+
+        override public void DefaultNoCharacters()
+        {
+            if (CleanupUnlocked)
+                Console.WriteLine("The workers here seem to be too busy for talking. One of them points you towards a bulletin board with an assignment form on it.");
+            else
+                Console.WriteLine("You try to look around and shout for anyone to respond, but nobody replies. This place is truly abandoned.");
         }
     }
 }
