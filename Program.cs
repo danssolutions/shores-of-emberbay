@@ -1,5 +1,5 @@
 ﻿/*
- * Town Of Zuul is a simple text adventure game that applies the principles of Object-Oriented Programming (OOP) and the SOLID principles:
+ * Shores of Emberbay is a simple text adventure game that applies the principles of Object-Oriented Programming (OOP) and the SOLID principles:
 
 ### OOP Principles
 
@@ -76,11 +76,11 @@ to maintain modularity, extensibility, and maintainability.
 */
 
 
-namespace TownOfZuul
+namespace ShoresOfEmberbay
 {
     public class Program
     {
-        public const string QuitMessage = "Thank you for playing Town Of Zuul!";
+        public const string QuitMessage = "Thank you for playing Shores of Emberbay!";
         public static void Main()
         {
             Console.CancelKeyPress += delegate

@@ -1,4 +1,4 @@
-namespace TownOfZuul
+namespace ShoresOfEmberbay
 {
     public sealed class Mackerel : Fish
     {

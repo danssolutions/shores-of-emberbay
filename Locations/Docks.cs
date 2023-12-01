@@ -1,4 +1,4 @@
-namespace TownOfZuul
+namespace ShoresOfEmberbay
 {
     public class Docks : FishableLocation
     {

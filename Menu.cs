@@ -1,4 +1,4 @@
-namespace TownOfZuul
+namespace ShoresOfEmberbay
 {
     public abstract class Menu
     {
@@ -144,7 +144,7 @@ namespace TownOfZuul
             Console.CursorVisible = true;
 
             string Credits =
-            "Town of Zuul was created as an SDU BSc Software Engineering project by:\n" +
+            "\"Shores of Emberbay\" was created as an SDU BSc Software Engineering project by:\n" +
             "- Bobike\n" +
             "- Condegall\n" +
             "- danssolutions\n" +
