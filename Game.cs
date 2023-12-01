@@ -160,12 +160,8 @@
                         UpdateGame();
                         break;
 
-                    case "close":
-                        CloseGame();
-                        break;
-
                     case "report":
-                        UnlockReports();
+                        //UnlockReports();
                         if (ReportsUnlocked)
                             GetReport();
                         else
@@ -293,13 +289,6 @@
             double waterQuality = 1.0 - waterPollution;
             return waterQuality;
         }
-
-        static void CloseGame()
-        {
-            Console.Clear();
-            Console.WriteLine(Program.QuitMessage);
-            Environment.Exit(0);
-        }
         private static void PrintWelcome()
         {
             Console.WriteLine("Welcome to the village of Emberbay!");
@@ -316,13 +305,12 @@
             Console.WriteLine("Type 'look' for more details about your current location.");
             Console.WriteLine("Type 'back' to go to the previous location.");
             Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'quit' or 'exit' to exit the game.");
+            Console.WriteLine("Type 'quit' or 'exit' to exit to main menu.");
             Console.WriteLine("Type 'talk' to have an interaction with any locals.");
             Console.WriteLine("Type 'info' to get more information from your current location.");
             Console.WriteLine("Type 'assign [number]' to assign a specified amount of villagers to your current location (if possible).");
             Console.WriteLine("Type 'sleep' to advance to the next month.");
-            Console.WriteLine("Type 'close' to immediately close this application.");
-            Console.WriteLine("Type 'speak' to open the speak menu.");
+            Console.WriteLine("Press Ctrl + C to immediately close this application.");
         }
     }
 }
