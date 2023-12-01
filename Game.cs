@@ -23,11 +23,6 @@ namespace TownOfZuul
         private readonly List<CleanableLocation> cleanableLocations = new();
         private uint monthCounter;
         private const uint endingMonth = 13;
-
-        public int PopulationCount { get; private set; }
-        public uint FreeVillagers { get; private set; }
-        public double PopulationHealth { get; private set; }
-        public double FoodUnits { get; private set; }
         public bool ReportsUnlocked = false;
         public Game()
         {
@@ -44,10 +39,7 @@ namespace TownOfZuul
 
             monthCounter = 1;
             
-            PopulationCount = 10;
-            FreeVillagers = 10;
-            PopulationHealth = 0.5;
-            FoodUnits = 15.0;
+            
         }
 
         private void SetLocationExits()
@@ -132,13 +124,9 @@ namespace TownOfZuul
 
                     case "info":
                         currentLocation?.GetLocationInfo();
-                        // researchVessel is a special case since it also shows info about other fishableLocations
+                        // researchVessel is a special case since it also shows additional info sourced from other locations.
                         if (currentLocation?.Name == "Research Vessel")
-                        {
-                            Console.WriteLine();
-                            ShowWaterQuality();
-                            ResearchVessel.ShowFishStats(fishableLocations);
-                        }
+                            ResearchVessel.ShowResearchStats(fishableLocations, GetWaterQualityPercentage());
                         break;
 
                     case "clear":
@@ -153,13 +141,13 @@ namespace TownOfZuul
                         }
 
                         if (uint.TryParse(command.SecondWord, out uint assignedVillagers))
-                            FreeVillagers = (currentLocation?.AssignVillagers(assignedVillagers, FreeVillagers)).GetValueOrDefault();
+                            village.SetFreeVillagers((currentLocation?.AssignVillagers(assignedVillagers, village.FreeVillagers)).GetValueOrDefault());
                         else
                             Console.WriteLine("\"" + command.SecondWord + "\" is not a valid or accepted number. Please try again.");
                         break;
 
                     case "unassign":
-                        FreeVillagers = (currentLocation?.AssignVillagers(0, FreeVillagers)).GetValueOrDefault();
+                        village.SetFreeVillagers((currentLocation?.AssignVillagers(0, village.FreeVillagers)).GetValueOrDefault());
                         break;
 
                     case "boo":
@@ -203,7 +191,7 @@ namespace TownOfZuul
                 if (currentLocation?.Name == "Docks" && direction == "east")
                 {
                     Docks docks = (Docks)currentLocation;
-                    if (!docks.IsOceanUnlocked(PopulationCount))
+                    if (!docks.IsOceanUnlocked(village.PopulationCount))
                     {
                         Console.Clear();
                         Console.WriteLine(currentLocation?.Art);
@@ -226,19 +214,7 @@ namespace TownOfZuul
             }
         }
 
-        // TODO remove this
-        private void ShowPopulationStats()
-        {
-            Console.WriteLine("Population count: " + PopulationCount);
-            Console.WriteLine("Villagers free for assignment: " + FreeVillagers);
-            Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
-            Console.WriteLine("Current food stock: " + FoodUnits + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
-        }
-
-        private void ShowWaterQuality()
-        {
-            Console.WriteLine("Water quality: " + Math.Round(GetWaterQualityPercentage() * 100, 2) + "% pure");
-        }
+        
 
         private void UnlockReports()
         {
@@ -255,11 +231,8 @@ namespace TownOfZuul
         {
             Console.WriteLine($"\n- Report for month #{monthCounter} -\n");
 
-            ShowPopulationStats();
-            Console.WriteLine();
-
-            ShowWaterQuality();
-            ResearchVessel.ShowFishStats(fishableLocations);
+            village.GetLocationInfo();
+            ResearchVessel.ShowResearchStats(fishableLocations, GetWaterQualityPercentage());
 
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.GetLocationInfo();
@@ -268,55 +241,6 @@ namespace TownOfZuul
                 cleanableLocation.GetLocationInfo();
             Console.WriteLine();
         }
-
-        public void AddToFoodStock(double? additionalFood)
-        {
-            FoodUnits += additionalFood.GetValueOrDefault();
-        }
-        public double ConsumeFoodStock(double? foodAmount)
-        {
-            FoodUnits -= foodAmount.GetValueOrDefault();
-            double leftovers = FoodUnits;
-            if (FoodUnits < 0)
-                FoodUnits = 0;
-            return leftovers;
-        }
-
-        public void UpdatePopulation()
-        {
-            double leftovers = ConsumeFoodStock(PopulationCount);
-            // Population health is updated dependent on food, water quality
-            if (leftovers < 0)
-            {
-                SetPopulationHealth(1.0+(leftovers/PopulationCount));
-            }
-            else
-            {
-                SetPopulationHealth(1.5); //improves by 50% if all food needs are met
-            }
-            // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
-            SetPopulationHealth(0.7 + 0.5*(GetWaterQualityPercentage() - 0.3));
-            // Population count is updated based on food stock, and existing health
-            int newVillagers = (int)(leftovers * (leftovers >= 0 ? PopulationHealth : 1.0));
-            if (newVillagers > 50)
-                newVillagers = 50;
-            PopulationCount += newVillagers;
-            if(PopulationCount<=0)
-            {
-                PopulationCount=0;
-                SetPopulationHealth(0);
-            }
-        }
-
-        public void SetPopulationHealth(double multiplier)
-        {
-            PopulationHealth *= multiplier;
-            if (PopulationHealth <= 0.0)
-                PopulationHealth = 0.0;
-            else if (PopulationHealth > 1.0)
-                PopulationHealth = 1.0;
-        }
-
         public static void AdvanceMonth(uint monthCounter)
         {
             string advanceText = "You wrap up the plans for this month and note them down. Tomorrow they will be put into action.\n\n" +
@@ -335,7 +259,7 @@ namespace TownOfZuul
                 AdvanceMonth(monthCounter);
 
             foreach (FishableLocation fishableLocation in fishableLocations)
-                AddToFoodStock(fishableLocation.CatchFish());
+                village.AddToFoodStock(fishableLocation.CatchFish());
 
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 cleanableLocation.CleanPollution();
@@ -344,9 +268,9 @@ namespace TownOfZuul
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.UpdateFishPopulation(GetWaterQualityPercentage());
 
-            UpdatePopulation();
+            village.UpdatePopulation(GetWaterQualityPercentage());
 
-            if (PopulationCount < 3)
+            if (village.PopulationCount < 3)
             {
                 Ending.ShowGameOverSlides();
                 continuePlaying = false;
@@ -355,10 +279,10 @@ namespace TownOfZuul
             if (monthCounter == endingMonth)
             {
                 Ending ending = new();
-                continuePlaying = Ending.GetEnding(PopulationCount, PopulationHealth);
+                continuePlaying = Ending.GetEnding(village.PopulationCount, village.PopulationHealth);
             }
 
-            if (PopulationCount >= 400 && ReportsUnlocked == false)
+            if (village.PopulationCount >= 400 && ReportsUnlocked == false)
                 UnlockReports();
 
             Console.Clear();

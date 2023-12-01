@@ -45,15 +45,15 @@
 
             for (int i = 0; i < LocalFish.Count; i++)
                 assignableVillagers += LocalFishers[i];
-            
+
             uint totalVillagers = assignableVillagers + freeVillagers;
-            
+
             if (amount == 0)
             {
                 Console.WriteLine("Clearing this location of all fishers...");
                 for (int i = 0; i < LocalFish.Count; i++)
                     LocalFishers[i] = 0;
-                
+
                 return totalVillagers;
             }
 
@@ -70,7 +70,7 @@
 
             foreach (uint fishers in LocalFishers)
                 totalVillagers -= fishers;
-            
+
             return totalVillagers;
         }
 
@@ -175,7 +175,7 @@
             }
 
             uint totalVillagers = LocalCleaners + freeVillagers;
-            
+
             if (amount == 0)
             {
                 Console.WriteLine("Clearing this location of all cleaners...");
@@ -183,7 +183,7 @@
 
                 return totalVillagers;
             }
-            
+
             if (amount > totalVillagers)
             {
                 Console.WriteLine("Cannot assign " + amount + " villagers when there are only " + totalVillagers + " available.");
@@ -212,7 +212,7 @@
         {
             Random random = new();
             if (LocalCleaners > 0)
-                PollutionCount -= LocalCleaners * double.Clamp(random.NextDouble(),0.5,1.0);
+                PollutionCount -= LocalCleaners * double.Clamp(random.NextDouble(), 0.5, 1.0);
             if (PollutionCount < 0)
                 PollutionCount = 0;
         }
@@ -221,6 +221,10 @@
     // TODO: put classes below in separate files
     public class Village : Location
     {
+        public int PopulationCount { get; private set; }
+        public uint FreeVillagers { get; private set; }
+        public double PopulationHealth { get; private set; }
+        public double FoodUnits { get; private set; }
         public Village()
         {
             Art = GameArt.Village;
@@ -230,17 +234,67 @@
             " Most of the buildings, which used to provide the shelter and livelihood to numerous people " +
             "are now desolate and ill-kept." +
             " Somehow, though, you can feel that this village might get another shot at prosperity.";
+            PopulationCount = 10;
+            FreeVillagers = 10;
+            PopulationHealth = 0.5;
+            FoodUnits = 15.0;
         }
 
         override public void GetLocationInfo()
         {
-            // TODO: move vars like PopulationCount etc back here
-
-            /*Console.WriteLine("Population count: " + PopulationCount);
+            Console.WriteLine("Population count: " + PopulationCount);
             Console.WriteLine("Villagers free for assignment: " + FreeVillagers);
             Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
             Console.WriteLine("Current food stock: " + FoodUnits + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
-            */
+        }
+
+        public void SetFreeVillagers(uint amount)
+        {
+            FreeVillagers = amount;
+        }
+
+        public void AddToFoodStock(double? additionalFood)
+        {
+            FoodUnits += additionalFood.GetValueOrDefault();
+        }
+        public double ConsumeFoodStock(double? foodAmount)
+        {
+            FoodUnits -= foodAmount.GetValueOrDefault();
+            double leftovers = FoodUnits;
+            if (FoodUnits < 0)
+                FoodUnits = 0;
+            return leftovers;
+        }
+
+        public void UpdatePopulation(double waterQuality)
+        {
+            double leftovers = ConsumeFoodStock(PopulationCount);
+            // Population health is updated dependent on food, water quality
+            if (leftovers < 0)
+                SetPopulationHealth(1.0 + (leftovers / PopulationCount));
+            else
+                SetPopulationHealth(1.5); //improves by 50% if all food needs are met
+            // Health naturally decreases when water quality < 30%, and improves (slowly) when water quality goes up
+            SetPopulationHealth(0.7 + 0.5 * (waterQuality - 0.3));
+            // Population count is updated based on food stock, and existing health
+            int newVillagers = (int)(leftovers * (leftovers >= 0 ? PopulationHealth : 1.0));
+            if (newVillagers > 50)
+                newVillagers = 50;
+            PopulationCount += newVillagers;
+            if (PopulationCount <= 0)
+            {
+                PopulationCount = 0;
+                SetPopulationHealth(0);
+            }
+        }
+
+        public void SetPopulationHealth(double multiplier)
+        {
+            PopulationHealth *= multiplier;
+            if (PopulationHealth <= 0.0)
+                PopulationHealth = 0.0;
+            else if (PopulationHealth > 1.0)
+                PopulationHealth = 1.0;
         }
     }
 
@@ -265,14 +319,14 @@
             WaterFilterUnlocked = false;
             Character = elder;
 
-        /*    if (PopulationHealth > 90)
-                Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
-            else
-                Dialogue = "Welcome! As you take a look around," +
-                " you may notice that this town is not what it used to be." +
-                " Let me tell you a story about its past. " +
-                 "\nType (story) if you wish to continue.";
-        */
+            /*    if (PopulationHealth > 90)
+                    Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
+                else
+                    Dialogue = "Welcome! As you take a look around," +
+                    " you may notice that this town is not what it used to be." +
+                    " Let me tell you a story about its past. " +
+                     "\nType (story) if you wish to continue.";
+            */
         }
     }
 
@@ -360,8 +414,15 @@
             CleanupUnlocked = false; // cannot clean until nutrient cleaner unlocked
             Character = scientist;
         }
-        public static void ShowFishStats(List<FishableLocation> fishableLocations)
+
+        private static void ShowWaterQuality(double waterQuality)
         {
+            Console.WriteLine("Water quality: " + Math.Round(waterQuality * 100, 2) + "% pure");
+        }
+        public static void ShowResearchStats(List<FishableLocation> fishableLocations, double waterQuality)
+        {
+            Console.WriteLine();
+            ShowWaterQuality(waterQuality);
             Console.WriteLine();
             foreach (FishableLocation fishableLocation in fishableLocations)
             {
