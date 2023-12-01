@@ -2,10 +2,9 @@ namespace TownOfZuul
 {
     public class ElderHouse : Location
     {
-        //public Character character = new();
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
-        private Elder elder = new();
+        private readonly Elder elder = new();
 
         public ElderHouse()
         {

@@ -15,7 +15,7 @@ namespace TownOfZuul
 
         public virtual void Display()
         {
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine(Art);
             Console.WriteLine(Text);
 
@@ -85,22 +85,11 @@ namespace TownOfZuul
 
             options = new string[] {
                 "Play Game",
-                //"Settings",
                 "Credits",
                 "Quit"
             };
         }
-
-        override public void Display()
-        {
-            Console.Clear();
-
-            //Console.WriteLine(Art);
-            //Console.WriteLine(Text);
-
-            base.Display();
-        }
-
+        
         override public void ParseOption(int option)
         {
             switch (option)
@@ -108,9 +97,6 @@ namespace TownOfZuul
                 case 1:
                     StartGame();
                     break;
-                /*case 2:
-                    ShowSettings();
-                    break;*/
                 case 2:
                     ShowCredits();
                     break;
@@ -152,21 +138,6 @@ namespace TownOfZuul
             Console.WriteLine(Art);
             Console.WriteLine(Text);
         }
-
-        private void ShowSettings()
-        {
-            Console.Clear();
-            Console.CursorVisible = true;
-
-            //Docks docks = new();
-            //FishingMenu fishMenu = new(docks,5);
-            //fishMenu.Display();
-
-            Console.Clear();
-            Console.WriteLine(Art);
-            Console.WriteLine(Text);
-        }
-
         private void ShowCredits()
         {
             Console.Clear();
@@ -209,11 +180,10 @@ namespace TownOfZuul
 
     public class GenericMenu : Menu // a menu with no options except 'press any key to continue' prompt, with customizable art and text
     {
-        //private readonly string Art, Text;
         public GenericMenu(string art, string text)
         {
-            this.Art = art;
-            this.Text = text;
+            Art = art;
+            Text = text;
         }
 
         override public void Display()

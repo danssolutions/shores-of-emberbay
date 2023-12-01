@@ -161,7 +161,7 @@
                         break;
 
                     case "report":
-                        //UnlockReports();
+                        //UnlockReports(); // uncomment for access to reports from the start
                         if (ReportsUnlocked)
                             GetReport();
                         else
@@ -293,7 +293,6 @@
         {
             Console.WriteLine("Welcome to the village of Emberbay!");
             Console.WriteLine("Type 'help' for a list of commands.");
-            //PrintHelp();
             Console.WriteLine();
         }
         private static void PrintHelp()
