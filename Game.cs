@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using System.Security.Permissions;
-
-namespace TownOfZuul
+﻿namespace TownOfZuul
 {
     public class Game
     {
@@ -17,7 +14,6 @@ namespace TownOfZuul
         private readonly WastePlant wastePlant;
         
         private Location? currentLocation;
-        
         private readonly Stack<Location> previousLocations = new();
         private readonly List<FishableLocation> fishableLocations = new();
         private readonly List<CleanableLocation> cleanableLocations = new();
@@ -36,10 +32,7 @@ namespace TownOfZuul
             cleanableLocations.AddRange(new List<CleanableLocation>() { coast, researchVessel, wastePlant });
 
             currentLocation = village;
-
             monthCounter = 1;
-            
-            
         }
 
         private void SetLocationExits()
@@ -218,8 +211,6 @@ namespace TownOfZuul
                 Console.WriteLine($"There's nothing of interest towards the {direction}.");
             }
         }
-
-        
 
         private void UnlockReports()
         {

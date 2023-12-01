@@ -252,7 +252,8 @@
             " Once a large and prosperous place, you can easily tell its glory days are in the past." +
             " Most of the buildings, which used to provide the shelter and livelihood to numerous people " +
             "are now desolate and ill-kept." +
-            " Somehow, though, you can feel that this village might get another shot at prosperity.";
+            " Somehow, though, you can feel that this village might get another shot at prosperity.\n" +
+            "There is an *info* board in the main village square.";
             PopulationCount = 10;
             FreeVillagers = 10;
             PopulationHealth = 0.5;
@@ -333,9 +334,7 @@
             Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack." +
             " Although it is as old as most of the surrounding architecture," +
             " the passage of time has not managed to tear down this testament of the village's past greatness." +
-            " You're in front of the village elder's house.\n The elder provides you with knowledge on " +
-            "how to take care of the population and expand the village. The village elder will provide what you with "
-            + "\n what you need to help the village.";
+            " You're in front of the village elder's house.\nIt looks like she is already waiting for you inside, eager to *talk* to you.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
             Character = elder;
@@ -409,7 +408,8 @@
             "How such equipment has remained so well-maintained to this day is a mystery to you " +
             "but you are nevertheless impressed by its condition. " +
             "If this village and its surroundings are going to be saved, " +
-            "you can already tell this ship will be instrumental in achieving that.";
+            "you can already tell this ship will be instrumental in achieving that.\n" +
+            "A scientist nearby seems to be focused on some sort of document. You might be able to *talk* to him or ask for *info*.";
 
             CleanupUnlocked = false; // cannot clean until nutrient cleaner unlocked
             Character = scientist;
@@ -525,6 +525,10 @@
 
     public class WastePlant : CleanableLocation
     {
+        public string RestoredDescription = "You're in the wastewater treatment plant. " +
+            "It appears to be recently refurbished, with workers on site cleaning the plant and maintaining a modern contraption that looks " +
+            "like a big water filter.\n" +
+            "There is a corkboard on the wall containing *info* as well as a note addressed to you asking to *assign* additional workers here.\n";
         public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.WastePlant;
@@ -535,7 +539,13 @@
             "Or what is left of it. " +
             "The empty building's remains loom over the shoreline, its purpose long forgotten.";
 
-            CleanupUnlocked = true; // cannot clean until membrane filter unlocked
+            CleanupUnlocked = false; // cannot clean until membrane filter unlocked
+        }
+
+        public void UpdateDescription()
+        {
+            if (CleanupUnlocked)
+                Description = RestoredDescription;
         }
 
         override public void DefaultNoCharacters()
