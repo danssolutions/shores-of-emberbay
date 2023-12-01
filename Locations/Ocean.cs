@@ -10,7 +10,7 @@ namespace TownOfZuul
         public Eel? eel;
         public Garfish? garfish;
         public GiantOarfish? oarfish;
-        private Trawler? trawler = new();
+        private readonly Trawler trawler = new();
 
         protected override void Populate()
         {

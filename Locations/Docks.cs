@@ -7,7 +7,7 @@ namespace TownOfZuul
         public Pike? pike;
         public Salmon? salmon;
         public Sturgeon? sturgeon;
-        private Fisherman? fisherman = new();
+        private readonly Fisherman? fisherman = new();
 
         public bool OceanUnlocked { get; private set; }
 

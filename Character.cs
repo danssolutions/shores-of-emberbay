@@ -62,6 +62,4 @@ namespace TownOfZuul
             continueDisplay = true;
         }
     }
-
-    public sealed class Npc : Character { }
 }

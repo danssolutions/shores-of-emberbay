@@ -2,7 +2,7 @@ namespace TownOfZuul
 {
     public class ResearchVessel : CleanableLocation
     {
-        private Scientist scientist = new();
+        private readonly Scientist scientist = new();
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.ResearchVessel;
