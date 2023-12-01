@@ -72,25 +72,7 @@ namespace TownOfZuul
         private const string BackText = "Hello again.";
         public Elder()
         {
-            Art =
-                $@"
-  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
-  |   |   |   |   _________(___)   |   | ________________  |
-  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
-  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
-  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
-  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
-  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
-  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
-  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
-  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
-  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
- /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
-/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
-   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
-------------------------------------------------------------
-            ";
-
+            Art = GameArt.Elder;
             Text = "Hi, Mayor, nice to finally meet you.";
 
             options = new string[]
@@ -109,27 +91,27 @@ namespace TownOfZuul
             {
                 case 1:
                     Console.Clear();
-                    TextChangeMenu textChangeMenu = new();
-                    textChangeMenu.Display();
-                    Text = textChangeMenu.ReturnText;
+                    StoryMenu storyMenu = new();
+                    storyMenu.Display();
+                    Text = storyMenu.ReturnText;
                     Console.Clear();
                     Console.WriteLine(Art);
                     Console.WriteLine(Text);
                     break;
                 case 2:
                     Console.Clear();
-                    ReturnTextChangeMenu returnTextChangeMenu = new();
-                    returnTextChangeMenu.Display();
-                    Text = returnTextChangeMenu.ReturnText;
+                    DirectionsMenu directionsMenu = new();
+                    directionsMenu.Display();
+                    Text = directionsMenu.ReturnText;
                     Console.Clear();
                     Console.WriteLine(Art);
                     Console.WriteLine(Text);
                     break;
                 case 3:
                     Console.Clear();
-                    ReturnTextChangeMenu2 returnTextChangeMenu2 = new();
-                    returnTextChangeMenu2.Display();
-                    Text = returnTextChangeMenu2.ReturnText;
+                    HelpMenu helpMenu = new();
+                    helpMenu.Display();
+                    Text = helpMenu.ReturnText;
                     Console.Clear();
                     Console.WriteLine(Art);
                     Console.WriteLine(Text);
@@ -139,13 +121,13 @@ namespace TownOfZuul
                     // add option check here
                     // if unlocked, display one type of menu and set __CleaningDiscussed to true
                     // if still locked, display a different type of menu informing player that they still need to clean a specific location
-                    ReturnTextChangeMenu3 returnTextChangeMenu3 = new();
-                    ReturnTextChangeMenu4 returnTextChangeMenu4 = new();
+                    ToolsMenu toolsMenu = new();
+                    NutrientCleanMenu nutrientCleanMenu = new();
 
                     if (coastCleaned == false)
                     {
-                        returnTextChangeMenu3.Display();  
-                        Text = returnTextChangeMenu3.ReturnText;
+                        toolsMenu.Display();  
+                        Text = toolsMenu.ReturnText;
                         Console.Clear();
                         Console.WriteLine(Art);
                         Console.WriteLine(Text);
@@ -153,8 +135,8 @@ namespace TownOfZuul
                     else if (coastCleaned == true)
                     {
                         nutrientsCleaned = true;
-                        returnTextChangeMenu4.Display();
-                        Text = returnTextChangeMenu4.ReturnText;
+                        nutrientCleanMenu.Display();
+                        Text = nutrientCleanMenu.ReturnText;
                         Console.Clear();
                         Console.WriteLine(Art);
                         Console.WriteLine(Text);
@@ -173,29 +155,11 @@ namespace TownOfZuul
             Console.CursorVisible = true;
         }
 
-        public sealed class TextChangeMenu : Character
+        public sealed class StoryMenu : Character
         {
-            public TextChangeMenu()
+            public StoryMenu()
             {
-                Art =
-                    $@"
-  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
-  |   |   |   |   _________(___)   |   | ________________  |
-  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
-  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
-  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
-  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
-  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
-  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
-  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
-  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
-  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
- /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
-/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
-   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Elder;
                 Text = "When I was just a child 60 years ago the village was thriving. " +
                 "\nNow we are just trying to survive. Our health i getting worse for everyday, because we either don't get anything to eat " +
                 "\nor because the fish we eat are contaminated with plastic or other chemicals. " +
@@ -241,30 +205,12 @@ namespace TownOfZuul
             }
         }
 
-        public sealed class ReturnTextChangeMenu : Character
+        public sealed class DirectionsMenu : Character
         {
             
-            public ReturnTextChangeMenu()
+            public DirectionsMenu()
             {
-                Art =
-                    $@"
-  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
-  |   |   |   |   _________(___)   |   | ________________  |
-  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
-  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
-  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
-  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
-  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
-  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
-  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
-  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
-  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
- /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
-/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
-   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Elder;
                 Text = "Ofcourse, what do you need the direction to?";
 
                 options = new string[]
@@ -310,29 +256,11 @@ namespace TownOfZuul
             }
         }
 
-        public sealed class ReturnTextChangeMenu2 : Character
+        public sealed class HelpMenu : Character
         {
-            public ReturnTextChangeMenu2()
+            public HelpMenu()
             {
-                Art =
-                    $@"
-  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
-  |   |   |   |   _________(___)   |   | ________________  |
-  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
-  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
-  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
-  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
-  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
-  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
-  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
-  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
-  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
- /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
-/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
-   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Elder;
                 Text = "I am delighted to know that someone appreciate the knowledge of en elder. "
                 + "How can I help?";
 
@@ -373,30 +301,12 @@ namespace TownOfZuul
             }
         }
 
-        public sealed class ReturnTextChangeMenu3 : Character
+        public sealed class ToolsMenu : Character
         {
             
-            public ReturnTextChangeMenu3()
+            public ToolsMenu()
             {
-                Art =
-                    $@"
-  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
-  |   |   |   |   _________(___)   |   | ________________  |
-  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
-  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
-  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
-  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
-  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
-  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
-  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
-  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
-  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
- /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
-/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
-   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Elder;
                 Text = "What task do you need these tools for? Then I will check if I have them.";
 
                 options = new string[]
@@ -423,30 +333,12 @@ namespace TownOfZuul
             }
         }
 
-    public sealed class ReturnTextChangeMenu4 : Character
+    public sealed class NutrientCleanMenu : Character
         {
             
-            public ReturnTextChangeMenu4()
+            public NutrientCleanMenu()
             {
-                Art =
-                    $@"
-  |   |   |   |   |   |   | ___|   |   |   |   |   |   |   |
-  |   |   |   |   _________(___)   |   | ________________  |
-  |   |   |   |  |  /   |  /~_~\   |   ||* * .... * *  * | |
-  |   |   |   |  | / /  | /~/ \~\  |   || * . .. . *  *  | |
-  |   |   |   |  |__/___|_\/0-0\/  |   ||*  * ..  *  *  *| |
-  |   | ( |   |  |  /   | (  \  )  |   ||.....||.........| |
-  |   |  )|   |  | /  / |  \_-_/|  |   ||________________| |
-  |   _ ( ______ |___/__|_/|___|\  |   |   |   |   |   |   |
-  |  / \_/>    /| |   |  / /   \ \ |   |   |   | O |   |   |
-  | /_________/|| |   |  \ \___/ / |   |   |   O | O   |   |
-  / ||/|| / || || /   /   \/   \/  /   /   /  /| | |  /   /
- /  || ||/  ||/||/   /   /|     | /   /   /  /_|_|_|_/   /
-/   || ||   || ||   /   / |     |/   /   /  / \     /   /   
-   /|| /   /|| /   /   /  |     |   /   /  /   \___/   /   /
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Elder;
                 Text = "Are you thinking if the tool is ready for cleaning the nutrients?";
 
                 options = new string[]
@@ -481,25 +373,7 @@ namespace TownOfZuul
         private const string BackText = "Ahoy, mayor. Fair winds.";
         public Fisherman()
         {
-            Art =
-          @"
-                             _ 
-                  V        _/=\_               ,^._______,^.
-  V                      _/=====\_            .|
-                           '-\-'           ,-`|-|   |-|
-                           ' ,=~U      ,-~'  _|_|___|_|_
-            V             __)-(___  ,-`     /IIIIIIIIIII\
-                         /  <\/>  \'    ____||_________||___
-------------------------/ /|  : |\ \_.  |[][][][][ ][][][][]
-         -      -   _  / / |  : | \ \ `-|___________________
-  ~            ~    \\/_/  }===={  \)() /__/____/____/____/_
-      ~     -        (('0  |)  (|   || _______________ _____
-   -          -     -  \\  |    |   ||/____________(___|||||
-        ~   ,___________`\ |  | |___||_________________|||||
-~          /_-______=_____\|  | |___||___-______;______|()||
-------------------------------------------------------------
-            ";
-
+            Art = GameArt.Fisherman;
             Text = "Ahoy. You must be the new mayor. Maybe things will finally turn around for us ol' anglers...";
 
             options = new string[]
@@ -569,25 +443,7 @@ namespace TownOfZuul
         {
             public StoryMenu()
             {
-                Art =
-          @"
-                             _ 
-                  V        _/=\_               ,^._______,^.
-  V                      _/=====\_            .|
-                           '-\-'           ,-`|-|   |-|
-                           ' ,=~U      ,-~'  _|_|___|_|_
-            V             __)-(___  ,-`     /IIIIIIIIIII\
-                         /  <\/>  \'    ____||_________||___
-------------------------/ /|  : |\ \_.  |[][][][][ ][][][][]
-         -      -   _  / / |  : | \ \ `-|___________________
-  ~            ~    \\/_/  }===={  \)() /__/____/____/____/_
-      ~     -        (('0  |)  (|   || _______________ _____
-   -          -     -  \\  |    |   ||/____________(___|||||
-        ~   ,___________`\ |  | |___||_________________|||||
-~          /_-______=_____\|  | |___||___-______;______|()||
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Fisherman;
                 Text = "Hah, indeed I have. Been fishing and living in Emberbay with my family for... 40 years? 50, maybe? " + 
                 "Used to know the old mayor personally, back when this place was in its prime.\n" +
                 "Y'know, it's a shame, what happened to this ol' town. You should've seen it before all these factories were built, " +
@@ -642,25 +498,7 @@ namespace TownOfZuul
         {
             public HelpMenu()
             {
-                Art =
-          @"
-                             _ 
-                  V        _/=\_               ,^._______,^.
-  V                      _/=====\_            .|
-                           '-\-'           ,-`|-|   |-|
-                           ' ,=~U      ,-~'  _|_|___|_|_
-            V             __)-(___  ,-`     /IIIIIIIIIII\
-                         /  <\/>  \'    ____||_________||___
-------------------------/ /|  : |\ \_.  |[][][][][ ][][][][]
-         -      -   _  / / |  : | \ \ `-|___________________
-  ~            ~    \\/_/  }===={  \)() /__/____/____/____/_
-      ~     -        (('0  |)  (|   || _______________ _____
-   -          -     -  \\  |    |   ||/____________(___|||||
-        ~   ,___________`\ |  | |___||_________________|||||
-~          /_-______=_____\|  | |___||___-______;______|()||
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Fisherman;
                 Text = "Tips? Aye, can do. People here need food, and to get food, they need us anglers. " +
                 "The locals are eager to get to casting right now, but they're cautious. " + 
                 "Some of the local fish here have almost gone extinct as a result of someone getting a little too greedy plundering the seas.\n" +
@@ -706,25 +544,7 @@ namespace TownOfZuul
         {
             public PollutionMenu()
             {
-                Art =
-          @"
-                             _ 
-                  V        _/=\_               ,^._______,^.
-  V                      _/=====\_            .|
-                           '-\-'           ,-`|-|   |-|
-                           ' ,=~U      ,-~'  _|_|___|_|_
-            V             __)-(___  ,-`     /IIIIIIIIIII\
-                         /  <\/>  \'    ____||_________||___
-------------------------/ /|  : |\ \_.  |[][][][][ ][][][][]
-         -      -   _  / / |  : | \ \ `-|___________________
-  ~            ~    \\/_/  }===={  \)() /__/____/____/____/_
-      ~     -        (('0  |)  (|   || _______________ _____
-   -          -     -  \\  |    |   ||/____________(___|||||
-        ~   ,___________`\ |  | |___||_________________|||||
-~          /_-______=_____\|  | |___||___-______;______|()||
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Fisherman;
                 Text = "Hah, aye, just about everybody can't shut up about the water quality. " +
                 "The pollution here's been horrible for as long as the factories have been closed. It hurts the fish as well as the locals. " + 
                 "Seen too many people become sick from the water here... Hey, maybe you could do something about it?";
@@ -767,25 +587,7 @@ namespace TownOfZuul
         {
             public OceanAccessMenu()
             {
-                Art =
-          @"
-                             _ 
-                  V        _/=\_               ,^._______,^.
-  V                      _/=====\_            .|
-                           '-\-'           ,-`|-|   |-|
-                           ' ,=~U      ,-~'  _|_|___|_|_
-            V             __)-(___  ,-`     /IIIIIIIIIII\
-                         /  <\/>  \'    ____||_________||___
-------------------------/ /|  : |\ \_.  |[][][][][ ][][][][]
-         -      -   _  / / |  : | \ \ `-|___________________
-  ~            ~    \\/_/  }===={  \)() /__/____/____/____/_
-      ~     -        (('0  |)  (|   || _______________ _____
-   -          -     -  \\  |    |   ||/____________(___|||||
-        ~   ,___________`\ |  | |___||_________________|||||
-~          /_-______=_____\|  | |___||___-______;______|()||
-------------------------------------------------------------
-                ";
-
+                Art = GameArt.Fisherman;
                 Text = "With a boat, of course, hahahah! Well, it would've been easier back in the day, when trawlers were a dime a dozen around here. " +
                 "They'd let just about anyone hop in before casting off. There's good angling offshore, too...\n" +
                 "I guess you could try asking the crew over at that fancy vessel nicely, and if that's not an option, maybe some of the newcomers around " +
@@ -830,25 +632,7 @@ namespace TownOfZuul
         private const string BackText = "Hey. Need anything else?";
         public Trawler()
         {
-            Art =
-          @"
-
-                          ...
-                      .-``   `--.                        V
-                      ``---`````       .--.
-                                     _/__  )  
-                                      0)0`>|_  
-              V                 /V\   \-_.-_ `; 
-                               /'_/\_ /_.   './    V
- V                      V     ;._ `/ ``      |  
-                 V            |^ '-;._   _.' |  
-`~~^~^~^~^~^~^~^^~^~^~^~^~^~^~|^ ^  ||```    |^~^~^~^~^~^~~`
-_,____._____________________.'| ^  ^||       |______________
-T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
- |/__\|       /       /    ```| ^ ^ | |     | /           /
-------------------------------------------------------------
-            ";
-
+            Art = GameArt.Trawler;
             Text = "Hey. Nice view, huh?";
 
             options = new string[]
@@ -918,25 +702,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         {
             public BigFishMenu()
             {
-                Art =
-          @"
-
-                          ...
-                      .-``   `--.                        V
-                      ``---`````       .--.
-                                     _/__  )  
-                                      0)0`>|_  
-              V                 /V\   \-_.-_ `; 
-                               /'_/\_ /_.   './    V
- V                      V     ;._ `/ ``      |  
-                 V            |^ '-;._   _.' |  
-`~~^~^~^~^~^~^~^^~^~^~^~^~^~^~|^ ^  ||```    |^~^~^~^~^~^~~`
-_,____._____________________.'| ^  ^||       |______________
-T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
- |/__\|       /       /    ```| ^ ^ | |     | /           /
-------------------------------------------------------------
-            ";
-
+                Art = GameArt.Trawler;
                 Text = "Yeah, a \"big ol' lunker\", as the boys onshore would say. This one's from our last haul.";
 
                 options = new string[]
@@ -972,25 +738,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         {
             public StoryMenu()
             {
-                Art =
-          @"
-
-                          ...
-                      .-``   `--.                        V
-                      ``---`````       .--.
-                                     _/__  )  
-                                      0)0`>|_  
-              V                 /V\   \-_.-_ `; 
-                               /'_/\_ /_.   './    V
- V                      V     ;._ `/ ``      |  
-                 V            |^ '-;._   _.' |  
-`~~^~^~^~^~^~^~^^~^~^~^~^~^~^~|^ ^  ||```    |^~^~^~^~^~^~~`
-_,____._____________________.'| ^  ^||       |______________
-T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
- |/__\|       /       /    ```| ^ ^ | |     | /           /
-------------------------------------------------------------
-            ";
-
+                Art = GameArt.Trawler;
                 Text = "Uh... It's nothing interesting, honestly.";
 
                 options = new string[]
@@ -1023,25 +771,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         {
             public HelpMenu()
             {
-                Art =
-          @"
-
-                          ...
-                      .-``   `--.                        V
-                      ``---`````       .--.
-                                     _/__  )  
-                                      0)0`>|_  
-              V                 /V\   \-_.-_ `; 
-                               /'_/\_ /_.   './    V
- V                      V     ;._ `/ ``      |  
-                 V            |^ '-;._   _.' |  
-`~~^~^~^~^~^~^~^^~^~^~^~^~^~^~|^ ^  ||```    |^~^~^~^~^~^~~`
-_,____._____________________.'| ^  ^||       |______________
-T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
- |/__\|       /       /    ```| ^ ^ | |     | /           /
-------------------------------------------------------------
-            ";
-
+                Art = GameArt.Trawler;
                 Text = "As in, with the trawling? I'm guessing you're not able to help us full time, and we could use some more hands on deck.\n" +
                 "You could probably get some of the locals to help us, though. As long as they don't get seasick easily, they could help us process " +
                 "fish at a faster rate, and we can donate more of our catch to Emberbay. We're nice like that, you see.";
@@ -1082,25 +812,7 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         {
             public AssignmentMenu()
             {
-                Art =
-          @"
-
-                          ...
-                      .-``   `--.                        V
-                      ``---`````       .--.
-                                     _/__  )  
-                                      0)0`>|_  
-              V                 /V\   \-_.-_ `; 
-                               /'_/\_ /_.   './    V
- V                      V     ;._ `/ ``      |  
-                 V            |^ '-;._   _.' |  
-`~~^~^~^~^~^~^~^^~^~^~^~^~^~^~|^ ^  ||```    |^~^~^~^~^~^~~`
-_,____._____________________.'| ^  ^||       |______________
-T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
- |/__\|       /       /    ```| ^ ^ | |     | /           /
-------------------------------------------------------------
-            ";
-
+                Art = GameArt.Trawler;
                 Text = "Yeah, sure. Just give us the word and we'll let the other trawlers know.";
 
                 options = new string[]
@@ -1143,9 +855,8 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         private const string BackText = "Welcome again, Major.";
         public Scientist()
         {
-            Art = "";
+            Art = GameArt.Scientist;
             Text = "Good to see you Major, what can I do for you?";
-
 
             options = new string[]{
 
@@ -1156,33 +867,33 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
            };
         }
 
-    public override void ParseOption(int option)
+        public override void ParseOption(int option)
         {
             switch (option)
             {
                 case 1:
                     Console.Clear();
-                    TextChangeMenu textChangeMenu = new();
-                    textChangeMenu.Display();
-                    Text = textChangeMenu.ReturnText;
+                    //TextChangeMenu textChangeMenu = new();
+                    //textChangeMenu.Display();
+                    //Text = textChangeMenu.ReturnText;
                     Console.Clear();
                     Console.WriteLine(Art);
                     Console.WriteLine(Text);
                     break;
                 case 2:
                     Console.Clear();
-                    ReturnTextChangeMenu returnTextChangeMenu = new();
-                    returnTextChangeMenu.Display();
-                    Text = returnTextChangeMenu.ReturnText;
+                    //ReturnTextChangeMenu returnTextChangeMenu = new();
+                    //returnTextChangeMenu.Display();
+                    //Text = returnTextChangeMenu.ReturnText;
                     Console.Clear();
                     Console.WriteLine(Art);
                     Console.WriteLine(Text);
                     break;
                 case 3:
                     Console.Clear();
-                    ReturnTextChangeMenu2 returnTextChangeMenu2 = new();
-                    returnTextChangeMenu2.Display();
-                    Text = returnTextChangeMenu2.ReturnText;
+                    //ReturnTextChangeMenu2 returnTextChangeMenu2 = new();
+                    //returnTextChangeMenu2.Display();
+                    //Text = returnTextChangeMenu2.ReturnText;
                     Console.Clear();
                     Console.WriteLine(Art);
                     Console.WriteLine(Text);
@@ -1203,9 +914,8 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         {
             public TextCHangeMenu()
             {
-                // Art =
+                Art = GameArt.Scientist;
                 Text = "story of sceintisc here";
-    
 
                 options = new string[]
                 {
@@ -1232,8 +942,9 @@ T|\__/|__T________T________`'`|^ ^ ^|\__,.--;'____T________T
         {
             public ReturnTextChangeMenu()
             {
-                //Art = 
+                Art = GameArt.Scientist;
                 Text = "here we have more stuff";
+                
                 options = new string[]
                 {
                 "\"here\""

@@ -25,7 +25,7 @@ namespace TownOfZuul
         private const uint endingMonth = 13;
 
         public int PopulationCount { get; private set; }
-        public int FreeVillagers { get; private set; }
+        public uint FreeVillagers { get; private set; }
         public double PopulationHealth { get; private set; }
         public double FoodUnits { get; private set; }
         public bool ReportsUnlocked = false;
@@ -44,7 +44,8 @@ namespace TownOfZuul
 
             monthCounter = 1;
             
-            PopulationCount = FreeVillagers = 10;
+            PopulationCount = 10;
+            FreeVillagers = 10;
             PopulationHealth = 0.5;
             FoodUnits = 15.0;
         }

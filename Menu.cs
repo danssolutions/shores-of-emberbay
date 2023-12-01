@@ -78,10 +78,11 @@ namespace TownOfZuul
 
     public sealed class MainMenu : Menu
     {
-        private const string Art = GameArt.MenuLogo;
-        private const string Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
         public MainMenu()
         {
+            Art = GameArt.MenuLogo;
+            Text = "Use up/down arrow keys to select option, Enter or number keys to confirm, Esc to quit.\n";
+
             options = new string[] {
                 "Play Game",
                 //"Settings",
@@ -189,7 +190,7 @@ namespace TownOfZuul
             "OOShy - fisherman portrait and dock graphic\n" +
             "Shanaka Dias (snd) - computer and table graphic";
 
-            GenericMenu credits = new(Art, Credits);
+            GenericMenu credits = new(Art ?? "", Credits);
             credits.Display();
 
             Console.Clear();

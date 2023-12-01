@@ -6,11 +6,14 @@ namespace TownOfZuul
         private class EndingMenu : Menu
         {
             public bool ContinueGame { get; private set; } = false;
-            private const string Art = GameArt.AdvanceMonth;
-            private const string Text = "After their tenure, the mayor ended up writing a bestseller about their experience and associated tips for future mayors of cities and towns worldwide. \n\nThe innovative application of sustainable development resulted in the mayor attending numerous interviews, discussing future goals and suggestions for aspiring city developers. \n\nDuring the last interview scheduled for the year, an interesting question is presented: \n\n“Are there any plans to return to the village and become mayor again?”\n";
-
             public EndingMenu()
             {
+                Art = GameArt.AdvanceMonth;
+                Text = "After their tenure, the mayor ended up writing a bestseller about their experience and associated tips for " +
+                "future mayors of cities and towns worldwide. \n\nThe innovative application of sustainable development resulted in the mayor " +
+                "attending numerous interviews, discussing future goals and suggestions for aspiring city developers. \n\n" +
+                "During the last interview scheduled for the year, an interesting question is presented: \n\n" +
+                "\"Are there any plans to return to the village and become mayor again?\"\n";
                 options = new string[] {
                     "'Yep.' (Continue Playing)",
                     "'Nah.' (Go to Main Menu)"
@@ -45,7 +48,7 @@ namespace TownOfZuul
 
         // Check win condition and determine ending based on whether player met it.
         // Returns true if game should continue, otherwise returns false.
-        public static bool GetEnding(uint populationCount, double populationHealth)
+        public static bool GetEnding(int populationCount, double populationHealth)
         {
             if (populationCount >= 400 && populationHealth >= 0.95)
             {
