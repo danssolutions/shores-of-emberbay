@@ -2,11 +2,6 @@ namespace TownOfZuul
 {
     public static class GameArt
     {
-        /*
-        TODO: art needed for:
-        - mayor
-        */
-
         public const string MenuLogo = 
           @"
              _____                            __   _____           _ 
