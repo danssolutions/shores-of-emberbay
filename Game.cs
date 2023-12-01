@@ -17,6 +17,7 @@ namespace TownOfZuul
         private readonly WastePlant wastePlant;
         
         private Location? currentLocation;
+        
         private readonly Stack<Location> previousLocations = new();
         private readonly List<FishableLocation> fishableLocations = new();
         private readonly List<CleanableLocation> cleanableLocations = new();
@@ -123,11 +124,9 @@ namespace TownOfZuul
                         break;
 
                     case "talk":
-                        Console.WriteLine(currentLocation?.Dialogue);
-                        break;
-
-                    case "story":
-                        Console.WriteLine(currentLocation?.Story);
+                        currentLocation?.Character?.Display();
+                        Console.Clear();
+                        Console.WriteLine(currentLocation?.Art);
                         break;
 
                     case "info":
@@ -405,6 +404,20 @@ namespace TownOfZuul
             Console.WriteLine("Type 'assign [number]' to assign a specified amount of villagers to your current location (if possible).");
             Console.WriteLine("Type 'sleep' to advance to the next month.");
             Console.WriteLine("Type 'close' to immediately close this application.");
+            Console.WriteLine("Type 'speak' to open the speak menu.");
+        }
+
+        private static void PrintSpeak()
+        {
+            /*Console.WriteLine("");
+            Console.WriteLine("Speak menu is used to communicate withe the characters");
+            Console.WriteLine("");
+            Console.WriteLine("Type (more) to Keep talking with the character");
+            Console.WriteLine("Type (stop) if you have heard enough, and wish to move on");
+            Console.WriteLine("Type (who) to learn more about how the character can help");
+            Console.WriteLine("Type (items) to ask what items you can unlock and how");
+            Console.WriteLine("Type (unlock) to unlock item");
+            */
         }
     }
 }

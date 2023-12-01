@@ -7,6 +7,7 @@ namespace TownOfZuul
         protected int selectedOption = 1;
         protected string[] options;
         protected bool continueDisplay = true;
+        protected string? Art, Text;
         protected Menu()
         {
             options = Array.Empty<string>();
@@ -15,8 +16,8 @@ namespace TownOfZuul
         public virtual void Display()
         {
             //Console.Clear();
-            //Console.WriteLine(this.Art);
-            //Console.WriteLine(this.Text);
+            Console.WriteLine(Art);
+            Console.WriteLine(Text);
 
             while (continueDisplay)
             {
@@ -93,8 +94,8 @@ namespace TownOfZuul
         {
             Console.Clear();
 
-            Console.WriteLine(Art);
-            Console.WriteLine(Text);
+            //Console.WriteLine(Art);
+            //Console.WriteLine(Text);
 
             base.Display();
         }
@@ -123,7 +124,7 @@ namespace TownOfZuul
             QuitGame();
         }
 
-        private static void StartGame()
+        private void StartGame()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -151,7 +152,7 @@ namespace TownOfZuul
             Console.WriteLine(Text);
         }
 
-        private static void ShowSettings()
+        private void ShowSettings()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -165,7 +166,7 @@ namespace TownOfZuul
             Console.WriteLine(Text);
         }
 
-        private static void ShowCredits()
+        private void ShowCredits()
         {
             Console.Clear();
             Console.CursorVisible = true;
@@ -207,7 +208,7 @@ namespace TownOfZuul
 
     public class GenericMenu : Menu // a menu with no options except 'press any key to continue' prompt, with customizable art and text
     {
-        private readonly string Art, Text;
+        //private readonly string Art, Text;
         public GenericMenu(string art, string text)
         {
             this.Art = art;

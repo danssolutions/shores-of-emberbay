@@ -5,6 +5,7 @@
         public string? Art { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
+        public Character? Character { get; protected set; }
         public Dictionary<string, Location> Exits { get; private set; } = new();
 
         public void SetExits(Location? north, Location? east, Location? south, Location? west)
@@ -218,7 +219,7 @@
     }
 
     // TODO: put classes below in separate files
-    public sealed class Village : Location
+    public class Village : Location
     {
         public Village()
         {
@@ -243,16 +244,16 @@
         }
     }
 
-    public sealed class ElderHouse : Location
+    public class ElderHouse : Location
     {
+        //public Character character = new();
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
-        public double PopulationHealth { get; private set; }
+        private Elder elder = new();
 
         public ElderHouse()
         {
             Art = GameArt.ElderHouse;
-            PopulationHealth = 90.0;
             Name = "Village Elder's house";
             Description = "On the outskirts of town you find yourself looking at a small but well-maintained wooden shack." +
             " Although it is as old as most of the surrounding architecture," +
@@ -260,34 +261,29 @@
             " You're in front of the village elder's house.\n The elder provides you with knowledge on " +
             "how to take care of the population and expand the village. The village elder will provide what you with "
             + "\n what you need to help the village.";
-            Story = "Thank you for for listening Mayor, Let me tell you about how everything changed for the worse " +
-            "for everyone in the village. \nWhen I was just a child 60 years ago the village was thriving. "
-            + "\nNow we are just trying to survive. Our health is getting worse for everyday, \nbecause we either don't "
-            + "get anything to eat or because the fish we eat are contaminated with plastic or other chemicals. "
-            + "\nCompanies take our fish so we barely have enough food and we have to be careful deciding what fish to catch. "
-            + "\nThey pollute our water and take our fish. They are slowly moving away from our area, "
-            + "\nbut now we need to think about what fish we catch and eat fish from polluted water. "
-            + "\nWe need you, Mayor. Please help the village become sustainable and make it thrive again.";
             AlgaeCleanerUnlocked = false;
             WaterFilterUnlocked = false;
+            Character = elder;
 
-            if (PopulationHealth > 90)
+        /*    if (PopulationHealth > 90)
                 Dialogue = "Great job! You have unlocked algae cleaner. Type (algae) to get the algae cleaner.";
             else
                 Dialogue = "Welcome! As you take a look around," +
                 " you may notice that this town is not what it used to be." +
                 " Let me tell you a story about its past. " +
-                "\nType (story) if you wish to continue.";
+                 "\nType (story) if you wish to continue.";
+        */
         }
     }
 
-    public sealed class Docks : FishableLocation
+    public class Docks : FishableLocation
     {
         public SeaTrout? seaTrout;
         public SeaBass? seaBass;
         public Pike? pike;
         public Salmon? salmon;
         public Sturgeon? sturgeon;
+        private Fisherman? fisherman = new();
 
         public bool OceanUnlocked { get; private set; }
 
@@ -326,8 +322,10 @@
             "save for the odd boat or seagull. " +
             "A large chunk of the construction has been taken by the sea and the storms throughout the years, " +
             "some of it still floating on the water, rocking with the waves. " +
-            "Even still, the view of the waterfront remains as impressive as it has always been.";
+            "Even still, the view of the waterfront remains as impressive as it has always been.\n\n" +
+            "You see a bulletin board containing some kind of *info*, as well as an old fisherman hanging around one of the docks. Someone to *talk* to?";
             OceanUnlocked = false;
+            Character = fisherman;
 
             Populate();
         }
@@ -342,8 +340,9 @@
         }
     }
 
-    public sealed class ResearchVessel : CleanableLocation
+    public class ResearchVessel : CleanableLocation
     {
+        private Scientist scientist = new();
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.ResearchVessel;
@@ -359,6 +358,7 @@
             "you can already tell this ship will be instrumental in achieving that.";
 
             CleanupUnlocked = false; // cannot clean until nutrient cleaner unlocked
+            Character = scientist;
         }
         public static void ShowFishStats(List<FishableLocation> fishableLocations)
         {
@@ -380,7 +380,7 @@
         }
     }
 
-    public sealed class Ocean : FishableLocation
+    public class Ocean : FishableLocation
     {
         public Mackerel? mackerel;
         public Herring? herring;
@@ -390,6 +390,7 @@
         public Eel? eel;
         public Garfish? garfish;
         public GiantOarfish? oarfish;
+        private Trawler? trawler = new();
 
         private void Populate()
         {
@@ -430,13 +431,16 @@
             "Something in the distance, resembling a small island catches your eye " +
             "but you quickly discern this object's true nature. " +
             "Horror sets in, as you realise pollution has not spared even this marvel of the natural world. " +
-            "There is yet more work to be done.";
+            "There is yet more work to be done.\n\n" +
+            "A single trawler belonging to the crew of the boat you're on is working nearby, seemingly expecting you to *talk* to him at any moment, " +
+            "or possibly ask for *info*.";
+            Character = trawler;
 
             Populate();
         }
     }
 
-    public sealed class Coast : CleanableLocation
+    public class Coast : CleanableLocation
     {
         public Coast(double pollutionUnits) : base(pollutionUnits)
         {
@@ -452,7 +456,7 @@
         }
     }
 
-    public sealed class WastePlant : CleanableLocation
+    public class WastePlant : CleanableLocation
     {
         public WastePlant(double pollutionUnits) : base(pollutionUnits)
         {
