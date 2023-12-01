@@ -365,7 +365,7 @@ ___ _ _ ___ __\~__~_ _,_~~_/-/__~~__ __~~|@__ _/H
             Information = "Somehow you will be able to see fish stock here in the future.";
 
             CleanupUnlocked = false; // cannot clean until algae cleaner unlocked
-            Character = (Character)scientist;
+            Character = scientist;
         }
     }
 
