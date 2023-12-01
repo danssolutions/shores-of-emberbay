@@ -27,7 +27,7 @@ namespace TownOfZuul
             Console.WriteLine("Population count: " + PopulationCount);
             Console.WriteLine("Villagers free for assignment: " + FreeVillagers);
             Console.WriteLine("Population health: " + Math.Round(PopulationHealth * 100, 2) + "%");
-            Console.WriteLine("Current food stock: " + FoodUnits + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
+            Console.WriteLine("Current food stock: " + Math.Round(FoodUnits, 2) + " monthly ration" + (FoodUnits == 1 ? "" : "s"));
         }
 
         public void SetFreeVillagers(uint amount)
@@ -62,6 +62,8 @@ namespace TownOfZuul
             if (newVillagers > 50)
                 newVillagers = 50;
             PopulationCount += newVillagers;
+            if (newVillagers >= 0)
+                FreeVillagers += (uint)newVillagers;
             if (PopulationCount <= 0)
             {
                 PopulationCount = 0;
