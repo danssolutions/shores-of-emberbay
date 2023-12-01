@@ -19,10 +19,10 @@ namespace TownOfZuul
             CleanupUnlocked = false; // cannot clean until membrane filter unlocked
         }
 
-        public void UpdateDescription()
+        public void UnlockLocation()
         {
-            if (CleanupUnlocked)
-                Description = RestoredDescription;
+            Description = RestoredDescription;
+            CleanupUnlocked = true;
         }
 
         override public void DefaultNoCharacters()

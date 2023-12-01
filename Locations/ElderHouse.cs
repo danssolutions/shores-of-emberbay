@@ -4,7 +4,7 @@ namespace TownOfZuul
     {
         public bool AlgaeCleanerUnlocked { get; private set; }
         public bool WaterFilterUnlocked { get; private set; }
-        private readonly Elder elder = new();
+        public Elder elder = new();
 
         public ElderHouse()
         {

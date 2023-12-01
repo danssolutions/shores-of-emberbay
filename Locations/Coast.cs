@@ -7,7 +7,7 @@ namespace TownOfZuul
             Art = GameArt.Coast;
             Name = "Coast";
             PollutionType = "Garbage";
-            PollutionTypeUnit = "mg/l";
+            PollutionTypeUnit = "pieces per cubic km";
             Description = "You're on the coast. " +
             "It appears that the village's current misfortunes have made their mark " +
             "on the natural world around the settlement. " +

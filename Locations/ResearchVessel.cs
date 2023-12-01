@@ -3,6 +3,7 @@ namespace TownOfZuul
     public class ResearchVessel : CleanableLocation
     {
         private readonly Scientist scientist = new();
+        public string RestoredDescription = "\nYou can also *assign* villagers here to assist the crew with phosphorus cleanup.";
         public ResearchVessel(double pollutionUnits) : base(pollutionUnits)
         {
             Art = GameArt.ResearchVessel;
@@ -22,6 +23,12 @@ namespace TownOfZuul
             Character = scientist;
         }
 
+        public void UnlockLocation()
+        {
+            Description += RestoredDescription;
+            CleanupUnlocked = true;
+        }
+
         private static void ShowWaterQuality(double waterQuality)
         {
             Console.WriteLine("Water quality: " + Math.Round(waterQuality * 100, 2) + "% pure");
@@ -31,7 +38,7 @@ namespace TownOfZuul
             Console.WriteLine();
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
             {
-                Console.WriteLine($"{cleanableLocation.PollutionType} pollution: " + cleanableLocation.PollutionCount + " " + cleanableLocation.PollutionTypeUnit);
+                Console.WriteLine($"{cleanableLocation.PollutionType} pollution: " + (int)cleanableLocation.PollutionCount + " " + cleanableLocation.PollutionTypeUnit);
                 //Console.WriteLine($"{cleanableLocation.PollutionType} initial pollution: " + cleanableLocation.InitialPollution + " " + cleanableLocation.PollutionTypeUnit);
             }
             ShowWaterQuality(waterQuality);

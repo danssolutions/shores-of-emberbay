@@ -230,7 +230,7 @@
         {
             Random random = new();
             if (LocalCleaners > 0)
-                PollutionCount -= LocalCleaners * double.Clamp(random.NextDouble(), 0.5, 1.0);
+                PollutionCount -= LocalCleaners * double.Clamp(random.NextDouble(), 0.5, 1.5);
             if (PollutionCount < 0)
                 PollutionCount = 0;
         }

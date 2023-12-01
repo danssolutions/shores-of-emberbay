@@ -9,8 +9,8 @@
         private readonly ElderHouse elderHouse = new();
         private readonly Docks docks = new();
         private readonly Ocean ocean = new();
-        private readonly ResearchVessel researchVessel;
         private readonly Coast coast;
+        private readonly ResearchVessel researchVessel;
         private readonly WastePlant wastePlant;
         
         private Location? currentLocation;
@@ -22,8 +22,8 @@
         public bool ReportsUnlocked = false;
         public Game()
         {
-            researchVessel = new(500.0);
-            coast = new(500.0);
+            coast = new(100.0);
+            researchVessel = new(100.0);
             wastePlant = new(500.0);
 
             SetLocationExits();
@@ -256,6 +256,16 @@
             foreach (CleanableLocation cleanableLocation in cleanableLocations)
                 cleanableLocation.CleanPollution();
 
+            if (coast.PollutionCount < 99)
+                elderHouse.elder.CoastCleaned();
+            if (researchVessel.PollutionCount < 99)
+                elderHouse.elder.NutrientsCleaned();
+            
+            if (elderHouse.elder.coastCleaningDiscussed)
+                researchVessel.UnlockLocation();
+            if (elderHouse.elder.nutrientCleaningDiscussed)
+                wastePlant.UnlockLocation();
+            
             // Update actual fish reproduction rates based on water quality and population (and base repop rate, and biodiversity score)
             foreach (FishableLocation fishableLocation in fishableLocations)
                 fishableLocation.UpdateFishPopulation(GetWaterQualityPercentage());

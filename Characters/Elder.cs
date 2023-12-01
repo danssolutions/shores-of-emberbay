@@ -2,9 +2,9 @@ namespace TownOfZuul
 {
     public class Elder : Character
     {
-        public bool coastCleaned = false;
+        private bool coastCleaned = false;
         public bool coastCleaningDiscussed = false;
-        public bool nutrientsCleaned = false;
+        private bool nutrientsCleaned = false;
         public bool nutrientCleaningDiscussed = false;
         private const string BackText = "Hello again.";
         public Elder()
@@ -20,6 +20,15 @@ namespace TownOfZuul
                 "\"I wanted to ask if you have any tools available for ocean cleanup.\"",
                 "\"Goodbye, see you soon.\""
             };
+        }
+
+        public void CoastCleaned()
+        {
+            coastCleaned = true;
+        }
+        public void NutrientsCleaned()
+        {
+            nutrientsCleaned = true;
         }
 
         public override void ParseOption(int option)
@@ -55,10 +64,23 @@ namespace TownOfZuul
                     break;
                 case 4:
                     Console.Clear();
+                    if (nutrientsCleaned)
+                    {
+                        Console.WriteLine("Yo you cleaned the nutrients! Have a membrane filter");
+                        nutrientCleaningDiscussed = true; // unlocks membrane filter installation in wastewater plant
+                    }
+                    else if (coastCleaned)
+                    {
+                        Console.WriteLine("Yo you cleaned the coast! Have some algae cleaner");
+                        coastCleaningDiscussed = true; // unlocks the phosphorus cleaner in the research vessel
+                    }
+                    else
+                        Console.WriteLine("Hey you haven't cleaned anything!");
+                    Thread.Sleep(5000);
                     // add option check here
                     // if unlocked, display one type of menu and set __CleaningDiscussed to true
                     // if still locked, display a different type of menu informing player that they still need to clean a specific location
-                    ToolsMenu toolsMenu = new();
+                    /*ToolsMenu toolsMenu = new();
                     NutrientCleanMenu nutrientCleanMenu = new();
 
                     if (coastCleaned == false)
@@ -77,7 +99,7 @@ namespace TownOfZuul
                         Console.Clear();
                         Console.WriteLine(Art);
                         Console.WriteLine(Text);
-                    }
+                    }*/
                     break;
                 case 5:
                     ParseEscapeOption();
