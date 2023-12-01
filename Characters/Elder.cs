@@ -64,26 +64,36 @@ namespace ShoresOfEmberbay
                     break;
                 case 4:
                     Console.Clear();
-                    if (nutrientsCleaned)
+                    // if still locked, display a different type of menu informing player that they still need to clean a specific location
+                    ToolsMenu toolsMenu = new();
+                    CoastCleanMenu CoastCleanMenu = new();
+                    NutrientsCleanMenu NutrientsCleanMenu = new();
+
+                    if (nutrientCleaningDiscussed)
                     {
-                        Console.WriteLine("Yo you cleaned the nutrients! Have a membrane filter");
-                        nutrientCleaningDiscussed = true; // unlocks membrane filter installation in wastewater plant
+                        string allUnlockedText = "You have all the tools you could ever get.";
+                        GenericMenu allUnlocked = new(GameArt.Elder, allUnlockedText);
+                        allUnlocked.Display();
+                    }
+                    else if (nutrientsCleaned)
+                    {
+                        NutrientsCleanMenu.Display();
+                        Text = NutrientsCleanMenu.ReturnText;
+                        nutrientCleaningDiscussed = true;
+                        Console.Clear();
+                        Console.WriteLine(Art);
+                        Console.WriteLine(Text);
                     }
                     else if (coastCleaned)
                     {
-                        Console.WriteLine("Yo you cleaned the coast! Have some algae cleaner");
-                        coastCleaningDiscussed = true; // unlocks the phosphorus cleaner in the research vessel
+                        CoastCleanMenu.Display();
+                        Text = CoastCleanMenu.ReturnText;
+                        coastCleaningDiscussed = true;
+                        Console.Clear();
+                        Console.WriteLine(Art);
+                        Console.WriteLine(Text);
                     }
                     else
-                        Console.WriteLine("Hey you haven't cleaned anything!");
-                    Thread.Sleep(5000);
-                    // add option check here
-                    // if unlocked, display one type of menu and set __CleaningDiscussed to true
-                    // if still locked, display a different type of menu informing player that they still need to clean a specific location
-                    /*ToolsMenu toolsMenu = new();
-                    NutrientCleanMenu nutrientCleanMenu = new();
-
-                    if (coastCleaned == false)
                     {
                         toolsMenu.Display();  
                         Text = toolsMenu.ReturnText;
@@ -91,15 +101,6 @@ namespace ShoresOfEmberbay
                         Console.WriteLine(Art);
                         Console.WriteLine(Text);
                     }
-                    else if (coastCleaned == true)
-                    {
-                        nutrientsCleaned = true;
-                        nutrientCleanMenu.Display();
-                        Text = nutrientCleanMenu.ReturnText;
-                        Console.Clear();
-                        Console.WriteLine(Art);
-                        Console.WriteLine(Text);
-                    }*/
                     break;
                 case 5:
                     ParseEscapeOption();
@@ -292,10 +293,10 @@ namespace ShoresOfEmberbay
             }
         }
 
-    public sealed class NutrientCleanMenu : Character
+    public sealed class CoastCleanMenu : Character
         {
             
-            public NutrientCleanMenu()
+            public CoastCleanMenu()
             {
                 Art = GameArt.Elder;
                 Text = "Are you thinking if the tool is ready for cleaning the nutrients?";
@@ -317,6 +318,37 @@ namespace ShoresOfEmberbay
                         break;
                     case 2:
                         ReturnText = "I have not found any other tools, but I will to give you the tool for cleaning nurtrients. \n";
+                        continueDisplay = false;
+                        break;
+                }
+                continueDisplay = false;
+            }
+        }
+
+    public sealed class NutrientsCleanMenu : Character
+        {
+            public NutrientsCleanMenu()
+            {
+                Art = GameArt.Elder;
+                Text = "Are you looking for the membrane filter installation for the wastewater plant?";
+
+                options = new string[]
+                {
+                    "\"That is exactly what I am looking for. I am hoping that you can help again.\"",
+                    "\"Not exactly.\""
+                };
+            }
+
+            public override void ParseOption(int option)
+            {
+                switch (option)
+                {
+                    case 1:
+                        ReturnText = "That is great, here you go. Hope it can help you make good progress.\n";
+                        continueDisplay = false;
+                        break;
+                    case 2:
+                        ReturnText = "Sorry, I dont really have more tools available. \n";
                         continueDisplay = false;
                         break;
                 }
