@@ -147,6 +147,23 @@
                 fishType.AddPopulation();
             }
         }
+
+        protected virtual void Populate()
+        {
+            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
+            for (int i = 0; i < LocalFish.Count - 1; i++)
+            {
+                Fish fish = LocalFish[i];
+                if (fish.BycatchOnly == true)
+                {
+                    LocalFish.RemoveAt(i);
+                    LocalFish.Add(fish);
+                }
+            }
+
+            for (int i = 0; i < LocalFish.Count; i++)
+                LocalFishers.Add(0);
+        }
     }
 
     public abstract class CleanableLocation : Location
@@ -336,7 +353,7 @@
 
         public bool OceanUnlocked { get; private set; }
 
-        private void Populate()
+        override protected void Populate()
         {
             Random random = new();
 
@@ -348,19 +365,7 @@
 
             LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
 
-            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
-            for (int i = 0; i < LocalFish.Count - 1; i++)
-            {
-                Fish fish = LocalFish[i];
-                if (fish.BycatchOnly == true)
-                {
-                    LocalFish.RemoveAt(i);
-                    LocalFish.Add(fish);
-                }
-            }
-
-            for (int i = 0; i < LocalFish.Count; i++)
-                LocalFishers.Add(0);
+            base.Populate();
         }
         public Docks()
         {
@@ -429,14 +434,16 @@
                 Console.WriteLine($"Total fish in the {fishableLocation.Name}: " + fishableLocation.LocalFish.Sum(item => item.Population));
                 foreach (Fish fish in fishableLocation.LocalFish)
                 {
-                    Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")");
+                    if (fish.BycatchOnly == false)
+                        Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")");
                 }
                 Console.WriteLine();
                 foreach (Fish fish in fishableLocation.LocalFish)
                 {
                     double reproductionRate = fish.ReproductionRate != 0 ? fish.ReproductionRate : fish.BaseReproductionRate;
                     double previousReproductionRate = fish.PreviousReproductionRate != 0 ? fish.PreviousReproductionRate : fish.BaseReproductionRate;
-                    Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(reproductionRate, 2) + " (previously " + Math.Round(previousReproductionRate, 2) + ")");
+                    if (fish.BycatchOnly == false)
+                        Console.WriteLine("- " + fish.Name + " reproduction rate: " + Math.Round(reproductionRate, 2) + " (previously " + Math.Round(previousReproductionRate, 2) + ")");
                 }
                 Console.WriteLine();
             }
@@ -455,7 +462,7 @@
         public GiantOarfish? oarfish;
         private Trawler? trawler = new();
 
-        private void Populate()
+        protected override void Populate()
         {
             Random random = new();
 
@@ -470,19 +477,7 @@
 
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });
 
-            // sort LocalFish array to make sure fish with bycatchOnly == true are at the end, since otherwise FishingMenu options could bug out
-            for (int i = 0; i < LocalFish.Count - 1; i++)
-            {
-                Fish fish = LocalFish[i];
-                if (fish.BycatchOnly == true)
-                {
-                    LocalFish.RemoveAt(i);
-                    LocalFish.Add(fish);
-                }
-            }
-
-            for (int i = 0; i < LocalFish.Count; i++)
-                LocalFishers.Add(0);
+            base.Populate();
         }
 
         public Ocean()
