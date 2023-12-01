@@ -1,6 +1,6 @@
 .vs
 bin/
-obj/
+obj
 obj/Debug/net7.0/apphost.exe
 obj/Debug/net7.0/town-of-zuul.csproj.FileListAbsolute.txt
 obj/Debug/net7.0/town-of-zuul.csproj.FileListAbsolute.txt
