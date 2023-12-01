@@ -16,13 +16,13 @@ namespace ShoresOfEmberbay
         {
             Random random = new();
 
-            mackerel = new((uint)random.Next(800, 1000));
-            herring = new((uint)random.Next(800, 1000));
-            cod = new((uint)random.Next(400, 1000));
-            tuna = new((uint)random.Next(300, 1000));
-            halibut = new((uint)random.Next(200, 1000));
-            eel = new((uint)random.Next(200, 1000));
-            garfish = new(25);
+            mackerel = new((uint)random.Next(8000, 10000));
+            herring = new((uint)random.Next(8000, 10000));
+            cod = new((uint)random.Next(4000, 10000));
+            tuna = new((uint)random.Next(3000, 10000));
+            halibut = new((uint)random.Next(2000, 10000));
+            eel = new((uint)random.Next(2000, 10000));
+            garfish = new(250);
             oarfish = new(1);
 
             LocalFish.AddRange(new List<Fish>() { mackerel, herring, cod, tuna, halibut, eel, garfish, oarfish });

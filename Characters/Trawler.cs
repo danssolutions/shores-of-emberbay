@@ -206,8 +206,8 @@ namespace ShoresOfEmberbay
                         "I'll add the most common types that can be tracked easier, though I can't guarantee that something else won't pop up in bycatch.\n";
                         break;
                     case 2:
-                        ReturnText = "After we split the haul, each villager should be able to take about a hundred fish per month or so, " +
-                        "maybe add another half a dozen in bycatch. Though some fish are harder to catch than others, of course.\n";
+                        ReturnText = "After we split the haul, each villager should be able to take about a thousand fish per month or so, " +
+                        "maybe add another half a hundred in bycatch. Though some fish are harder to catch than others, of course.\n";
                         break;
                     case 3:
                         ReturnText = "Well, we trawl, so we end up catching all kinds of stuff. We use nets that allow for limited catch and release, " +

@@ -182,7 +182,7 @@
             if (currentLocation?.Exits.ContainsKey(direction) == true)
             {
                 // Special check if player attempts to enter ocean - do they have enough villagers to unlock it?
-                if (currentLocation?.Name == "Docks" && direction == "east")
+                /*if (currentLocation?.Name == "Docks" && direction == "east")
                 {
                     Docks docks = (Docks)currentLocation;
                     if (!docks.IsOceanUnlocked(village.PopulationCount))
@@ -192,7 +192,7 @@
                         Console.WriteLine("Unfortunately, there are no seaworthy vessels that can take you to the ocean right now. \nPerhaps one will be available when the village grows larger?");
                         return;
                     }
-                }
+                }*/
 
                 if (currentLocation != null) previousLocations.Push(currentLocation);
                 currentLocation = currentLocation?.Exits[direction];

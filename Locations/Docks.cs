@@ -15,11 +15,11 @@ namespace ShoresOfEmberbay
         {
             Random random = new();
 
-            seaTrout = new((uint)random.Next(500, 1000));
-            seaBass = new((uint)random.Next(500, 1000));
-            pike = new((uint)random.Next(300, 1000));
-            salmon = new((uint)random.Next(300, 1000));
-            sturgeon = new((uint)random.Next(200, 1000));
+            seaTrout = new((uint)random.Next(5000, 10000));
+            seaBass = new((uint)random.Next(5000, 10000));
+            pike = new((uint)random.Next(3000, 10000));
+            salmon = new((uint)random.Next(3000, 10000));
+            sturgeon = new((uint)random.Next(2000, 10000));
 
             LocalFish.AddRange(new List<Fish>() { seaTrout, seaBass, pike, salmon, sturgeon });
 

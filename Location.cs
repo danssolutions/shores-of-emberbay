@@ -97,7 +97,7 @@
                 LocalFish[fishType].SetPreviousPopulation();
                 for (uint i = 0; i < LocalFishers[fishType]; i++) // for each fisher catching a specific fish type
                 {
-                    catchAmount = (uint)(random.Next(30, 100) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
+                    catchAmount = (uint)(random.Next(300, 1000) * (1.0 - LocalFish[fishType].CatchDifficulty.GetValueOrDefault()));
 
                     if (catchAmount > LocalFish[fishType].Population)
                         catchAmount = LocalFish[fishType].Population;
@@ -109,7 +109,7 @@
                     // try for bycatch: iterate through random fish in this location and attempt to catch any one of them
                     foreach (Fish bycatch in LocalFish) // for each type of fish in docks
                     {
-                        bycatchAmount = (uint)(random.Next(1, 12) * random.NextDouble() * (1.0 - bycatch.CatchDifficulty.GetValueOrDefault()));
+                        bycatchAmount = (uint)(random.Next(10, 120) * random.NextDouble() * (1.0 - bycatch.CatchDifficulty.GetValueOrDefault()));
 
                         if (bycatchAmount > bycatch.Population)
                             bycatchAmount = bycatch.Population;

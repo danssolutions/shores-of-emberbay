@@ -157,8 +157,8 @@ namespace ShoresOfEmberbay
                         break;
                     case 2:
                         ReturnText = "Depends on the fish. Some types are more difficult to catch while others are easier.\n" +
-                        "A single fisher can pull about a hundred fish per month. The catch rate can get higher, but I've never seen anyone get more " +
-                        "than a couple hundred fish in a single month. Bycatch can also bump the catch rate up to some degree.\n";
+                        "A single fisher can pull about a thousand fish per month. The catch rate can get higher, but I've never seen anyone get more " +
+                        "than a couple thousand fish in a single month. Bycatch can also bump the catch rate up to some degree.\n";
                         break;
                     case 3:
                         ReturnText = "Aye, that's what we call bycatch. Usually, the locals practice catch and release for fish they weren't trying to go for, " + 
