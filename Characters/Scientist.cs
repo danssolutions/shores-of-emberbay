@@ -5,7 +5,7 @@ namespace TownOfZuul
         private const string BackText = "Welcome again, Major.";
         public Scientist()
         {
-            Art = "";
+            Art = GameArt.Scientist;
             Text = "Good to see you Major, what can I do for you?";
 
 
@@ -68,7 +68,7 @@ namespace TownOfZuul
         {
             public TextChangeMenu()
             {
-                // Art =
+                Art = GameArt.Scientist;
                 Text = "With great plesure. You can do fishing in two location - the Docks and the Ocean.  " +
                     "/nMy crew and I found around 14 different species in this area. " +
                     "/nHowever some of the fish are endangered species and by catching them you can contribute to the extinction of the entire population." +
@@ -101,7 +101,7 @@ namespace TownOfZuul
         {
             public ReturnTextChangeMenu()
             {
-                Art = "";
+                Art = GameArt.Scientist;
                 Text = "Unfortunately, there is not such a possibility." +
                     "/nWe do special expeditions only once a month and I can take only trained people on the board.";
                 options = new string[]
@@ -125,7 +125,7 @@ namespace TownOfZuul
         {
             public ReturnTextChangeMenu2()
             {
-                Art = "";
+                Art = GameArt.Scientist;
                 Text = "Water pollution in the ocean is caused by the release of harmful substances such as oil spills," +
                     "\nplastic waste, and chemicals into the water. This pollution can have a devastating effect on the marine life, " +
                     "\nincluding fish, plants, and other animals living in the ocean. Therefore, it is essential to be mindful of " +
