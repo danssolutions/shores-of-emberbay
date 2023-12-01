@@ -13,7 +13,6 @@ namespace ShoresOfEmberbay
 
             "\"Can you tell me more about fish species that I can fish?\"",
             "\"Can I go with you and your crew on the Research Vessel to the Ocean?\"",
-            //"\"Can you tell me more about sustainable fishing?\"",
             "\"Can you tell me more about water pollution?\"",
             "\"How can you help me?\"",
             "\"Goodbye\""
@@ -70,9 +69,9 @@ namespace ShoresOfEmberbay
             {
                 Art = GameArt.Scientist;
                 Text = "With great plesure. You can do fishing in two location - the Docks and the Ocean.  " +
-                    "/nMy crew and I found around 14 different species in this area. " +
-                    "/nHowever some of the fish are endangered species and by catching them you can contribute to the extinction of the entire population." +
-                    "/nYou have to be careful when assigning villagers";
+                    "\nMy crew and I found around 14 different species in this area. " +
+                    "\nHowever some of the fish are endangered species and by catching them you can contribute to the extinction of the entire population." +
+                    "\nYou have to be careful when going fishing with villagers. ";
 
 
                 options = new string[]
@@ -88,7 +87,7 @@ namespace ShoresOfEmberbay
                 {
                     case 1:
                         ReturnText = "Endangered species means that the popullaion of that type of fish is drastically dropping or stay at the same low level." +
-                            "/nTo prevent that, fishing for a given species should be limited or completly stopped. ";
+                            "\nTo prevent that, fishing for a given species should be limited or completly stopped. ";
                         break;
                     case 2:
                         ReturnText = "I glad I could help.";
@@ -103,10 +102,11 @@ namespace ShoresOfEmberbay
             {
                 Art = GameArt.Scientist;
                 Text = "Unfortunately, there is not such a possibility." +
-                    "/nWe do special expeditions only once a month and I can take only trained people on the board.";
+                    "\nWe do special expeditions only once a month and I can take only trained people on the board.";
                 options = new string[]
                 {
-                "\"Oh, I didn't know that.\""
+                "\"I understand, I didn't know that.\"",
+                "\"Okay, I will find another way.\"",
 
                 };
             }
@@ -115,7 +115,11 @@ namespace ShoresOfEmberbay
                 switch (option)
                 {
                     case 1:
-                        ReturnText = "I'm I can't help.";
+                        ReturnText = "I'm sorry I can't help.";
+                        continueDisplay = false;
+                        break;
+                    case 2:
+                        ReturnText = "I'm sorry I can't help.";
                         continueDisplay = false;
                         break;
                 }
@@ -133,7 +137,7 @@ namespace ShoresOfEmberbay
 
                 options = new string[]
                 {
-                    "\"Is there any way to clean the water?\"",
+                    "\"Is there any way to clean up the water?\"",
                     "\"That sounds like a big problem, but I have more important things on my mind\""
                 };
             }
@@ -144,7 +148,7 @@ namespace ShoresOfEmberbay
                 {
                     case 1:
                         ReturnText = "Actually yes. Somewhere in this area should be algea cleaner which you can use to clean up the water" +
-                            "\nI would recommend going to the Village Elder since she knows the best where everything here is.";
+                            "\nI would recommend going to the Village Elder since she should know the best where everything here is.";
                         break;
                     case 2:
                         ReturnText = "I am always here to help if you change your mind.";
