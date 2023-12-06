@@ -56,7 +56,7 @@ namespace ShoresOfEmberbay
                 foreach (Fish fish in fishableLocation.LocalFish)
                 {
                     if (fish.BycatchOnly == false)
-                        Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")");
+                        Console.WriteLine("- " + fish.Name + ": " + fish.Population + " (previously " + fish.PreviousPopulation + ")" + (fish.IsEndangered() ? " [Endangered]" : ""));
                 }
                 Console.WriteLine();
                 foreach (Fish fish in fishableLocation.LocalFish)
