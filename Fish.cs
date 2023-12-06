@@ -3,7 +3,7 @@ namespace ShoresOfEmberbay
     public abstract class Fish
     {
         // If the current population of this species of fish is less than this number, it is immediately treated as endangered.
-        protected const uint EndangermentThreshold = 300;
+        protected const uint EndangermentThreshold = 1000;
 
         public string? Name { get; protected set; }
         // How nutritious this fish is. For example, one fish with a food value of 1.0 can feed 1 villager for 1 day (1/30th of a month).
