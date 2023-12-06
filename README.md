@@ -15,7 +15,7 @@ Shores of Emberbay is a text adventure game, based on the "World of Zuul" source
 
 ## Downloads
 
-TBA
+See [Releases](https://github.com/danssolutions/shores-of-emberbay/releases).
 
 ## Build Prerequisites
 
