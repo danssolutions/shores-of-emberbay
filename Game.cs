@@ -243,7 +243,7 @@
             GenericMenu advancementMenu = new(GameArt.AdvanceMonth, advanceText);
             advancementMenu.Display();
         }
-
+        
         public void UpdateGame()
         {
             monthCounter++;

@@ -22,7 +22,14 @@ namespace ShoresOfEmberbay
         public void UnlockLocation()
         {
             Description = RestoredDescription;
-            CleanupUnlocked = true;
+            if (!CleanupUnlocked)
+            {
+                CleanupUnlocked = true;
+                string plantUnlockText = "The wastewater treatment plant has been restored and is now equipped with a membrane filter for microplastic pollution cleanup!\n" +
+                "You can now *assign* villagers to work in the plant to clean up the ocean.";
+                GenericMenu plantUnlockMenu = new(GameArt.WastePlant, plantUnlockText);
+                plantUnlockMenu.Display();
+            }
         }
 
         override public void DefaultNoCharacters()

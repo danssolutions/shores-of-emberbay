@@ -26,7 +26,14 @@ namespace ShoresOfEmberbay
         public void UnlockLocation()
         {
             Description += RestoredDescription;
-            CleanupUnlocked = true;
+            if (!CleanupUnlocked)
+            {
+                CleanupUnlocked = true;
+                string nutrientUnlockText = "The research vessel is now equipped with tools for phosphorus pollution cleanup!\n" +
+                "You can now *assign* villagers to help the crew and scientists clean up the ocean.";
+                GenericMenu nutrientUnlockMenu = new(GameArt.ResearchVessel, nutrientUnlockText);
+                nutrientUnlockMenu.Display();
+            }
         }
 
         private static void ShowWaterQuality(double waterQuality)
