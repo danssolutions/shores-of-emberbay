@@ -77,7 +77,7 @@ namespace ShoresOfEmberbay
         public void SetReproductionRates(double waterQuality)
         {
             PreviousReproductionRate = ReproductionRate;
-            ReproductionRate = BaseReproductionRate + (-0.5 + waterQuality) * PollutionSensitivity.GetValueOrDefault(); // TODO: add biodiversity score, possibly?
+            ReproductionRate = BaseReproductionRate + (-0.5 + waterQuality) * PollutionSensitivity.GetValueOrDefault();
         }
     }
 }

@@ -79,11 +79,6 @@
             return totalVillagers;
         }
 
-        public double GetBiodiversityScore()
-        {
-            return 2.0; // TODO: replace with something meaningful
-        }
-
         public double CatchFish()
         {
             uint catchAmount;
