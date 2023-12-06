@@ -52,6 +52,15 @@ namespace ShoresOfEmberbay
                     Console.WriteLine(Text);
                     break;
                 case 4:
+                    Console.Clear();
+                    ReturnTextChangeMenu3 returnTextChangeMenu3 = new();
+                    returnTextChangeMenu3.Display();
+                    Text = returnTextChangeMenu3.ReturnText;
+                    Console.Clear();
+                    Console.WriteLine(Art);
+                    Console.WriteLine(Text);
+                    break;
+                case 5:
                     ParseEscapeOption();
                     break;
             }
@@ -158,6 +167,37 @@ namespace ShoresOfEmberbay
 
             }
         }
+        public sealed class ReturnTextChangeMenu3 : Character
+        {
+            public ReturnTextChangeMenu3()
+            {
+                Art = GameArt.Scientist;
+                Text = "I can share some information about ocean and fishing, ocean pollution and how to prevent it.";
+                
+                options = new string[]
+                {
+                     "\"Sound great, I would like to expand knowledge on this subject.\"",
+                     "\"Okey, thank you.\""
+                };
+                
+            }
+            public override void ParseOption(int option)
+            {
+                switch (option)
+                {
+                    case 1:
+                        ReturnText = "I am glad to hear that.";
+                        break;
+                    case 2:
+                        ReturnText = "I am always here to help.";
+                        break;
+                }
+                continueDisplay = false;
+
+            }
+        }
+        
     }
+    
 
 }
